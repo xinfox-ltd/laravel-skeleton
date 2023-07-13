@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * Copyright (c) 2023 Moonstone. All rights reserved.
+ */
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class {{ class }} extends Controller
+{
+    //
+}
