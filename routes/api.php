@@ -14,31 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function (Request $request) {
-    var_dump($request->post());
+Route::get('/login1', function (Request $request) {
     return response()->success(['version' => app()->version()]);
 });
 
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-Route::post('/tokens/create', function (Request $request) {
-    $user = \App\Models\User::query()->where("email", 'jayme26@example.org')->first();
-    $token = $user->createToken('admin');
-
-    return $token;
-});
-
-Route::middleware('auth:sanctum')->get('/users/me', function (Request $request) {
-    $request->user()->currentAccessToken()->delete();
-    return $request->user();
-});
-
-Route::get('/is_login', function (Request $request) {
-    dd(auth()->check());
-    return $request->header('Authorization');
-    return $request->user();
-});
+Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);

@@ -1,35 +1,15 @@
 <?php
 
+/**
+ * Copyright (c) 2023 Moonstone. All rights reserved.
+ */
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class ProcessController extends Controller
 {
-    public function index()
-    {
-
-    }
-
-    /**
-     * @param Request $request
-     * @return mixed
-     * @throws ValidationException
-     */
-    public function save(Request $request)
-    {
-        $this->validate($request, []);
-        return $this->serivce->save($request->post());
-    }
-
-    public function show(int $id)
-    {
-
-    }
-
-    public function delete(int $id)
-    {
-
-    }
+    //
 }

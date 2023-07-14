@@ -17,9 +17,12 @@ return new class extends Migration
             $table->unsignedBigInteger('input_id')->default(0)->comment('投入品ID');
             $table->string('quantity', 16)->default('')->comment('使用量');
             $table->string('unit_type', 16)->default('')->comment('计量单位类型：1每亩 2每平方 3每立方米 4稀释倍数');
-            $table->unsignedBigInteger('unit_id', 16)->default('')->comment('计量单位');
+            $table->unsignedBigInteger('unit_id')->default(0)->comment('计量单位');
             $table->string('method', 64)->default('')->comment('使用方法');
             $table->timestamps();
+            $table->index('planting_assignment_id');
+            $table->index('input_id');
+            $table->comment('作业投入品');
         });
     }
 
