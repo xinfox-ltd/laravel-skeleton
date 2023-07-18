@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CompanyService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class CompanyController extends Controller
 {
-    public function index()
+    public function __construct(private readonly CompanyService $service)
     {
+    }
 
+    public function index(Request $request)
+    {
+        return response()->success($this->service->list($request->input()));
     }
 
     /**
