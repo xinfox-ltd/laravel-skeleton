@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'make:service')]
 class ServiceMakeCommand extends GeneratorCommand
 {
     /**
@@ -13,22 +15,19 @@ class ServiceMakeCommand extends GeneratorCommand
      */
     protected $signature = 'make:service';
 
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
     protected $type = 'Service';
-
-    protected static $defaultName = 'make:service';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '创建Service类文件';
-
-    protected function alreadyExists($rawName): bool
-    {
-        return class_exists($rawName) ||
-            $this->files->exists($this->getPath($this->qualifyClass($rawName)));
-    }
+    protected $description = 'Create a new service class';
 
     protected function resolveStubPath(string $stubPath): string
     {

@@ -12,7 +12,7 @@ class LengthAwarePaginator extends \Illuminate\Pagination\LengthAwarePaginator
     public function toArray(): array
     {
         return [
-            'items' => $this->items->toArray(),
+            'rows' => $this->items->toArray(),
             'total' => $this->total()
         ];
     }

@@ -14,8 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login1', function (Request $request) {
+Route::get('/', function (Request $request) {
     return response()->success(['version' => app()->version()]);
 });
 
-Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
+Route::post('/tokens', [App\Http\Controllers\AuthController::class, 'login']);
+
+Route::controller(App\Http\Controllers\SystemController::class)
+    ->prefix('/system')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/menus', 'menuList');
+        }
+    );
+
+Route::controller(App\Http\Controllers\CompanyController::class)
+    ->prefix('/companies')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+        }
+    );

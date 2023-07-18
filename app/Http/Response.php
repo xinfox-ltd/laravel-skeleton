@@ -13,7 +13,7 @@ use Illuminate\Contracts\Support\Jsonable;
 class Response implements Arrayable, Jsonable
 {
     public function __construct(
-        private readonly array $data = [],
+        private readonly mixed $data = [],
         private readonly string $message = 'success',
         private readonly int $code = 200
     ) {

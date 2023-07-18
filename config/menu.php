@@ -11,7 +11,7 @@ return [
         "path" => "/home",
         "meta" => [
             "title" => "首页",
-            "icon" => "el-icon-home-filled",
+            "icon" => "el-icon-house",
             "type" => "menu"
         ],
         "children" => [
@@ -42,7 +42,7 @@ return [
         "path" => "/company",
         "meta" => [
             "title" => "企业管理",
-            "icon" => "el-icon-document",
+            "icon" => "el-icon-office-building",
             "type" => "menu"
         ],
         "children" => [
@@ -63,7 +63,7 @@ return [
         "path" => "/product",
         "meta" => [
             "title" => "产品管理",
-            "icon" => "el-icon-collection",
+            "icon" => "el-icon-takeaway-box",
             "type" => "menu"
         ],
         "children" => [
@@ -84,7 +84,7 @@ return [
         "path" => "/production/base",
         "meta" => [
             "title" => "生产基地",
-            "icon" => "el-icon-connection",
+            "icon" => "el-icon-map-location",
             "type" => "menu"
         ],
         "children" => [
@@ -96,7 +96,7 @@ return [
 //                    "icon" => "el-icon-cpu",
 //                    "tag" => "NEW"
                 ],
-                "component" => "productionBase"
+                "component" => "base"
             ],
         ]
     ],
@@ -105,7 +105,7 @@ return [
         "path" => "/authentication",
         "meta" => [
             "title" => "认证管理",
-            "icon" => "el-icon-hot-water",
+            "icon" => "el-icon-document-checked",
             "type" => "menu"
         ],
         "children" => [
@@ -125,7 +125,7 @@ return [
         "path" => "/traceability-code",
         "meta" => [
             "title" => "溯源码管理",
-            "icon" => "el-icon-money",
+            "icon" => "el-icon-postcard",
             "type" => "menu"
         ],
         "children" => [
@@ -137,7 +137,7 @@ return [
                     //"icon" => "el-icon-menu",
                     "affix" => false
                 ],
-                "component" => "traceabilityCode/application"
+                "component" => "code/application"
             ],
             [
                 "name" => "traceabilityCodeList",
@@ -147,7 +147,7 @@ return [
                     //"icon" => "el-icon-menu",
                     "affix" => false
                 ],
-                "component" => "traceabilityCode/list"
+                "component" => "code/list"
             ],
             [
                 "name" => "traceabilityCodeStat",
@@ -157,7 +157,7 @@ return [
                     //"icon" => "el-icon-menu",
                     "affix" => false
                 ],
-                "component" => "traceabilityCode/stat"
+                "component" => "code/stat"
             ],
             [
                 "name" => "traceabilityCodeStat",
@@ -167,7 +167,7 @@ return [
                     //"icon" => "el-icon-menu",
                     "affix" => false
                 ],
-                "component" => "traceabilityCode/stat"
+                "component" => "code/stat"
             ],
         ]
     ],
@@ -176,7 +176,7 @@ return [
         "path" => "/basic-data",
         "meta" => [
             "title" => "基础数据",
-            "icon" => "el-icon-hot-water",
+            "icon" => "el-icon-cpu",
             "type" => "menu"
         ],
         "children" => [
@@ -213,7 +213,7 @@ return [
         "name" => "system",
         "path" => "/system",
         "meta" => [
-            "title" => "系统",
+            "title" => "系统设置",
             "icon" => "el-icon-setting",
             "type" => "menu"
         ],

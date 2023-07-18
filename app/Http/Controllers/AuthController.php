@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\PasswordErrorException;
 use App\Http\Requests\LoginRequest;
 use App\Services\LoginService;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -17,12 +18,12 @@ class AuthController extends Controller
     /**
      * @param LoginRequest $request
      * @param LoginService $service
-     * @return array
+     * @return Response
      * @throws PasswordErrorException
      * @throws ValidationException
      */
-    public function login(LoginRequest $request, LoginService $service): array
+    public function login(LoginRequest $request, LoginService $service): Response
     {
-        return $service->accountPasswordLogin($request->username, $request->password);
+        return response()->success($service->accountPasswordLogin($request->username, $request->password));
     }
 }
