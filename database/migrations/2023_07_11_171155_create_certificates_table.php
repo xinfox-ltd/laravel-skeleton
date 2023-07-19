@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id')->default(0)->comment('企业ID');
+            $table->unsignedBigInteger('enterprise_id')->default(0)->comment('企业ID');
             $table->unsignedTinyInteger('type')->default(0)
                 ->comment('证书类型：1地理标志认证 2企业资质 3产品认证');
             $table->unsignedTinyInteger('subtype')->default(0)
@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->json('valid_date')->nullable()->comment('有效日期');
             $table->json('scan_file')->nullable()->comment('扫描件');
             $table->timestamps();
+            $table->index('enterprise_id');
             $table->comment('认证证书');
         });
     }

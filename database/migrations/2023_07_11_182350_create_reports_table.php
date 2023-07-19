@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('enterprise_id')->default(0)->comment('企业ID');
             $table->string('name')->comment('报告名称');
             $table->unsignedBigInteger('product_id')->default(0)->comment('产品ID');
             $table->string('detection_type', 64)->default('')->comment('检测类型');
@@ -21,8 +22,9 @@ return new class extends Migration
             $table->string('remark')->default('')->comment('结果说明');
             $table->json('scan_file')->nullable()->comment('检测扫描件');
             $table->timestamps();
-            $table->comment('检测报告');
+            $table->index('enterprise_id');
             $table->index('product_id');
+            $table->comment('检测报告');
         });
     }
 

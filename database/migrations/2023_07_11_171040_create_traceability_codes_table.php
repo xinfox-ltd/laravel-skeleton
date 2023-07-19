@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('traceability_codes', function (Blueprint $table) {
             $table->id();
             $table->string('code', 32)->default('')->comment('验证码');
-            $table->bigInteger('company_id')->default(0)->comment('企业ID');
+            $table->bigInteger('enterprise_id')->default(0)->comment('企业ID');
             $table->unsignedInteger('effective_day')->default(0)->comment('有效天数');
             $table->date('enable_date')->nullable()->comment('启用日期');
             $table->date('expire_date')->nullable()->comment('失效日期');
@@ -21,9 +21,9 @@ return new class extends Migration {
             $table->unsignedTinyInteger('status')
                 ->default(0)->comment('状态：1未启用 2已废弃 10已启用');
             $table->timestamps();
-            $table->comment('溯源码');
             $table->index('code');
-            $table->index('company_id');
+            $table->index('enterprise_id');
+            $table->comment('溯源码');
         });
     }
 

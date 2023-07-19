@@ -9,7 +9,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CompanyProductController extends Controller
+class EnterpriseProductController extends Controller
 {
     //
 }

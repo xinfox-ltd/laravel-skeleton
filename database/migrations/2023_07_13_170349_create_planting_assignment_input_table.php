@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('planting_assignment_input', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('enterprise_id')->default(0)->comment('企业ID');
             $table->unsignedBigInteger('planting_assignment_id')->default(0)->comment('作业ID');
             $table->unsignedBigInteger('input_id')->default(0)->comment('投入品ID');
             $table->string('quantity', 16)->default('')->comment('使用量');
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('unit_id')->default(0)->comment('计量单位');
             $table->string('method', 64)->default('')->comment('使用方法');
             $table->timestamps();
+            $table->index('enterprise_id');
             $table->index('planting_assignment_id');
             $table->index('input_id');
             $table->comment('作业投入品');

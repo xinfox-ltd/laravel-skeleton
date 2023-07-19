@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('planting_assignments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('enterprise_id')->default(0)->comment('企业ID');
             $table->unsignedBigInteger('planting_plan_id')->default(0)->comment('种植计划ID');
             $table->string('assignment_content', 128)->default('')->comment('作业名称');
             $table->date('start_date')->nullable()->comment('作业开始时间');
             $table->date('end_date')->nullable()->comment('作业结束时间');
             $table->timestamps();
+            $table->index('enterprise_id');
             $table->comment('种植作业');
         });
     }

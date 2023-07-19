@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('raw_materials', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('enterprise_id')->default(0)->comment('企业ID');
             $table->string('name', 64)->comment('原料名称');
             $table->string('level', 64)->default('')->comment('级别名称');
             $table->string('requirement')->default('')->comment('等级要求');
             $table->timestamps();
+            $table->index('enterprise_id');
             $table->comment('原料');
         });
     }

@@ -29,11 +29,29 @@ Route::controller(App\Http\Controllers\SystemController::class)
         }
     );
 
-Route::controller(App\Http\Controllers\CompanyController::class)
-    ->prefix('/companies')
+Route::controller(App\Http\Controllers\FileController::class)
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::post('/upload', 'upload');
+        }
+    );
+
+Route::controller(App\Http\Controllers\EnterpriseController::class)
+    ->prefix('/enterprises')
     ->middleware(['auth:sanctum'])
     ->group(
         function () {
             Route::get('/', 'index');
+            Route::post('/', 'save');
+        }
+    );
+Route::controller(App\Http\Controllers\ProductController::class)
+    ->prefix('/products')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
         }
     );

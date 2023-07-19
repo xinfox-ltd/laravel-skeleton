@@ -38,8 +38,8 @@ return [
         ]
     ],
     [
-        "name" => "companyManage",
-        "path" => "/company",
+        "name" => "enterpriseManage",
+        "path" => "/enterprise",
         "meta" => [
             "title" => "企业管理",
             "icon" => "el-icon-office-building",
@@ -47,14 +47,14 @@ return [
         ],
         "children" => [
             [
-                "name" => "companyList",
-                "path" => "/company/list",
+                "name" => "enterpriseList",
+                "path" => "/enterprise/list",
                 "meta" => [
                     "title" => "企业列表",
 //                    "icon" => "el-icon-office-building",
                     "affix" => false
                 ],
-                "component" => "company"
+                "component" => "enterprise"
             ],
         ]
     ],

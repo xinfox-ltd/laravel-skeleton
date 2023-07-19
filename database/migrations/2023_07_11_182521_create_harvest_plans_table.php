@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('harvest_plans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('enterprise_id')->default(0)->comment('企业ID');
             $table->unsignedBigInteger('planting_plan_id')->default(0)->comment('种植计划');
             $table->unsignedBigInteger('raw_material_id')->default(0)->comment('原料/等级');
             $table->string('name', 128)->default('')->comment('计划名称');
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->date('end_date')->nullable()->comment('计划结束时间');
             $table->string('remark')->default('')->comment('备注');
             $table->timestamps();
+            $table->index('enterprise_id');
             $table->comment('原料采收计划');
         });
     }

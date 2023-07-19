@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('company_products', function (Blueprint $table) {
+        Schema::create('enterprise_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id')->comment('企业ID');
+            $table->unsignedBigInteger('enterprise_id')->comment('企业ID');
             $table->unsignedBigInteger('product_id')->comment('产品ID');
             $table->unsignedBigInteger('trademark_id')->comment('商标ID');
             $table->timestamps();
-            $table->index('company_id');
+            $table->index('enterprise_id');
             $table->index('product_id');
             $table->index('trademark_id');
             $table->comment('企业产品');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('company_products');
+        Schema::dropIfExists('enterprise_products');
     }
 };

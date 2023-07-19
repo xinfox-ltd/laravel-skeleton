@@ -10,11 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('enterprises', function (Blueprint $table) {
             $table->id();
             $table->string('name', 128)->default('')->comment('企业名称');
             $table->unsignedTinyInteger('type')->default(0)
                 ->comment('企业类型 1国家级龙头企业 2自治区级龙头企业 3市级龙头企业 4其他企业');
+            $table->string('legal_person', 32)->default('')->comment('企业法人');
             $table->string('phone', 32)->default('')->comment('联系电话');
             $table->string('address')->default('')->comment('企业地址');
             $table->json('products')->nullable()->comment('产品');
@@ -31,6 +32,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('enterprises');
     }
 };

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
@@ -25,10 +26,12 @@ class AppServiceProvider extends ServiceProvider
             return Response::make(new \App\Http\Response($data, $message, $code));
         });
 
-        $this->app->bind(LengthAwarePaginator::class, function ($app, $options) {
-            return new \App\Pagination\LengthAwarePaginator(
-                $options['items'], $options['total'], $options['perPage'], $options['options']
-            );
-        });
+        JsonResource::withoutWrapping();
+
+//        $this->app->bind(LengthAwarePaginator::class, function ($app, $options) {
+//            return new \App\Pagination\LengthAwarePaginator(
+//                $options['items'], $options['total'], $options['perPage'], $options['options']
+//            );
+//        });
     }
 }
