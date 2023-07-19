@@ -14,10 +14,17 @@
         <el-main class="nopadding">
             <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
-                <el-table-column label="产品名称" prop="name" width="150"></el-table-column>
-                <el-table-column label="图片" prop="type_label" width="150"></el-table-column>
-                <el-table-column label="产地" prop="phone" width="120"></el-table-column>
-                <el-table-column label="添加时间" prop="audited_at" width="180"></el-table-column>
+                <el-table-column label="企业名称" prop="name" width="150"></el-table-column>
+                <el-table-column label="企业类型" prop="type_label" width="150"></el-table-column>
+                <el-table-column label="联系电话" prop="phone" width="120"></el-table-column>
+                <el-table-column label="企业法人" prop="legal_person" width="80"></el-table-column>
+                <el-table-column label="企业地址" prop="address" width="200"></el-table-column>
+                <el-table-column label="产品" prop="products" width="150"></el-table-column>
+                <el-table-column label="状态" prop="status" width="80">
+
+                </el-table-column>
+                <el-table-column label="申请时间" prop="created_at" width="180"></el-table-column>
+                <el-table-column label="审核时间" prop="audited_at" width="180"></el-table-column>
                 <el-table-column label="操作" fixed="right" align="right" width="170">
                     <template #default="scope">
                         <el-button-group>
@@ -36,16 +43,16 @@
         </el-main>
     </el-container>
 
-    <save-drawer v-if="dialog.save" ref="saveDrawer" @success="onSaveSuccess" @closed="dialog.save = false"></save-drawer>
+    <save-dialog v-if="dialog.save" ref="saveDialog" @success="onSaveSuccess" @closed="dialog.save = false"></save-dialog>
 </template>
 
 <script>
-import saveDrawer from './save'
+import saveDialog from './save'
 
 export default {
     name: 'role',
     components: {
-        saveDrawer,
+        saveDialog,
     },
     data () {
         return {
@@ -53,7 +60,6 @@ export default {
                 save: false,
                 // permission: false
             },
-
             list: {
                 apiObj: this.$API.app.enterprise.list,
             },
@@ -67,14 +73,14 @@ export default {
         add () {
             this.dialog.save = true
             this.$nextTick(() => {
-                this.$refs.saveDrawer.open()
+                this.$refs.saveDialog.open()
             })
         },
         //编辑
         edit (row) {
             this.dialog.save = true
             this.$nextTick(() => {
-                this.$refs.saveDrawer.open('edit').setData(row)
+                this.$refs.saveDialog.open('edit').setData(row)
             })
         },
 
