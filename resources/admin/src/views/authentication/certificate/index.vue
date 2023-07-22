@@ -6,7 +6,7 @@
             </div>
             <div class="right-panel">
                 <div class="right-panel-search">
-                    <el-input v-model="search.keyword" placeholder="角色名称" clearable></el-input>
+                    <el-input v-model="search.keyword" placeholder="证书名称" clearable></el-input>
                     <el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
                 </div>
             </div>
@@ -14,29 +14,27 @@
         <el-main class="nopadding">
             <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
-                <el-table-column label="企业名称" prop="label" width="150"></el-table-column>
-                <el-table-column label="企业类型" prop="alias" width="200"></el-table-column>
-                <el-table-column label="联系电话" prop="sort" width="80"></el-table-column>
-                <el-table-column label="企业法人" prop="sort" width="80"></el-table-column>
-                <el-table-column label="企业地址" prop="sort" width="80"></el-table-column>
-                <el-table-column label="产品" prop="sort" width="80"></el-table-column>
-                <el-table-column label="状态" prop="status" width="80">
+                <el-table-column label="证书类型" prop="type_label" width="150"></el-table-column>
+                <el-table-column label="证书名称" prop="name" width="200"></el-table-column>
+                <el-table-column label="证书编号" prop="certificate_no" width="150"></el-table-column>
+                <el-table-column label="颁发机构" prop="authority" width="200"></el-table-column>
+                <el-table-column label="证书图片" prop="images" width="300">
                     <template #default="scope">
-                        <el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)"
-                            :loading="scope.row.$switch_status" active-value="1" inactive-value="0"></el-switch>
+                        <el-space wrap>
+                            <el-image style="width: 50px; height: 50px" :src="item" :zoom-rate="1.2"
+                                :preview-src-list="scope.row.scan_file" :initial-index="4"
+                                v-for="(item, index) in scope.row.scan_file" :key="index" fit="cover"
+                                :preview-teleported="true" />
+                        </el-space>
                     </template>
                 </el-table-column>
-                <el-table-column label="申请时间" prop="date" width="180"></el-table-column>
-                <el-table-column label="审核时间" prop="date" width="180"></el-table-column>
-                <el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
+                <el-table-column label="添加时间" prop="created_at"></el-table-column>
                 <el-table-column label="操作" fixed="right" align="right" width="170">
                     <template #default="scope">
                         <el-button-group>
-                            <el-button text type="primary" size="small"
-                                @click="table_show(scope.row, scope.$index)">查看</el-button>
-                            <el-button text type="primary" size="small"
-                                @click="table_edit(scope.row, scope.$index)">编辑</el-button>
-                            <el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
+                            <el-button text type="primary" size="small" @click="edit(scope.row)">编辑</el-button>
+                            <el-button text type="primary" size="small" @click="authorize(scope.row)">授权</el-button>
+                            <el-popconfirm title="确定删除吗？" @confirm="del(scope.row)">
                                 <template #reference>
                                     <el-button text type="primary" size="small">删除</el-button>
                                 </template>
@@ -49,29 +47,32 @@
         </el-main>
     </el-container>
 
-    <!-- <save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>
+    <save-dialog v-if="dialog.save" ref="saveDialog" @success="refresh" @closed="dialog.save = false"></save-dialog>
 
-	<permission-dialog v-if="dialog.permission" ref="permissionDialog" @closed="dialog.permission=false"></permission-dialog> -->
+    <el-drawer v-model="dialog.authorize" size="60%" title="授权" direction="rtl" destroy-on-close>
+        <authorize ref="authorizeDrawer" :certificateId="certificateId"></authorize>
+    </el-drawer>
 </template>
 
 <script>
-// import saveDialog from './save'
-// import permissionDialog from './permission'
+import saveDialog from './save'
+import authorize from './authorize/index'
 
 export default {
-    name: 'role',
+    name: 'certificateList',
     components: {
-        // saveDialog,
-        // permissionDialog
+        saveDialog,
+        authorize
     },
     data () {
         return {
             dialog: {
                 save: false,
-                permission: false
+                authorize: false
             },
+            certificateId: 0,
             list: {
-                apiObj: this.$API.app.company.list,
+                apiObj: this.$API.app.certificate.list,
             },
             search: {
                 keyword: null
@@ -87,18 +88,19 @@ export default {
             })
         },
         //编辑
-        table_edit (row) {
+        edit (row) {
             this.dialog.save = true
             this.$nextTick(() => {
                 this.$refs.saveDialog.open('edit').setData(row)
             })
         },
-        //查看
-        table_show (row) {
-            this.dialog.save = true
-            this.$nextTick(() => {
-                this.$refs.saveDialog.open('show').setData(row)
-            })
+
+        authorize (row) {
+            this.certificateId = row.id
+            this.dialog.authorize = true
+            // this.$nextTick(() => {
+            //     this.$refs.authorizeDrawer.setData(row)
+            // })
         },
 
         //删除
@@ -115,7 +117,7 @@ export default {
 
         //搜索
         upsearch () {
-
+            this.$refs.table.upData(this.search);
         },
 
         //本地更新数据
