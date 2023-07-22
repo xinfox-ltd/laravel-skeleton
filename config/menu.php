@@ -187,7 +187,7 @@ return [
                     "title" => "企业农资标准库",
                     "affix" => false
                 ],
-                "component" => "basicData/standard"
+                "component" => "basic/standard"
             ],
             [
                 "name" => "unitOfMeasurementList",
@@ -196,7 +196,16 @@ return [
                     "title" => "计量单位",
                     "affix" => false
                 ],
-                "component" => "basicData/unit2measurement"
+                "component" => "basic/unit"
+            ],
+            [
+                "name" => "inputCategoryList",
+                "path" => "/basic-data/input/category/list",
+                "meta" => [
+                    "title" => "投入品类别",
+                    "affix" => false
+                ],
+                "component" => "basic/inputCategory"
             ],
             [
                 "name" => "dosageFormList",
@@ -205,7 +214,7 @@ return [
                     "title" => "剂型管理",
                     "affix" => false
                 ],
-                "component" => "basicData/dosageForm"
+                "component" => "basic/dosageForm"
             ],
         ]
     ],

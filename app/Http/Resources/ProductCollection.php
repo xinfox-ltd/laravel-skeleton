@@ -10,8 +10,8 @@ namespace App\Http\Resources;
 
 use Mountain\Http\Resources\ResourceCollection;
 
-/** @see \App\Models\Enterprise */
-class EnterpriseCollection extends ResourceCollection
+/** @see \App\Models\Product */
+class ProductCollection extends ResourceCollection
 {
 
 }

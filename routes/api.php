@@ -46,6 +46,7 @@ Route::controller(App\Http\Controllers\EnterpriseController::class)
             Route::post('/', 'save');
         }
     );
+
 Route::controller(App\Http\Controllers\ProductController::class)
     ->prefix('/products')
     ->middleware(['auth:sanctum'])
@@ -55,3 +56,66 @@ Route::controller(App\Http\Controllers\ProductController::class)
             Route::post('/', 'save');
         }
     );
+
+// 基地
+Route::controller(App\Http\Controllers\ProductionBaseController::class)
+    ->prefix('/bases')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+        }
+    );
+
+Route::controller(App\Http\Controllers\InputCategoryController::class)
+    ->prefix('/input/categories')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\DosageFormController::class)
+    ->prefix('/dosage/forms')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+        }
+    );
+
+Route::controller(App\Http\Controllers\TraceabilityCodeApplicationController::class)
+    ->prefix('/traceability/code/applications')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+        }
+    );
+
+Route::controller(App\Http\Controllers\CertificateController::class)
+    ->prefix('/certificates')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+        }
+    );
+
+Route::controller(App\Http\Controllers\UserController::class)
+    ->prefix('/users')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+        }
+    );
+

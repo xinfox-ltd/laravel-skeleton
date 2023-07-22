@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TraceabilityCodeApplication extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'enterprise_id',
+        'quantity',
+        'status',
+        'reason',
+        'remark',
+    ];
 }

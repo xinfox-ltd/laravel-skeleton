@@ -2,25 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TraceabilityCodeApplicationCollection;
+use App\Services\TraceabilityCodeApplicationService;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Response;
 
 class TraceabilityCodeApplicationController extends Controller
 {
-    public function index()
+    public function __construct(private readonly TraceabilityCodeApplicationService $service)
     {
+    }
 
+    public function index(Request $request)
+    {
+        return new TraceabilityCodeApplicationCollection($this->service->list($request->input()));
     }
 
     /**
      * @param Request $request
-     * @return mixed
-     * @throws ValidationException
+     * @return Response
      */
     public function save(Request $request)
     {
         $this->validate($request, []);
-        return $this->serivce->save($request->post());
+        $this->service->save($request->post());
+        return success();
     }
 
     public function show(int $id)

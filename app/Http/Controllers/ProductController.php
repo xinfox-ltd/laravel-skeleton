@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductCollection;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,7 +16,7 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        return success($this->service->list($request->input()));
+        return new ProductCollection($this->service->list($request->input()));
     }
 
     /**

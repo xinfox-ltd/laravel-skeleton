@@ -33,9 +33,15 @@ class EnterpriseResource extends JsonResource
             'address' => $this->address,
             'products' => $this->products,
             'status' => $this->status,
+            'status_label' => $this->status_label,
             'audited_at' => $this->audited_at,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
+    }
+
+    public function paginationInformation($request, $paginated, $default)
+    {
+        dd($request, $paginated, $default);
     }
 }
