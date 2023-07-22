@@ -71,7 +71,7 @@ export default {
                 permission: false
             },
             list: {
-                apiObj: this.$API.app.company.list,
+                apiObj: this.$API.app.product.list,
             },
             search: {
                 keyword: null

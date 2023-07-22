@@ -13,13 +13,9 @@
         </el-header>
         <el-main class="nopadding">
             <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
-                <el-table-column label="#" type="index" width="50"></el-table-column>
+                <el-table-column label="申请编号" prop="id" width="100"></el-table-column>
                 <el-table-column label="企业名称" prop="label" width="150"></el-table-column>
-                <el-table-column label="企业类型" prop="alias" width="200"></el-table-column>
-                <el-table-column label="联系电话" prop="sort" width="80"></el-table-column>
-                <el-table-column label="企业法人" prop="sort" width="80"></el-table-column>
-                <el-table-column label="企业地址" prop="sort" width="80"></el-table-column>
-                <el-table-column label="产品" prop="sort" width="80"></el-table-column>
+                <el-table-column label="申请数量" prop="alias" width="200"></el-table-column>
                 <el-table-column label="状态" prop="status" width="80">
                     <template #default="scope">
                         <el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)"
@@ -71,7 +67,7 @@ export default {
                 permission: false
             },
             list: {
-                apiObj: this.$API.app.company.list,
+                apiObj: this.$API.app.traceability.list,
             },
             search: {
                 keyword: null
