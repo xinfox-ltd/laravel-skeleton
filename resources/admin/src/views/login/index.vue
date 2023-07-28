@@ -3,7 +3,7 @@
 		<div class="login_adv" style="background-image: url(img/auth_banner.jpg);">
 			<div class="login_adv__title">
 				<h2>{{ $CONFIG.APP_NAME }}</h2>
-				<h4>稳定 / 高效 / 智能</h4>
+				<h4>主体/种养/监控/加工/检测/认证/销售/流通/溯源---智能化管理</h4>
 				<!-- <div>
 					<span>
 						<el-icon><sc-icon-vue /></el-icon>
@@ -238,7 +238,7 @@ export default {
 	left: 0px;
 	right: 0px;
 	bottom: 0px;
-	background: rgba(0, 0, 0, 0.5);
+	background: rgba(0, 0, 0, 0.1);
 	z-index: 1;
 }
 

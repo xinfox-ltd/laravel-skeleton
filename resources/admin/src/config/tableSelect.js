@@ -13,7 +13,7 @@ export default {
 	},
 	request: {
 		page: 'page',					//规定当前分页字段
-		pageSize: 'pageSize',			//规定一页条数字段
+		pageSize: 'page_size',			//规定一页条数字段
 		keyword: 'keyword'				//规定搜索字段
 	},
 	props: {

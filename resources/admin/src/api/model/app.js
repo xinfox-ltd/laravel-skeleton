@@ -53,9 +53,16 @@ export default {
     productionBase: {
         list: {
             url: `${config.API_URL}/bases`,
-            name: "获取基地列表",
+            name: "获取列表",
             get: async function (params = {}) {
                 return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/bases`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
             }
         },
     },
@@ -122,5 +129,67 @@ export default {
                 return await http.post(this.url, data);
             }
         },
+    },
+    supplier: {
+        list: {
+            url: `${config.API_URL}/suppliers`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/suppliers`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+    },
+    input: {
+        list: {
+            url: `${config.API_URL}/inputs`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/inputs`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+        info: {
+            url: `${config.API_URL}/inputs/:id`,
+            name: "单个详情",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        }
+    },
+    planting: {
+        list: {
+            url: `${config.API_URL}/planting/plans`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/planting/plans`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+        info: {
+            url: `${config.API_URL}/planting/plans/:id`,
+            name: "单个详情",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        }
     }
 }
