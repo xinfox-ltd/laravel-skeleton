@@ -119,3 +119,34 @@ Route::controller(App\Http\Controllers\UserController::class)
         }
     );
 
+Route::controller(App\Http\Controllers\SupplierController::class)
+    ->prefix('/suppliers')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+        }
+    );
+
+Route::controller(App\Http\Controllers\InputController::class)
+    ->prefix('/inputs')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::get('/{id}', 'show')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\PlantingPlanController::class)
+    ->prefix('/planting/plans')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::get('/{id}', 'show')->where(['id' => '\d+']);
+        }
+    );

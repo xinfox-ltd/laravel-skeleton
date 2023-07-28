@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -22,10 +23,10 @@ class UserController extends Controller
         return new UserCollection($this->service->list($request->user(), $request->input()));
     }
 
-    public function save(Request $request)
+    public function save(StoreUserRequest $request)
     {
-        $data = $this->validate($request, []);
-        $this->service->save($data);
+        $validated = $request->validated();
+        $this->service->save($validated);
         return success();
     }
 }

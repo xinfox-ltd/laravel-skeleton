@@ -7,11 +7,13 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\User;
+
 class SystemService
 {
-    public function menuList()
+    public function menuList(User $user)
     {
-        $menu = config('menu');
+        $menu = config($user->type == 1 ? 'menu' : 'emenu');
         return [
             'dashboardGrid' => ["time", 'about'],
             'menu' => $menu,

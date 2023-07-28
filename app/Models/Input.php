@@ -7,10 +7,26 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Input extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'enterprise_id',
+        'input_category_id',
+        'dosage_form_id',
+        'name',
+        'supplier_id',
+        'enterprise',
+        'registration_no',
+        'component',
+        'executive_standard',
+        'annex',
+    ];
+
+    public function supplier(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class);
+    }
 }

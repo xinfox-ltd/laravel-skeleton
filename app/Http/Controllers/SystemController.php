@@ -12,8 +12,8 @@ use Illuminate\Http\Request;
 
 class SystemController extends Controller
 {
-    public function menuList(SystemService $service)
+    public function menuList(Request $request, SystemService $service)
     {
-        return response()->success($service->menuList());
+        return response()->success($service->menuList($request->user()));
     }
 }
