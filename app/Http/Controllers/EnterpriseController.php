@@ -17,7 +17,6 @@ class EnterpriseController extends Controller
     public function index(Request $request)
     {
         return new EnterpriseCollection($this->service->list($request->input()));
-        return success(new EnterpriseCollection($this->service->list($request->input())));
     }
 
     /**

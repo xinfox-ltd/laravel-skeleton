@@ -10,12 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('dosage_form_categories', function (Blueprint $table) {
+        Schema::create('input_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name', 128)->default('')->comment('名称');
             $table->string('remark')->default('')->comment('备注');
             $table->timestamps();
-            $table->comment('剂型类别');
+            $table->comment('投入品类别');
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('dosage_form_categories');
+        Schema::dropIfExists('input_categories');
     }
 };

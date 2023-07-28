@@ -7,11 +7,9 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-
 use Mountain\Http\Resources\ResourceCollection;
 
-/** @see \App\Models\Enterprise */
-class EnterpriseCollection extends ResourceCollection
+/** @see \App\Models\TraceabilityCodeApplication */
+class TraceabilityCodeApplicationCollection extends ResourceCollection
 {
-
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dosage_forms', function (Blueprint $table) {
             $table->id();
             $table->string('name', 128)->default('')->comment('名称');
-            $table->unsignedBigInteger('dosage_form_category_id')->default(0)->comment('类别');
+            $table->unsignedBigInteger('input_category_id')->default(0)->comment('类别');
             $table->string('remark')->default('')->comment('备注');
             $table->timestamps();
             $table->comment('剂型');

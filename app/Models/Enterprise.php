@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\EnterpriseType;
-use App\Support\Database\Eloquent\SerializeDateable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,13 +27,21 @@ class Enterprise extends Model
     ];
 
     protected $appends = [
-        'type_label'
+        'type_label',
+        'status_label'
     ];
 
     public function typeLabel(): Attribute
     {
         return Attribute::make(
             get: fn () => EnterpriseType::from($this->type)->label()
+        );
+    }
+
+    public function statusLabel(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => [1 => '待审核', 10 => '审核通过'][$this->status] ?? '-'
         );
     }
 

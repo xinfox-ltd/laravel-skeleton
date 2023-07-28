@@ -16,7 +16,9 @@ class EnterpriseService
     {
         return Enterprise::when($params['keyword'] ?? null, function ($query, $keyword) {
             $query->where('name', 'LIKE', "%$keyword%");
-        })->paginate($params['page_size'] ?? 10);
+        })
+            ->orderBy('id', 'DESC')
+            ->paginate($params['page_size'] ?? 10);
     }
 
     /**
@@ -25,6 +27,7 @@ class EnterpriseService
      */
     public function save(array $data): Enterprise
     {
+        $data['status'] = 1;
         return Enterprise::create($data);
     }
 }

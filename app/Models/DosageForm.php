@@ -7,10 +7,19 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DosageForm extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'name',
+        'input_category_id',
+        'remark',
+    ];
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(InputCategory::class, 'input_category_id');
+    }
 }
