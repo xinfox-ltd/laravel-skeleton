@@ -1,22 +1,22 @@
 <template>
-    <el-dialog :title="titleMap[mode]" v-model="visible" :width="650" destroy-on-close @closed="$emit('closed')">
-        <el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="right">
+    <el-dialog :title="titleMap[mode]" v-model="visible" :width="450" destroy-on-close @closed="$emit('closed')">
+        <el-form :model="form" :rules="rules" ref="dialogForm" label-width="90px" label-position="right">
 
             <el-form-item label="姓名" prop="name">
                 <el-input v-model="form.name" clearable></el-input>
             </el-form-item>
-            <el-form-item label="登录账号" prop="certificate_no">
-                <el-input v-model="form.certificate_no" clearable></el-input>
+            <el-form-item label="登录账号" prop="username">
+                <el-input v-model="form.username" clearable :disabled="mode == 'edit'"></el-input>
             </el-form-item>
-            <el-form-item label="手机号" prop="certificate_no">
-                <el-input v-model="form.certificate_no" clearable></el-input>
+            <el-form-item label="手机号" prop="phone">
+                <el-input v-model="form.phone" clearable></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="newPassword">
-                <el-input v-model="form.newPassword" type="password" show-password placeholder="请输入新密码"></el-input>
-                <sc-password-strength v-model="form.newPassword"></sc-password-strength>
+            <el-form-item label="密码" prop="password" v-if="mode == 'add'">
+                <el-input v-model="form.password" type="password" show-password placeholder="请输入新密码"></el-input>
+                <sc-password-strength v-model="form.password"></sc-password-strength>
                 <div class="el-form-item-msg">请输入包含英文、数字的8位以上密码</div>
             </el-form-item>
-            <el-form-item label="确认密码" prop="confirmNewPassword">
+            <el-form-item label="确认密码" prop="confirmNewPassword" v-if="mode == 'add'">
                 <el-input v-model="form.confirmNewPassword" type="password" show-password placeholder="请再次输入新密码"></el-input>
             </el-form-item>
         </el-form>
@@ -40,46 +40,43 @@ export default {
             titleMap: {
                 add: '新增管理账号',
                 edit: '编辑管理账号',
-                show: '查看'
             },
             visible: false,
             isSaveing: false,
-            typeOptions: [
-                {
-                    value: 1,
-                    label: '农产品地理标志',
-                },
-                {
-                    value: 4,
-                    label: '其他',
-                    // disabled: true,
-                },
-            ],
             //表单数据
             form: {
                 name: "",
-                type: "",
-                certificate_no: "",
-                authority: "",
-                scan_file: "",
+                username: "",
+                phone: "",
+                password: "",
+                confirmNewPassword: "",
             },
             //验证规则
             rules: {
                 name: [
-                    { required: true, message: '请输入证书名称', trigger: 'change' }
+                    { required: true, message: '请输入管理员姓名', trigger: 'change' }
                 ],
-                type: [
-                    { required: true, message: '请选择证书类型' }
+                username: [
+                    { required: true, message: '请输入登录账号' }
                 ],
-                certificate_no: [
-                    { required: true, message: '请输入证书编号' }
+                phone: [
+                    { required: true, message: '请输入手机号' }
                 ],
-                authority: [
-                    { required: true, message: '请输入颁发机构' }
+                password: [
+                    { required: true, message: '请输入密码' }
                 ],
-                scan_file: [
-                    { required: true, message: '请上传证书扫描件' }
-                ],
+                confirmNewPassword: [
+                    { required: true, message: '请再次输入密码' },
+                    {
+                        validator: (rule, value, callback) => {
+                            if (value !== this.form.password) {
+                                callback(new Error('两次输入密码不一致'));
+                            } else {
+                                callback();
+                            }
+                        }
+                    }
+                ]
             }
         }
     },
@@ -98,7 +95,7 @@ export default {
             this.$refs.dialogForm.validate(async (valid) => {
                 if (valid) {
                     this.isSaveing = true;
-                    await this.$API.app.certificate.save.post(this.form)
+                    await this.$API.app.user.save.post(this.form)
                         .then(res => {
                             this.isSaveing = false;
                             if (res.code == 200) {
