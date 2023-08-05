@@ -21,7 +21,7 @@ class ApiResponse
         $content = $response->getContent();
         if (is_string($content)) {
             $content = json_decode($content, true);
-            if ($content && !isset($content['code']) && !isset($content['message'])) {
+            if (($content || is_array($content)) && !isset($content['code']) && !isset($content['message'])) {
                 $response->setContent((new \App\Http\Response($content))->toJson());
             }
         }

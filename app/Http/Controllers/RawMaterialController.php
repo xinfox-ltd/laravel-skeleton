@@ -2,34 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRawMaterialRequest;
+use App\Http\Resources\RawMaterialCollection;
+use App\Http\Resources\RawMaterialResource;
+use App\Services\RawMaterialService;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class RawMaterialController extends Controller
 {
-    public function index()
+    public function __construct(private readonly RawMaterialService $service)
     {
+    }
 
+    public function index(Request $request)
+    {
+        return new RawMaterialCollection($this->service->list($request->user(), $request->all()));
     }
 
     /**
-     * @param Request $request
-     * @return mixed
-     * @throws ValidationException
+     * @param StoreRawMaterialRequest $request
+     * @return RawMaterialResource
      */
-    public function save(Request $request)
+    public function save(StoreRawMaterialRequest $request)
     {
-        $this->validate($request, []);
-        return $this->serivce->save($request->post());
+        return new RawMaterialResource($this->service->save($request->user(), $request->validated()));
     }
 
-    public function show(int $id)
+    public function show(int $id, Request $request)
     {
-
+        return new RawMaterialResource($this->service->getRawMaterial($request->user(), $id));
     }
 
-    public function delete(int $id)
+    public function destroy(int $id, Request $request)
     {
-
+        $this->service->delete($request->user(), $id);
+        return success();
     }
 }

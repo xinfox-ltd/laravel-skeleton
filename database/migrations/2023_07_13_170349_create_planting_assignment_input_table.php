@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('unit_type', 16)->default('')->comment('计量单位类型：1每亩 2每平方 3每立方米 4稀释倍数');
             $table->unsignedBigInteger('unit_id')->default(0)->comment('计量单位');
             $table->string('method', 64)->default('')->comment('使用方法');
+            $table->json('input_date')->comment('投入周期');
+            $table->string('remark')->default('')->comment('备注');
             $table->timestamps();
             $table->index('enterprise_id');
             $table->index('planting_assignment_id');

@@ -26,8 +26,10 @@ class PlantingPlanController extends Controller
      */
     public function save(Request $request)
     {
+        $data = $request->post();
         $this->validate($request, []);
-        return new PlantingPlanResource($this->service->save($request->post()));
+        $data['enterprise_id'] = $request->user()->enterprise_id;
+        return new PlantingPlanResource($this->service->save($data));
     }
 
     public function show(int $id)

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('enterprise_id')->comment('企业ID');
             $table->unsignedBigInteger('product_id')->comment('产品ID');
-            $table->unsignedBigInteger('trademark_id')->comment('商标ID');
+            $table->unsignedBigInteger('trademark_id')->default(0)->comment('商标ID');
             $table->timestamps();
             $table->index('enterprise_id');
             $table->index('product_id');

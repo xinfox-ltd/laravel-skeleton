@@ -38,6 +38,68 @@ return [
         ]
     ],
     [
+        "name" => "enterpriseManage",
+        "path" => "/enterprise",
+        "meta" => [
+            "title" => "企业管理",
+            "icon" => "el-icon-mouse",
+            "type" => "menu"
+        ],
+        "children" => [
+            [
+                "name" => "enterpriseTrademarkList",
+                "path" => "/enterprise/trademark/list",
+                "meta" => [
+                    "title" => "商标管理",
+//                    "icon" => "el-icon-office-building",
+                    "affix" => false
+                ],
+                "component" => "enterprise/trademark"
+            ],
+            [
+                "name" => "enterpriseStaffList",
+                "path" => "/enterprise/staff/list",
+                "meta" => [
+                    "title" => "员工管理",
+//                    "icon" => "el-icon-user",
+                    "affix" => false
+                ],
+                "component" => "enterprise/staff"
+            ],
+        ]
+    ],
+    [
+        "name" => "enterpriseProductManage",
+        "path" => "/enterprise/product",
+        "meta" => [
+            "title" => "产品管理",
+            "icon" => "el-icon-box",
+            "type" => "menu"
+        ],
+        "children" => [
+            [
+                "name" => "enterpriseProductList",
+                "path" => "/enterprise/product/list",
+                "meta" => [
+                    "title" => "产品列表",
+//                    "icon" => "el-icon-office-building",
+                    "affix" => false
+                ],
+                "component" => "enterprise/product"
+            ],
+            [
+                "name" => "saleChannelList",
+                "path" => "/enterprise/product/sale/channel/list",
+                "meta" => [
+                    "title" => "销售渠道",
+//                    "icon" => "el-icon-office-building",
+                    "affix" => false
+                ],
+                "component" => "enterprise/product/channel"
+            ],
+        ]
+    ],
+    [
         "name" => "baseManage",
         "path" => "/enterprise/base",
         "meta" => [
@@ -131,27 +193,27 @@ return [
         "children" => [
             [
                 "name" => "rawMaterialList",
-                "path" => "/certificate/raw-material/list",
+                "path" => "/enterprise/raw-material/list",
                 "meta" => [
                     "title" => "原料列表",
                     "affix" => false
                 ],
-                "component" => "certificate/rawMaterial"
+                "component" => "enterprise/rawMaterial"
             ],
             [
                 "name" => "harvestPlanList",
-                "path" => "/certificate/raw-material/harvest/list",
+                "path" => "/enterprise/raw-material/harvest/list",
                 "meta" => [
                     "title" => "采收计划",
                     "affix" => false
                 ],
-                "component" => "certificate/rawMaterial/harvest"
+                "component" => "enterprise/rawMaterial/harvest"
             ],
         ]
     ],
     [
         "name" => "processingManage",
-        "path" => "/certificate/processing",
+        "path" => "/enterprise/processing",
         "meta" => [
             "title" => "加工管理",
             "icon" => "el-icon-postcard",
@@ -160,39 +222,39 @@ return [
         "children" => [
             [
                 "name" => "processingWorkflowList",
-                "path" => "/certificate/processing/workflow/list",
+                "path" => "/enterprise/processing/flow/list",
                 "meta" => [
                     "title" => "加工流程",
                     //"icon" => "el-icon-menu",
                     "affix" => false
                 ],
-                "component" => "certificate/processing/workflow"
+                "component" => "enterprise/processing/flow"
             ],
             [
                 "name" => "processingTypeList",
-                "path" => "/certificate/processing/type/list",
+                "path" => "/enterprise/processing/type/list",
                 "meta" => [
                     "title" => "加工类型",
                     //"icon" => "el-icon-menu",
                     "affix" => false
                 ],
-                "component" => "certificate/processing/type"
+                "component" => "enterprise/processing/type"
             ],
             [
                 "name" => "processingPackageList",
-                "path" => "/certificate/package/list",
+                "path" => "/enterprise/processing/package/list",
                 "meta" => [
                     "title" => "包装规格",
                     //"icon" => "el-icon-menu",
                     "affix" => false
                 ],
-                "component" => "certificate/processing/package"
+                "component" => "enterprise/processing/package"
             ],
         ]
     ],
     [
         "name" => "detectionManage",
-        "path" => "/certificate/detection",
+        "path" => "/enterprise/detection",
         "meta" => [
             "title" => "检测管理",
             "icon" => "el-icon-cpu",
@@ -201,12 +263,12 @@ return [
         "children" => [
             [
                 "name" => "detectionList",
-                "path" => "/certificate/detection/list",
+                "path" => "/enterprise/detection/list",
                 "meta" => [
                     "title" => "检测报告",
                     "affix" => false
                 ],
-                "component" => "certificate/detection"
+                "component" => "enterprise/detection"
             ],
         ]
     ],

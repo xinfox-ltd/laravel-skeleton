@@ -7,10 +7,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 class Process extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'enterprise_id',
+        'name',
+        'process_flow_id',
+        'enterprise_product_id',
+        'production_base_id',
+    ];
 }
