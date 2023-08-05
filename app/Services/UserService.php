@@ -16,11 +16,18 @@ class UserService
     {
         return User::when($params['enterprise_id'] ?? null, function($query, $enterpriseId) {
             $query->where('enterprise_id', $enterpriseId);
-        })->paginate($params['page_size'] ?? 20);
+        })->orderBy('id', 'DESC')->paginate($params['page_size'] ?? 20);
     }
 
     public function save(array $data)
     {
-        return User::create($data);
+        if (empty($data['id'])) {
+            $data['type'] = 2;
+            return User::create($data);
+        } else {
+            $user = User::findOrFail($data['id']);
+            $user->update($data);
+            return $user;
+        }
     }
 }

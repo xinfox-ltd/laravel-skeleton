@@ -20,6 +20,7 @@ class ProductionBaseResource extends JsonResource
             'id' => $this->id,
             'enterprise_id' => $this->enterprise_id,
             'type' => $this->type,
+            'type_label' => [1 => '生产基地', 2 => '加工基地'][$this->type] ?? '-',
             'name' => $this->name,
             'base_no' => $this->base_no,
             'director' => $this->director,
@@ -30,8 +31,8 @@ class ProductionBaseResource extends JsonResource
             'area' => $this->area,
             'lng' => $this->lng,
             'lat' => $this->lat,
-            'images' => $this->images,
-            'created_at' => $this->created_at,
+            'images' => $this->images ?? '',
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at,
         ];
     }

@@ -14,7 +14,7 @@ class ProductService
 {
     public function list(array $params = []): LengthAwarePaginator
     {
-        return Product::paginate($params['page_size'] ?? 10);
+        return Product::orderBy('id', 'DESC')->paginate($params['page_size'] ?? 10);
     }
 
     /**
@@ -23,6 +23,12 @@ class ProductService
      */
     public function save(array $data): Product
     {
-        return Product::create($data);
+        if (empty($data['id'])) {
+            return Product::create($data);
+        } else {
+            $product = Product::findOrFail($data['id']);
+            $product->update($data);
+            return $product;
+        }
     }
 }

@@ -119,3 +119,140 @@ Route::controller(App\Http\Controllers\UserController::class)
         }
     );
 
+Route::controller(App\Http\Controllers\SupplierController::class)
+    ->prefix('/suppliers')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+        }
+    );
+
+Route::controller(App\Http\Controllers\InputController::class)
+    ->prefix('/inputs')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::get('/{id}', 'show')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\PlantingPlanController::class)
+    ->prefix('/planting/plans')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::get('/{id}', 'show')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\EnterpriseProductController::class)
+    ->prefix('/enterprise/products')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+        }
+    );
+
+Route::controller(App\Http\Controllers\TrademarkController::class)
+    ->prefix('/trademarks')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+        }
+    );
+
+Route::controller(App\Http\Controllers\EnterpriseStaffController::class)
+    ->prefix('/enterprise/staffs')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\PlantingAssignmentController::class)
+    ->prefix('/planting/assignments')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+            Route::get('/{id}/inputs', 'inputList')->where(['id' => '\d+']);
+            Route::post('/{id}/inputs', 'saveInput')->where(['id' => '\d+']);
+            Route::delete('/{id}/inputs/{iid}', 'destroyInput')->where(['id' => '\d+', 'iid' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\RawMaterialController::class)
+    ->prefix('/raw-materials')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::get('/{id}', 'show')->where(['id' => '\d+']);
+            Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+        }
+    );
+
+
+Route::controller(App\Http\Controllers\HarvestPlanController::class)
+    ->prefix('/harvest/plans')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::get('/{id}', 'show')->where(['id' => '\d+']);
+            Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\ProcessFlowController::class)
+    ->prefix('/process/flows')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::get('/{id}', 'show')->where(['id' => '\d+']);
+            Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\ProcessController::class)
+    ->prefix('/processes')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::get('/{id}', 'show')->where(['id' => '\d+']);
+            Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\PackageController::class)
+    ->prefix('/packages')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::get('/{id}', 'show')->where(['id' => '\d+']);
+            Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+        }
+    );

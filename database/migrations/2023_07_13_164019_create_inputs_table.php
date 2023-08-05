@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('inputs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('enterprise_id')->default(0)->comment('企业ID');
-            $table->unsignedTinyInteger('type')->default(0)->comment('类别：1农药 2化肥');
+            $table->unsignedBigInteger('input_category_id')->default(0)->comment('类别ID');
             $table->unsignedBigInteger('dosage_form_id')->default(0)->comment('剂型');
             $table->string('name', 128)->default('')->comment('名称');
             $table->unsignedBigInteger('supplier_id')->default(0)->comment('供应商ID，0为自制');
