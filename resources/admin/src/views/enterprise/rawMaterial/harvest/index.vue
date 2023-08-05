@@ -14,11 +14,15 @@
         <el-main class="nopadding">
             <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
-                <el-table-column label="计划名称" prop="name" width="200"></el-table-column>
-                <el-table-column label="基地" prop="production_base_name" width="200"></el-table-column>
-                <el-table-column label="产出产品" prop="product_name" width="120"></el-table-column>
+                <el-table-column label="采收计划" prop="name" width="200"></el-table-column>
+                <el-table-column label="种植计划" prop="planting_plan_name" width="200"></el-table-column>
+                <el-table-column label="原料及等级" prop="raw_material_name" width="120"></el-table-column>
                 <el-table-column label="负责人" prop="staff_name" width="120"></el-table-column>
-                <el-table-column label="计划结束时间" prop="end_date" width="120"></el-table-column>
+                <el-table-column label="计划周期" prop="end_date" width="220">
+                    <template #default="scope">
+                        <el-tag>{{ scope.row.start_date }}</el-tag> - <el-tag>{{ scope.row.end_date }}</el-tag>
+                    </template>
+                </el-table-column>
                 <el-table-column label="添加时间" prop="created_at" width="180"></el-table-column>
                 <el-table-column label="操作" fixed="right" align="right" width="170">
                     <template #default="scope">
@@ -58,7 +62,7 @@ export default {
                 permission: false
             },
             list: {
-                apiObj: this.$API.app.planting.list,
+                apiObj: this.$API.app.harvestPlan.list,
             },
             search: {
                 keyword: null

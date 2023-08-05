@@ -6,21 +6,23 @@
             </div>
             <div class="right-panel">
                 <div class="right-panel-search">
-                    <el-input v-model="search.keyword" placeholder="计划名称" clearable></el-input>
+                    <el-input v-model="search.keyword" placeholder="投入品名称" clearable></el-input>
                     <el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
                 </div>
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
+            <scTable ref="table" v-loading="loading" :data="data" row-key="id" hidePagination hideDo stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
-                <el-table-column label="计划名称" prop="name" width="200"></el-table-column>
-                <el-table-column label="基地" prop="production_base_name" width="200"></el-table-column>
-                <el-table-column label="产出产品" prop="product_name" width="120"></el-table-column>
-                <el-table-column label="负责人" prop="staff_name" width="120"></el-table-column>
-                <el-table-column label="计划结束时间" prop="end_date" width="120"></el-table-column>
-                <el-table-column label="添加时间" prop="created_at" width="180"></el-table-column>
-                <el-table-column label="操作" fixed="right" align="right" width="170">
+                <el-table-column label="投入品名称" prop="input_name" width="200"></el-table-column>
+                <el-table-column label="使用量" prop="quantity" width="120"></el-table-column>
+                <el-table-column label="使(施)用方法" prop="method" width="150"></el-table-column>
+                <el-table-column label="使用时间" prop="input_date" width="220">
+                    <template #default="scope">
+                        <el-tag>{{ scope.row.input_date[0] }}</el-tag> - <el-tag>{{ scope.row.input_date[1] }}</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" fixed="right" align="right" width="140">
                     <template #default="scope">
                         <el-button-group>
                             <el-button text type="primary" size="small" :loading="scope.row.$loading"
@@ -38,7 +40,8 @@
         </el-main>
     </el-container>
 
-    <save-dialog v-if="dialog.save" ref="saveDialog" @success="refresh" @closed="dialog.save = false"></save-dialog>
+    <save-dialog v-if="dialog.save" ref="saveDialog" @success="refresh" :assignmentId="assignmentId"
+        @closed="dialog.save = false"></save-dialog>
 </template>
 
 <script>
@@ -51,21 +54,39 @@ export default {
         saveDialog,
         // permissionDialog
     },
+    props: {
+        assignmentId: Number
+    },
     data () {
         return {
             dialog: {
                 save: false,
                 permission: false
             },
-            list: {
-                apiObj: this.$API.app.planting.list,
-            },
+            loading: false,
+            data: [],
             search: {
                 keyword: null
             }
         }
     },
+    mounted () {
+        this.getInputList();
+    },
     methods: {
+        getInputList () {
+            this.loading = true
+            this.$API.app.plantingAssignment.input.list.get(this.assignmentId, this.search)
+                .then(res => {
+                    this.loading = false
+                    console.log(res);
+                    this.data = res.data
+                })
+                .catch(() => {
+                    this.loading = false
+                })
+        },
+
         //添加
         add () {
             this.dialog.save = true
@@ -82,25 +103,32 @@ export default {
         },
 
         //删除
-        async del (row) {
-            var reqData = { id: row.id }
-            var res = await this.$API.demo.post.post(reqData);
-            if (res.code == 200) {
-                this.$refs.table.refresh()
-                this.$message.success("删除成功")
-            } else {
-                this.$alert(res.message, "提示", { type: 'error' })
-            }
+        del (row) {
+            row.$loading = true;
+            this.$API.app.plantingAssignment.input.destroy.delete(this.assignmentId, row.id)
+                .then(res => {
+                    row.$loading = false
+                    if (res.code == 200) {
+                        this.refresh()
+                        this.$message.success("删除成功")
+                    } else {
+                        this.$alert(res.message, "提示", { type: 'error' })
+                    }
+                })
+                .catch(() => {
+                    row.$loading = false
+                });
+
         },
 
         //搜索
         upsearch () {
-            this.$refs.table.upData(this.search);
+            this.refresh()
         },
 
         //本地更新数据
         refresh () {
-            this.$refs.table.refresh()
+            this.getInputList()
         }
     }
 }

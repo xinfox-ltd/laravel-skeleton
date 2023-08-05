@@ -1,18 +1,11 @@
 <template>
-    <el-dialog :title="titleMap[mode]" v-model="visible" :width="600" destroy-on-close @closed="$emit('closed')">
+    <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
         <el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="right">
-            <el-form-item label="供应商名称" prop="name">
+            <el-form-item label="姓名" prop="name">
                 <el-input v-model="form.name" clearable></el-input>
             </el-form-item>
-            <el-form-item label="联系人" prop="contact">
-                <el-input v-model="form.contact" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="联系电话" prop="telephone">
-                <el-input v-model="form.telephone" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="描述" prop="remark">
-                <el-input type="textarea" :rows="3" v-model="form.remark" maxlength="60" placeholder="请输入描述" show-word-limit
-                    clearable></el-input>
+            <el-form-item label="电话" prop="phone">
+                <el-input v-model="form.phone" clearable></el-input>
             </el-form-item>
         </el-form>
         <template #footer>
@@ -29,8 +22,8 @@ export default {
         return {
             mode: "add",
             titleMap: {
-                add: '新增供应商',
-                edit: '编辑供应商',
+                add: '新增员工',
+                edit: '编辑员工',
                 show: '查看'
             },
             visible: false,
@@ -38,20 +31,15 @@ export default {
             //表单数据
             form: {
                 name: "",
-                contact: "",
-                telephone: "",
-                remark: "",
+                phone: "",
             },
             //验证规则
             rules: {
                 name: [
-                    { required: true, message: '请输入基地名称', trigger: 'change' }
+                    { required: true, message: '请填写姓名', trigger: 'change' }
                 ],
-                contact: [
-                    { required: true, message: '请填写联系人' }
-                ],
-                telephone: [
-                    { required: true, message: '请填写联系电话' }
+                phone: [
+                    { required: true, message: '请填写联系电话', trigger: 'change' }
                 ],
             }
         }
@@ -71,7 +59,7 @@ export default {
             this.$refs.dialogForm.validate(async (valid) => {
                 if (valid) {
                     this.isSaveing = true;
-                    await this.$API.app.supplier.save.post(this.form)
+                    await this.$API.app.enterprise.staff.save.post(this.form)
                         .then(res => {
                             this.isSaveing = false;
                             if (res.code == 200) {

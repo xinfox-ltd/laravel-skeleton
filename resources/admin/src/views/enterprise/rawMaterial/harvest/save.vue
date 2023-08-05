@@ -4,29 +4,31 @@
             <el-form-item label="计划名称" prop="name">
                 <el-input v-model="form.name" clearable></el-input>
             </el-form-item>
-            <el-form-item label="基地" prop="production_base_id">
-                <sc-table-select v-model="productionBase.value" :apiObj="productionBase.apiObj"
-                    :params="productionBase.params" :table-width="700" clearable collapse-tags collapse-tags-tooltip
-                    :props="productionBase.props" @change="onProductionBaseChange">
+            <el-form-item label="种植计划" prop="planting_plan_id">
+                <sc-table-select v-model="plantingPlan.value" :apiObj="plantingPlan.apiObj" :params="plantingPlan.params"
+                    :table-width="700" clearable collapse-tags collapse-tags-tooltip :props="plantingPlan.props"
+                    @change="onPlantingPlanChange">
                     <template #header="{ form, submit }">
                         <el-form :inline="true" :model="form">
                             <el-form-item>
-                                <el-input v-model="form.keyword" placeholder="基地名称" clearable></el-input>
+                                <el-input v-model="form.keyword" placeholder="计划名称" clearable></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" @click="submit">查询</el-button>
                             </el-form-item>
                         </el-form>
                     </template>
-                    <el-table-column label="基地名称" prop="name" width="200"></el-table-column>
-                    <el-table-column label="地区" prop="region" width="120"></el-table-column>
-                    <el-table-column prop="created_at" label="添加时间"></el-table-column>
+                    <el-table-column label="计划名称" prop="name" width="200"></el-table-column>
+                    <el-table-column label="基地" prop="production_base_name" width="200"></el-table-column>
+                    <el-table-column label="产出产品" prop="product_name" width="120"></el-table-column>
+                    <el-table-column label="负责人" prop="staff_name" width="100"></el-table-column>
+                    <el-table-column prop="created_at" width="150" label="添加时间"></el-table-column>
                 </sc-table-select>
             </el-form-item>
-            <el-form-item label="产品" prop="product_id">
-                <sc-table-select v-model="product.value" :apiObj="product.apiObj" :params="product.params"
-                    :table-width="700" clearable collapse-tags collapse-tags-tooltip :props="product.props"
-                    @change="onProductChange">
+            <el-form-item label="原料及等级" prop="raw_material_id">
+                <sc-table-select v-model="rawMaterial.value" :apiObj="rawMaterial.apiObj" :params="rawMaterial.params"
+                    :table-width="700" clearable collapse-tags collapse-tags-tooltip :props="rawMaterial.props"
+                    @change="onRawMaterialChange">
                     <template #header="{ form, submit }">
                         <el-form :inline="true" :model="form">
                             <el-form-item>
@@ -37,12 +39,12 @@
                             </el-form-item>
                         </el-form>
                     </template>
-                    <el-table-column label="产品名称" prop="product_name" width="250"></el-table-column>
-                    <el-table-column label="品牌/商标" prop="trademark_name" width="100"></el-table-column>
-                    <el-table-column prop="created_at" label="添加时间"></el-table-column>
+                    <el-table-column label="原料名称" prop="name" width="200"></el-table-column>
+                    <el-table-column label="级别名称" prop="level" width="200"></el-table-column>
+                    <el-table-column prop="created_at" width="150" label="添加时间"></el-table-column>
                 </sc-table-select>
             </el-form-item>
-            <el-form-item label="负责人" prop="user_id">
+            <el-form-item label="负责人" prop="staff_id">
                 <sc-table-select v-model="staff.value" :apiObj="staff.apiObj" :params="staff.params" :table-width="700"
                     clearable collapse-tags collapse-tags-tooltip :props="staff.props" @change="onStaffChange">
                     <template #header="{ form, submit }">
@@ -55,13 +57,17 @@
                             </el-form-item>
                         </el-form>
                     </template>
-                    <el-table-column label="姓名" prop="name" width="150"></el-table-column>
+                    <el-table-column label="姓名" prop="name" width="100"></el-table-column>
                     <el-table-column label="电话" prop="phone" width="120"></el-table-column>
-                    <el-table-column prop="created_at" label="添加时间"></el-table-column>
+                    <el-table-column prop="created_at" width="150" label="添加时间"></el-table-column>
                 </sc-table-select>
             </el-form-item>
-            <el-form-item label="计划结束日期" prop="end_date">
-                <el-date-picker v-model="form.end_date" type="date" value-format="YYYY-MM-DD" placeholder="选择一个日期" />
+            <el-form-item label="计划周期" prop="plan_date">
+                <el-date-picker v-model="form.plan_date" type="daterange" range-separator="到" start-placeholder="开始日期"
+                    end-placeholder="结束日期" value-format="YYYY-MM-DD" />
+            </el-form-item>
+            <el-form-item label="备注" prop="remark">
+                <el-input v-model="form.remark" type="textarea" :row="3" placeholder="备注" />
             </el-form-item>
         </el-form>
         <template #footer>
@@ -78,15 +84,14 @@ export default {
         return {
             mode: "add",
             titleMap: {
-                add: '新增种植计划',
-                edit: '编辑种植计划',
-                show: '查看'
+                add: '新增采收计划',
+                edit: '编辑采收计划',
             },
             visible: false,
             isSaveing: false,
-            productionBase: {
+            plantingPlan: {
                 value: {},
-                apiObj: this.$API.app.productionBase.list,
+                apiObj: this.$API.app.planting.list,
                 params: {},
                 props: {
                     label: 'name',
@@ -94,12 +99,12 @@ export default {
                     keyword: "keyword"
                 }
             },
-            product: {
+            rawMaterial: {
                 value: {},
-                apiObj: this.$API.app.enterprise.product.list,
+                apiObj: this.$API.app.rawMaterial.list,
                 params: {},
                 props: {
-                    label: 'product_name',
+                    label: 'name',
                     value: 'id',
                     keyword: "keyword"
                 }
@@ -117,27 +122,27 @@ export default {
             //表单数据
             form: {
                 name: "",
-                production_base_id: "",
-                user_id: "",
-                product_id: "",
-                end_date: ""
+                planting_plan_id: "",
+                staff_id: "",
+                raw_material_id: "",
+                plan_date: ""
             },
             //验证规则
             rules: {
                 name: [
                     { required: true, message: '请输入计划名称', trigger: 'change' }
                 ],
-                production_base_id: [
-                    { required: true, message: '请选择生产基地' }
+                planting_plan_id: [
+                    { required: true, message: '请选择种植计划' }
                 ],
-                product_id: [
-                    { required: true, message: '请选择产品' }
+                raw_material_id: [
+                    { required: true, message: '请选择原料/等级' }
                 ],
-                user_id: [
+                staff_id: [
                     { required: true, message: '请选择负责人' }
                 ],
-                end_date: [
-                    { required: true, message: '请填写计划结束日期' }
+                plan_date: [
+                    { required: true, message: '请填写计划周期' }
                 ]
             }
         }
@@ -151,23 +156,23 @@ export default {
             this.visible = true;
             return this
         },
-        onProductionBaseChange (val) {
+        onPlantingPlanChange (val) {
             console.log(val);
-            this.form.production_base_id = val.id
+            this.form.planting_plan_id = val.id
         },
         onStaffChange (val) {
             console.log(val);
-            this.form.staff_id = val.id
+            this.form.user_id = val.id
         },
-        onProductChange (val) {
-            this.form.product_id = val.id
+        onRawMaterialChange (val) {
+            this.form.raw_material_id = val.id
         },
         //表单提交方法
         submit () {
             this.$refs.dialogForm.validate(async (valid) => {
                 if (valid) {
                     this.isSaveing = true;
-                    await this.$API.app.planting.save.post(this.form)
+                    await this.$API.app.harvestPlan.save.post(this.form)
                         .then(res => {
                             this.isSaveing = false;
                             if (res.code == 200) {
@@ -188,17 +193,17 @@ export default {
         //表单注入数据
         setData (data) {
             Object.assign(this.form, data)
-            this.product.value = {
-                id: data.product_id,
-                product_name: data.product_name,
+            this.plantingPlan.value = {
+                id: data.planting_plan_id,
+                name: data.planting_plan_name,
             }
             this.staff.value = {
-                id: data.user_id,
+                id: data.staff_id,
                 name: data.staff_name,
             }
-            this.productionBase.value = {
-                id: data.production_base_id,
-                name: data.production_base_name,
+            this.rawMaterial.value = {
+                id: data.raw_material_id,
+                name: data.raw_material_name,
             }
         }
     }

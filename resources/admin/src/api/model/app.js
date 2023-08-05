@@ -33,6 +33,45 @@ export default {
                 return await http.post(this.url, data);
             }
         },
+        product: {
+            list: {
+                url: `${config.API_URL}/enterprise/products`,
+                name: "获取产品列表",
+                get: async function (params = {}) {
+                    return await http.get(this.url, params);
+                }
+            },
+            save: {
+                url: `${config.API_URL}/enterprise/products`,
+                name: "保存产品",
+                post: async function (data = {}) {
+                    return await http.post(this.url, data);
+                }
+            }
+        },
+        staff: {
+            list: {
+                url: `${config.API_URL}/enterprise/staffs`,
+                name: "获取列表",
+                get: async function (params = {}) {
+                    return await http.get(this.url, params);
+                }
+            },
+            save: {
+                url: `${config.API_URL}/enterprise/staffs`,
+                name: "保存",
+                post: async function (data = {}) {
+                    return await http.post(this.url, data);
+                }
+            },
+            del: {
+                url: `${config.API_URL}/enterprise/staffs/:id`,
+                name: "删除",
+                delete: async function (id) {
+                    return await http.delete(this.url.replace(':id', id));
+                }
+            }
+        },
     },
     product: {
         list: {
@@ -191,5 +230,224 @@ export default {
                 return await http.get(this.url.replace(":id", id));
             }
         }
-    }
+    },
+    plantingAssignment: {
+        list: {
+            url: `${config.API_URL}/planting/assignments`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/planting/assignments`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+        info: {
+            url: `${config.API_URL}/planting/assignments/:id`,
+            name: "单个详情",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        },
+        input: {
+            list: {
+                url: `${config.API_URL}/planting/assignments/:id/inputs`,
+                name: "获取列表",
+                get: async function (id, params = {}) {
+                    return await http.get(this.url.replace(':id', id), params);
+                }
+            },
+            save: {
+                url: `${config.API_URL}/planting/assignments/:id/inputs`,
+                name: "保存",
+                post: async function (id, data = {}) {
+                    return await http.post(this.url.replace(':id', id), data);
+                }
+            },
+            destroy: {
+                url: `${config.API_URL}/planting/assignments/:id/inputs/:iid`,
+                name: "删除",
+                delete: async function (id, iid) {
+                    return await http.delete(this.url.replace(':id', id).replace(':iid', iid));
+                }
+            }
+        }
+    },
+    trademark: {
+        list: {
+            url: `${config.API_URL}/trademarks`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/trademarks`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+        info: {
+            url: `${config.API_URL}/trademarks/:id`,
+            name: "单个详情",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        }
+    },
+    rawMaterial: {
+        list: {
+            url: `${config.API_URL}/raw-materials`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/raw-materials`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+        info: {
+            url: `${config.API_URL}/raw-materials/:id`,
+            name: "单个详情",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        },
+        delete: {
+            url: `${config.API_URL}/raw-materials/:id`,
+            name: "删除",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        }
+    },
+    harvestPlan: {
+        list: {
+            url: `${config.API_URL}/harvest/plans`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/harvest/plans`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+        info: {
+            url: `${config.API_URL}/harvest/plans/:id`,
+            name: "单个详情",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        },
+        delete: {
+            url: `${config.API_URL}/harvest/plans/:id`,
+            name: "删除",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        }
+    },
+    processFlow: {
+        list: {
+            url: `${config.API_URL}/process/flows`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/process/flows`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+        info: {
+            url: `${config.API_URL}/process/flows/:id`,
+            name: "单个详情",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        },
+        delete: {
+            url: `${config.API_URL}/process/flows/:id`,
+            name: "删除",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        }
+    },
+    process: {
+        list: {
+            url: `${config.API_URL}/processes`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/processes`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+        info: {
+            url: `${config.API_URL}/processes/:id`,
+            name: "单个详情",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        },
+        delete: {
+            url: `${config.API_URL}/processes/:id`,
+            name: "删除",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        }
+    },
+    package: {
+        list: {
+            url: `${config.API_URL}/packages`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/packages`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+        info: {
+            url: `${config.API_URL}/packages/:id`,
+            name: "单个详情",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        },
+        delete: {
+            url: `${config.API_URL}/packages/:id`,
+            name: "删除",
+            get: async function (id) {
+                return await http.get(this.url.replace(":id", id));
+            }
+        }
+    },
 }

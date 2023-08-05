@@ -6,7 +6,7 @@
             </div>
             <div class="right-panel">
                 <div class="right-panel-search">
-                    <el-input v-model="search.keyword" placeholder="计划名称" clearable></el-input>
+                    <el-input v-model="search.keyword" placeholder="姓名" clearable></el-input>
                     <el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
                 </div>
             </div>
@@ -14,17 +14,13 @@
         <el-main class="nopadding">
             <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
-                <el-table-column label="计划名称" prop="name" width="200"></el-table-column>
-                <el-table-column label="基地" prop="production_base_name" width="200"></el-table-column>
-                <el-table-column label="产出产品" prop="product_name" width="120"></el-table-column>
-                <el-table-column label="负责人" prop="staff_name" width="120"></el-table-column>
-                <el-table-column label="计划结束时间" prop="end_date" width="120"></el-table-column>
+                <el-table-column label="姓名" prop="name" width="100"></el-table-column>
+                <el-table-column label="电话" prop="phone" width="150"></el-table-column>
                 <el-table-column label="添加时间" prop="created_at" width="180"></el-table-column>
                 <el-table-column label="操作" fixed="right" align="right" width="170">
                     <template #default="scope">
                         <el-button-group>
-                            <el-button text type="primary" size="small" :loading="scope.row.$loading"
-                                @click="edit(scope.row)">编辑</el-button>
+                            <el-button text type="primary" size="small" @click="edit(scope.row)">编辑</el-button>
                             <el-popconfirm title="确定删除吗？" @confirm="del(scope.row)">
                                 <template #reference>
                                     <el-button text type="primary" size="small">删除</el-button>
@@ -58,7 +54,7 @@ export default {
                 permission: false
             },
             list: {
-                apiObj: this.$API.app.planting.list,
+                apiObj: this.$API.app.enterprise.staff.list,
             },
             search: {
                 keyword: null
@@ -77,12 +73,12 @@ export default {
         edit (row) {
             this.dialog.save = true
             this.$nextTick(() => {
-                this.$refs.saveDialog.open('edit').setData(row);
+                this.$refs.saveDialog.open('edit').setData(row)
             })
         },
 
         //删除
-        async del (row) {
+        async table_del (row) {
             var reqData = { id: row.id }
             var res = await this.$API.demo.post.post(reqData);
             if (res.code == 200) {

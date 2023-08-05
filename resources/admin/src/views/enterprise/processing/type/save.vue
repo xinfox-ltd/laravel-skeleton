@@ -1,10 +1,10 @@
 <template>
     <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
         <el-form :model="form" :rules="rules" ref="dialogForm" label-width="120px" label-position="right">
-            <el-form-item label="计划名称" prop="name">
+            <el-form-item label="加工类型名称" prop="name">
                 <el-input v-model="form.name" clearable></el-input>
             </el-form-item>
-            <el-form-item label="基地" prop="production_base_id">
+            <el-form-item label="架构基地" prop="production_base_id">
                 <sc-table-select v-model="productionBase.value" :apiObj="productionBase.apiObj"
                     :params="productionBase.params" :table-width="700" clearable collapse-tags collapse-tags-tooltip
                     :props="productionBase.props" @change="onProductionBaseChange">
@@ -23,7 +23,7 @@
                     <el-table-column prop="created_at" label="添加时间"></el-table-column>
                 </sc-table-select>
             </el-form-item>
-            <el-form-item label="产品" prop="product_id">
+            <el-form-item label="输出产品" prop="enterprise_product_id">
                 <sc-table-select v-model="product.value" :apiObj="product.apiObj" :params="product.params"
                     :table-width="700" clearable collapse-tags collapse-tags-tooltip :props="product.props"
                     @change="onProductChange">
@@ -42,9 +42,10 @@
                     <el-table-column prop="created_at" label="添加时间"></el-table-column>
                 </sc-table-select>
             </el-form-item>
-            <el-form-item label="负责人" prop="user_id">
-                <sc-table-select v-model="staff.value" :apiObj="staff.apiObj" :params="staff.params" :table-width="700"
-                    clearable collapse-tags collapse-tags-tooltip :props="staff.props" @change="onStaffChange">
+            <el-form-item label="加工流程" prop="process_flow_id">
+                <sc-table-select v-model="processFlow.value" :apiObj="processFlow.apiObj" :params="processFlow.params"
+                    :table-width="700" clearable collapse-tags collapse-tags-tooltip :props="processFlow.props"
+                    @change="onProcessFlowChange">
                     <template #header="{ form, submit }">
                         <el-form :inline="true" :model="form">
                             <el-form-item>
@@ -59,9 +60,6 @@
                     <el-table-column label="电话" prop="phone" width="120"></el-table-column>
                     <el-table-column prop="created_at" label="添加时间"></el-table-column>
                 </sc-table-select>
-            </el-form-item>
-            <el-form-item label="计划结束日期" prop="end_date">
-                <el-date-picker v-model="form.end_date" type="date" value-format="YYYY-MM-DD" placeholder="选择一个日期" />
             </el-form-item>
         </el-form>
         <template #footer>
@@ -78,9 +76,8 @@ export default {
         return {
             mode: "add",
             titleMap: {
-                add: '新增种植计划',
-                edit: '编辑种植计划',
-                show: '查看'
+                add: '新增加工类型',
+                edit: '编辑加工类型',
             },
             visible: false,
             isSaveing: false,
@@ -104,9 +101,9 @@ export default {
                     keyword: "keyword"
                 }
             },
-            staff: {
+            processFlow: {
                 value: {},
-                apiObj: this.$API.app.enterprise.staff.list,
+                apiObj: this.$API.app.processFlow.list,
                 params: {},
                 props: {
                     label: 'name',
@@ -118,27 +115,23 @@ export default {
             form: {
                 name: "",
                 production_base_id: "",
-                user_id: "",
-                product_id: "",
-                end_date: ""
+                enterprise_product_id: "",
+                process_flow_id: "",
             },
             //验证规则
             rules: {
                 name: [
-                    { required: true, message: '请输入计划名称', trigger: 'change' }
+                    { required: true, message: '请输入加工类型名称', trigger: 'change' }
                 ],
                 production_base_id: [
-                    { required: true, message: '请选择生产基地' }
+                    { required: true, message: '请选择加工基地' }
                 ],
-                product_id: [
+                enterprise_product_id: [
                     { required: true, message: '请选择产品' }
                 ],
-                user_id: [
-                    { required: true, message: '请选择负责人' }
+                process_flow_id: [
+                    { required: true, message: '请选择加工流程' }
                 ],
-                end_date: [
-                    { required: true, message: '请填写计划结束日期' }
-                ]
             }
         }
     },
@@ -155,19 +148,19 @@ export default {
             console.log(val);
             this.form.production_base_id = val.id
         },
-        onStaffChange (val) {
+        onProcessFlowChange (val) {
             console.log(val);
-            this.form.staff_id = val.id
+            this.form.process_flow_id = val.id
         },
         onProductChange (val) {
-            this.form.product_id = val.id
+            this.form.enterprise_product_id = val.id
         },
         //表单提交方法
         submit () {
             this.$refs.dialogForm.validate(async (valid) => {
                 if (valid) {
                     this.isSaveing = true;
-                    await this.$API.app.planting.save.post(this.form)
+                    await this.$API.app.process.save.post(this.form)
                         .then(res => {
                             this.isSaveing = false;
                             if (res.code == 200) {
@@ -188,17 +181,23 @@ export default {
         //表单注入数据
         setData (data) {
             Object.assign(this.form, data)
-            this.product.value = {
-                id: data.product_id,
-                product_name: data.product_name,
+            if (data.enterprise_product_id > 0) {
+                this.product.value = {
+                    id: data.enterprise_product_id,
+                    product_name: data.enterprise_product_name,
+                }
             }
-            this.staff.value = {
-                id: data.user_id,
-                name: data.staff_name,
+            if (data.process_flow_id > 0) {
+                this.processFlow.value = {
+                    id: data.process_flow_id,
+                    name: data.process_flow_name,
+                }
             }
-            this.productionBase.value = {
-                id: data.production_base_id,
-                name: data.production_base_name,
+            if (data.production_base_id > 0) {
+                this.productionBase.value = {
+                    id: data.production_base_id,
+                    name: data.production_base_name,
+                }
             }
         }
     }

@@ -14,15 +14,22 @@
         <el-main class="nopadding">
             <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
-                <el-table-column label="计划名称" prop="name" width="200"></el-table-column>
-                <el-table-column label="基地" prop="production_base_name" width="200"></el-table-column>
-                <el-table-column label="产出产品" prop="product_name" width="120"></el-table-column>
-                <el-table-column label="负责人" prop="staff_name" width="120"></el-table-column>
-                <el-table-column label="计划结束时间" prop="end_date" width="120"></el-table-column>
+                <el-table-column label="作业内容" prop="assignment_content" width="200"></el-table-column>
+                <el-table-column label="计划" prop="planting_plan_name" width="200"></el-table-column>
+                <el-table-column label="作业时间" prop="start_date" width="220">
+                    <template #default="scope">
+                        <el-tag>{{ scope.row.start_date }}</el-tag> - <el-tag>{{ scope.row.end_date }}</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column label="状态" prop="status" width="120"></el-table-column>
                 <el-table-column label="添加时间" prop="created_at" width="180"></el-table-column>
-                <el-table-column label="操作" fixed="right" align="right" width="170">
+                <el-table-column label="操作" fixed="right" align="right" width="250">
                     <template #default="scope">
                         <el-button-group>
+                            <el-button text type="primary" size="small" :loading="scope.row.$loading"
+                                @click="inputList(scope.row)">资料图片</el-button>
+                            <el-button text type="primary" size="small" :loading="scope.row.$loading"
+                                @click="inputList(scope.row)">投入品</el-button>
                             <el-button text type="primary" size="small" :loading="scope.row.$loading"
                                 @click="edit(scope.row)">编辑</el-button>
                             <el-popconfirm title="确定删除吗？" @confirm="del(scope.row)">
@@ -39,26 +46,33 @@
     </el-container>
 
     <save-dialog v-if="dialog.save" ref="saveDialog" @success="refresh" @closed="dialog.save = false"></save-dialog>
+    <el-drawer v-model="dialog.input" :size="900" :title="inputDrawerTitle" direction="rtl" destroy-on-close>
+        <inputs ref="inputDialog" :assignmentId="currAssignmentId"></inputs>
+    </el-drawer>
 </template>
 
 <script>
 import saveDialog from './save'
+import inputs from './input/list'
 // import permissionDialog from './permission'
 
 export default {
     name: 'role',
     components: {
         saveDialog,
+        inputs
         // permissionDialog
     },
     data () {
         return {
             dialog: {
                 save: false,
-                permission: false
+                input: false
             },
+            inputDrawerTitle: "投入品",
+            currAssignmentId: 0,
             list: {
-                apiObj: this.$API.app.planting.list,
+                apiObj: this.$API.app.plantingAssignment.list,
             },
             search: {
                 keyword: null
@@ -79,6 +93,12 @@ export default {
             this.$nextTick(() => {
                 this.$refs.saveDialog.open('edit').setData(row);
             })
+        },
+
+        inputList (row) {
+            this.currAssignmentId = row.id
+            this.inputDrawerTitle = row.planting_plan_name + "-投入品"
+            this.dialog.input = true
         },
 
         //删除

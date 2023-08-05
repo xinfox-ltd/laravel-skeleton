@@ -1,7 +1,6 @@
 <template>
     <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
-        <el-form :model="form" :rules="rules" :disabled="mode == 'show'" ref="dialogForm" label-width="100px"
-            label-position="right">
+        <el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="right">
             <el-form-item label="投入品名称" prop="name">
                 <el-input v-model="form.name" clearable></el-input>
             </el-form-item>
@@ -73,7 +72,7 @@
         </el-form>
         <template #footer>
             <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode != 'show'" type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
+            <el-button type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
         </template>
     </el-dialog>
 </template>
