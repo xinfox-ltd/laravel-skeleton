@@ -19,7 +19,7 @@
             </el-form-item>
             <el-form-item label="扫描件" prop="scan_file">
                 <sc-upload-multiple v-model="form.scan_file" draggable :limit="5"
-                    tip="最多上传3个文件,单个文件不要超过10M,请上传图像格式文件"></sc-upload-multiple>
+                    tip="最多上传5个文件,单个文件不要超过10M,请上传图像格式文件"></sc-upload-multiple>
             </el-form-item>
         </el-form>
         <template #footer>
@@ -36,9 +36,8 @@ export default {
         return {
             mode: "add",
             titleMap: {
-                add: '新增产品',
-                edit: '编辑产品',
-                show: '查看'
+                add: '新增商标',
+                edit: '编辑商标',
             },
             visible: false,
             isSaveing: false,

@@ -19,10 +19,12 @@
                 <el-table-column label="地区" prop="region" width="120"></el-table-column>
                 <el-table-column label="面积" prop="area" width="120"></el-table-column>
                 <el-table-column label="添加时间" prop="created_at" width="180"></el-table-column>
-                <el-table-column label="操作" fixed="right" align="right" width="170">
+                <el-table-column label="操作" fixed="right" align="right" width="200">
                     <template #default="scope">
                         <el-button-group>
                             <el-button text type="primary" size="small" @click="edit(scope.row)">编辑</el-button>
+                            <el-button text type="primary" size="small" @click="piece(scope.row)">{{ scope.row.type == 1 ?
+                                '地块管理' : '车间管理' }}</el-button>
                             <el-popconfirm title="确定删除吗？" @confirm="del(scope.row)">
                                 <template #reference>
                                     <el-button text type="primary" size="small">删除</el-button>
@@ -37,24 +39,28 @@
     </el-container>
 
     <save-dialog v-if="dialog.save" ref="saveDialog" @success="refresh" @closed="dialog.save = false"></save-dialog>
+    <el-drawer v-model="dialog.piece" :size="900" :title="pieceDrawerTitle" direction="rtl" destroy-on-close>
+        <pieces ref="pieceDialog" :base="currBase"></pieces>
+    </el-drawer>
 </template>
 
 <script>
 import saveDialog from './save'
-// import permissionDialog from './permission'
+import pieces from './piece'
 
 export default {
     name: 'role',
     components: {
         saveDialog,
-        // permissionDialog
+        pieces
     },
     data () {
         return {
             dialog: {
                 save: false,
-                permission: false
+                piece: false
             },
+            pieceDrawerTitle: "",
             list: {
                 apiObj: this.$API.app.productionBase.list,
             },
@@ -77,6 +83,12 @@ export default {
             this.$nextTick(() => {
                 this.$refs.saveDialog.open('edit').setData(row)
             })
+        },
+
+        piece (row) {
+            this.currBase = row
+            this.pieceDrawerTitle = row.name + (row.type == 1 ? '地块列表' : '车间列表')
+            this.dialog.piece = true
         },
 
         //删除

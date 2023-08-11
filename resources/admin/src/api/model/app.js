@@ -18,6 +18,22 @@ export default {
             }
         },
     },
+    baseUnit: {
+        list: {
+            url: `${config.API_URL}/base/units`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/base/units`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+    },
     enterprise: {
         list: {
             url: `${config.API_URL}/enterprises`,
@@ -104,6 +120,22 @@ export default {
                 return await http.post(this.url, data);
             }
         },
+        piece: {
+            list: {
+                url: `${config.API_URL}/bases/:id/pieces`,
+                name: "获取列表",
+                get: async function (id, params = {}) {
+                    return await http.get(this.url.replace(':id', id), params);
+                }
+            },
+            save: {
+                url: `${config.API_URL}/bases/:id/pieces`,
+                name: "保存",
+                post: async function (id, data = {}) {
+                    return await http.post(this.url.replace(':id', id), data);
+                }
+            },
+        }
     },
     dosageForm: {
         list: {
@@ -322,11 +354,11 @@ export default {
                 return await http.get(this.url.replace(":id", id));
             }
         },
-        delete: {
+        destroy: {
             url: `${config.API_URL}/raw-materials/:id`,
             name: "删除",
-            get: async function (id) {
-                return await http.get(this.url.replace(":id", id));
+            delete: async function (id) {
+                return await http.delete(this.url.replace(":id", id));
             }
         }
     },
@@ -352,11 +384,11 @@ export default {
                 return await http.get(this.url.replace(":id", id));
             }
         },
-        delete: {
+        destroy: {
             url: `${config.API_URL}/harvest/plans/:id`,
             name: "删除",
-            get: async function (id) {
-                return await http.get(this.url.replace(":id", id));
+            delete: async function (id) {
+                return await http.delete(this.url.replace(":id", id));
             }
         }
     },
@@ -382,11 +414,11 @@ export default {
                 return await http.get(this.url.replace(":id", id));
             }
         },
-        delete: {
+        destroy: {
             url: `${config.API_URL}/process/flows/:id`,
             name: "删除",
-            get: async function (id) {
-                return await http.get(this.url.replace(":id", id));
+            delete: async function (id) {
+                return await http.delete(this.url.replace(":id", id));
             }
         }
     },
@@ -412,11 +444,11 @@ export default {
                 return await http.get(this.url.replace(":id", id));
             }
         },
-        delete: {
+        destroy: {
             url: `${config.API_URL}/processes/:id`,
             name: "删除",
-            get: async function (id) {
-                return await http.get(this.url.replace(":id", id));
+            delete: async function (id) {
+                return await http.delete(this.url.replace(":id", id));
             }
         }
     },
@@ -442,11 +474,41 @@ export default {
                 return await http.get(this.url.replace(":id", id));
             }
         },
-        delete: {
+        destroy: {
             url: `${config.API_URL}/packages/:id`,
             name: "删除",
+            delete: async function (id) {
+                return await http.delete(this.url.replace(":id", id));
+            }
+        }
+    },
+    detectionReport: {
+        list: {
+            url: `${config.API_URL}/detection/reports`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/detection/reports`,
+            name: "保存",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+        info: {
+            url: `${config.API_URL}/detection/reports/:id`,
+            name: "单个详情",
             get: async function (id) {
                 return await http.get(this.url.replace(":id", id));
+            }
+        },
+        destroy: {
+            url: `${config.API_URL}/detection/reports/:id`,
+            name: "删除",
+            delete: async function (id) {
+                return await http.delete(this.url.replace(":id", id));
             }
         }
     },

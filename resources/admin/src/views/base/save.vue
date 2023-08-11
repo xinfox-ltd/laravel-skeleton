@@ -13,34 +13,31 @@
             <el-form-item label="地区" prop="region">
                 <el-input v-model="form.region" clearable></el-input>
             </el-form-item>
-            <el-form-item label="面积" prop="area">
+            <el-form-item label="规模" prop="area">
                 <el-input v-model="form.area" clearable>
                     <template #append>
-                        <el-select v-model="form.unit" placeholder="请选择" style="width: 95px">
-                            <el-option label="平方米" value="1" />
-                            <el-option label="亩" value="3" />
-                        </el-select>
+                        亩
                     </template>
                 </el-input>
             </el-form-item>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="经度" prop="lng">
-                        <el-input v-model="form.lng" clearable></el-input>
+                    <el-form-item label="自然村数" prop="lng">
+                        <el-input v-model="form.lng" clearable>
+                            <template #append>
+                                个
+                            </template>
+                        </el-input>
                     </el-form-item></el-col>
                 <el-col :span="12">
-                    <el-form-item label="维度" prop="lat">
-                        <el-input v-model="form.lat" clearable></el-input>
+                    <el-form-item label="农户数" prop="lat">
+                        <el-input v-model="form.lat" clearable>
+                            <template #append>
+                                户
+                            </template>
+                        </el-input>
                     </el-form-item></el-col>
             </el-row>
-            <el-form-item label="描述" prop="remark">
-                <el-input type="textarea" :rows="3" v-model="form.remark" maxlength="60" placeholder="请输入描述" show-word-limit
-                    clearable></el-input>
-            </el-form-item>
-            <el-form-item label="基地图片" prop="images">
-                <sc-upload-multiple v-model="form.images" draggable :limit="5"
-                    tip="最多上传3个文件,单个文件不要超过10M,请上传图像格式文件"></sc-upload-multiple>
-            </el-form-item>
         </el-form>
         <template #footer>
             <el-button @click="visible = false">取 消</el-button>
@@ -65,7 +62,7 @@ export default {
             typeOptions: [
                 {
                     value: 1,
-                    label: '生产基地 ',
+                    label: '生产基地',
                 },
                 {
                     value: 2,
