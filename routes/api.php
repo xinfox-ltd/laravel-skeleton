@@ -58,15 +58,25 @@ Route::controller(App\Http\Controllers\ProductController::class)
     );
 
 // 基地
-Route::controller(App\Http\Controllers\ProductionBaseController::class)
-    ->prefix('/bases')
+Route::prefix('/bases')
     ->middleware(['auth:sanctum'])
-    ->group(
-        function () {
-            Route::get('/', 'index');
-            Route::post('/', 'save');
-        }
-    );
+    ->group(function() {
+        Route::controller(App\Http\Controllers\ProductionBaseController::class)
+            ->group(
+                function () {
+                    Route::get('/', 'index');
+                    Route::post('/', 'save');
+                }
+            );
+        Route::controller(App\Http\Controllers\ProductionBaseItemController::class)
+            ->group(
+                function () {
+                    Route::get('/{baseId}/pieces', 'index');
+                    Route::post('/{baseId}/pieces', 'save');
+                }
+            );
+    });
+
 
 Route::controller(App\Http\Controllers\InputCategoryController::class)
     ->prefix('/input/categories')
@@ -247,6 +257,30 @@ Route::controller(App\Http\Controllers\ProcessController::class)
 
 Route::controller(App\Http\Controllers\PackageController::class)
     ->prefix('/packages')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::get('/{id}', 'show')->where(['id' => '\d+']);
+            Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\ReportController::class)
+    ->prefix('/detection/reports')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'save');
+            Route::get('/{id}', 'show')->where(['id' => '\d+']);
+            Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\BaseUnitController::class)
+    ->prefix('/base/units')
     ->middleware(['auth:sanctum'])
     ->group(
         function () {

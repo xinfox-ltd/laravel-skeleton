@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReportCollection;
+use App\Http\Resources\ReportResource;
+use App\Services\ReportService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class ReportController extends Controller
 {
-    public function index()
+    public function __construct(private readonly ReportService $service)
     {
+    }
 
+    public function index(Request $request)
+    {
+        return new ReportCollection($this->service->list($request->user(), $request->all()));
     }
 
     /**
@@ -19,17 +26,17 @@ class ReportController extends Controller
      */
     public function save(Request $request)
     {
-        $this->validate($request, []);
-        return $this->serivce->save($request->post());
+        return $this->service->save($request->user(), $request->post());
     }
 
-    public function show(int $id)
+    public function show(int $id, Request $request)
     {
-
+        return new ReportResource($this->service->getReport($request->user(), $id));
     }
 
-    public function delete(int $id)
+    public function delete(int $id, Request $request)
     {
-
+        $this->service->delete($request->user(), $id);
+        return success();
     }
 }

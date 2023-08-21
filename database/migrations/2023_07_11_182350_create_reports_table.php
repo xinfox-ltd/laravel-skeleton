@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('enterprise_id')->default(0)->comment('企业ID');
             $table->string('name')->comment('报告名称');
-            $table->unsignedBigInteger('product_id')->default(0)->comment('产品ID');
+            $table->unsignedBigInteger('enterprise_product_id')->default(0)->comment('产品ID');
             $table->string('detection_type', 64)->default('')->comment('检测类型');
+            $table->string('detection_institution', 128)->default('')->comment('检测机构');
             $table->boolean('is_qualified')->default(true)->comment('是否合格');
             $table->date('report_date')->nullable()->comment('报告日期');
             $table->string('remark')->default('')->comment('结果说明');

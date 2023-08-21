@@ -262,13 +262,13 @@ return [
         ],
         "children" => [
             [
-                "name" => "detectionList",
-                "path" => "/enterprise/detection/list",
+                "name" => "detectionReportList",
+                "path" => "/enterprise/detection/report/list",
                 "meta" => [
                     "title" => "检测报告",
                     "affix" => false
                 ],
-                "component" => "enterprise/detection"
+                "component" => "enterprise/detection/report"
             ],
         ]
     ],

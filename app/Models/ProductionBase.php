@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProductionBase extends Model
 {
@@ -19,15 +20,15 @@ class ProductionBase extends Model
         'enterprise_id',
         'type',
         'name',
-        'base_no',
-        'director',
-        'phone',
         'region',
-        'village_num',
-        'farmer_num',
         'area',
         'lng',
         'lat',
         'images',
     ];
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(ProductionBaseItem::class);
+    }
 }

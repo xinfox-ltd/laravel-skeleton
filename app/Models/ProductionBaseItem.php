@@ -7,10 +7,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 class ProductionBaseItem extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'production_base_id',
+        'user_id',
+        'name',
+        'regional_location',
+        'area',
+        'lng',
+        'lat',
+        'remark',
+    ];
 }
