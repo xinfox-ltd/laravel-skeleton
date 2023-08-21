@@ -24,7 +24,7 @@ return new class extends Migration
             $table->json('scan_file')->nullable()->comment('检测扫描件');
             $table->timestamps();
             $table->index('enterprise_id');
-            $table->index('product_id');
+            $table->index('enterprise_product_id');
             $table->comment('检测报告');
         });
     }
