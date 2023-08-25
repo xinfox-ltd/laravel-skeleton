@@ -272,4 +272,33 @@ return [
             ],
         ]
     ],
+    [
+        "name" => "traceabilityCodeManage",
+        "path" => "/traceability/code",
+        "meta" => [
+            "title" => "一品一码管理",
+            "icon" => "el-icon-postcard",
+            "type" => "menu"
+        ],
+        "children" => [
+            [
+                "name" => "traceabilityCodeApplicationList",
+                "path" => "/traceability/code/application/list",
+                "meta" => [
+                    "title" => "溯源码申请",
+                    "affix" => false
+                ],
+                "component" => "enterprise/traceabilityCode/application"
+            ],
+            [
+                "name" => "traceabilityCodeList",
+                "path" => "/traceability/code/list",
+                "meta" => [
+                    "title" => "溯源码",
+                    "affix" => false
+                ],
+                "component" => "enterprise/traceabilityCode"
+            ],
+        ]
+    ],
 ];
