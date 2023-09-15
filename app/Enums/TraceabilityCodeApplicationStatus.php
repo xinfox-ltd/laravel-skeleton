@@ -16,8 +16,8 @@ enum TraceabilityCodeApplicationStatus: int
     {
         return match ($this->value) {
             1 => '待审核',
-            2 => '审核不通过',
-            10 => '审核通过',
+            2 => '不通过',
+            10 => '通过',
         };
     }
 }

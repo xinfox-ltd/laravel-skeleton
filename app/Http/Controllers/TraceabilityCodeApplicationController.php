@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TraceabilityCodeApplicationHandleRequest;
 use App\Http\Requests\TraceabilityCodeApplicationRequest;
 use App\Http\Resources\TraceabilityCodeApplicationCollection;
 use App\Http\Resources\TraceabilityCodeApplicationResource;
@@ -43,6 +44,13 @@ class TraceabilityCodeApplicationController extends Controller
     public function delete(Request $request, int $id)
     {
         $this->service->delete($request->user(), $id);
+        return success();
+    }
+
+    public function handle(TraceabilityCodeApplicationHandleRequest $request, int $id)
+    {
+        $data = $request->validationData();
+        $this->service->handle($id, $data['action'], $data['data']);
         return success();
     }
 }

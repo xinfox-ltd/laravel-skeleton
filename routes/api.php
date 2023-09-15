@@ -106,6 +106,7 @@ Route::controller(App\Http\Controllers\TraceabilityCodeApplicationController::cl
         function () {
             Route::get('/', 'index');
             Route::post('/', 'save');
+            Route::post('/{id}/handle', 'handle');
             Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
             Route::get('/{id}', 'show')->where(['id' => '\d+']);
         }
