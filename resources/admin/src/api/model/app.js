@@ -540,6 +540,13 @@ export default {
                 delete: async function (id) {
                     return await http.delete(this.url.replace(":id", id));
                 }
+            },
+            handle: {
+                url: `${config.API_URL}/traceability/code/applications/:id/handle`,
+                name: "处理",
+                post: async function (id, data = {}) {
+                    return await http.post(this.url.replace(':id', id), data);
+                }
             }
         }
     }

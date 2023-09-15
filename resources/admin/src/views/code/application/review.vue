@@ -9,8 +9,8 @@
             </el-form-item>
         </el-form>
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
+            <el-button :loading="isSubmiting" @click="submit('refuse')">退 回</el-button>
+            <el-button type="primary" :loading="isSubmiting" @click="submit('pass')">审核通过</el-button>
         </template>
     </el-dialog>
 </template>
@@ -21,7 +21,7 @@ export default {
     data () {
         return {
             visible: false,
-            isSaveing: false,
+            isSubmiting: false,
             //表单数据
             form: {
                 quantity: 100,
@@ -41,17 +41,22 @@ export default {
         //显示
         open (data) {
             this.visible = true;
+            console.log(data)
             this.form = data
             return this
         },
         //表单提交方法
-        submit () {
+        submit (action) {
             this.$refs.dialogForm.validate(async (valid) => {
                 if (valid) {
-                    this.isSaveing = true;
-                    await this.$API.app.traceabilityCode.applyfor.save.post(this.form)
+                    this.isSubmiting = true;
+                    const data = {
+                        action,
+                        data: this.form
+                    };
+                    await this.$API.app.traceabilityCode.applyfor.handle.post(this.form.id, data)
                         .then(res => {
-                            this.isSaveing = false;
+                            this.isSubmiting = false;
                             if (res.code == 200) {
                                 this.$emit('success')
                                 this.visible = false;
@@ -61,16 +66,12 @@ export default {
                             }
                         })
                         .catch(() => {
-                            this.isSaveing = false;
+                            this.isSubmiting = false;
                         });
 
                 }
             })
         },
-        //表单注入数据
-        setData (data) {
-            Object.assign(this.form, data)
-        }
     }
 }
 </script>
