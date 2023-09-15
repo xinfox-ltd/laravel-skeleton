@@ -512,4 +512,35 @@ export default {
             }
         }
     },
+    traceabilityCode: {
+        applyfor: {
+            list: {
+                url: `${config.API_URL}/traceability/code/applications`,
+                name: "获取列表",
+                get: async function (params = {}) {
+                    return await http.get(this.url, params);
+                }
+            },
+            save: {
+                url: `${config.API_URL}/traceability/code/applications`,
+                name: "保存",
+                post: async function (data = {}) {
+                    return await http.post(this.url, data);
+                }
+            },
+            info: {
+                url: `${config.API_URL}/traceability/code/applications/:id`,
+                get: async function (id) {
+                    return await http.get(this.url.replace(":id", id));
+                }
+            },
+            destroy: {
+                url: `${config.API_URL}/traceability/code/applications/:id`,
+                name: "删除",
+                delete: async function (id) {
+                    return await http.delete(this.url.replace(":id", id));
+                }
+            }
+        }
+    }
 }
