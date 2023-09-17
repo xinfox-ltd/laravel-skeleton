@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('traceability_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 32)->default('')->comment('验证码');
+            $table->string('code', 128)->default('')->comment('验证码');
             $table->bigInteger('enterprise_id')->default(0)->comment('企业ID');
             $table->unsignedInteger('effective_day')->default(0)->comment('有效天数');
             $table->date('enable_date')->nullable()->comment('启用日期');

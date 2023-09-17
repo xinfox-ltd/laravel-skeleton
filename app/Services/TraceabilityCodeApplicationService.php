@@ -12,6 +12,7 @@ use App\Jobs\GenerateTraceabilityCode;
 use App\Models\TraceabilityCodeApplication;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\ValidationException;
 
 class TraceabilityCodeApplicationService
@@ -56,18 +57,22 @@ class TraceabilityCodeApplicationService
      * @param array $data
      * @return TraceabilityCodeApplication
      */
-    public function handle(int $id, string $action, array $data)
+    public function handle(int $id, string $action, array $data): TraceabilityCodeApplication
     {
        $applyfor = TraceabilityCodeApplication::findOrFail($id);
        switch ($action) {
            case 'pass':
                $applyfor->status = TraceabilityCodeApplicationStatus::Approved;
+               $applyfor->grant_quantity = $data['grant_quantity'];
+               $applyfor->start_number = $data['start_number'];
+               $applyfor->audit_at = Carbon::now();
                $applyfor->save();
 
                GenerateTraceabilityCode::dispatch($applyfor);
                break;
            case 'refuse':
                $applyfor->status = TraceabilityCodeApplicationStatus::ApplicationDenied;
+               $applyfor->audit_at = Carbon::now();
                $applyfor->save();
                break;
            default:

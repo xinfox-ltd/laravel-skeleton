@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function (Request $request) {
+    \App\Jobs\GenerateTraceabilityCode::dispatch(\App\Models\TraceabilityCodeApplication::findOrFail(1));
     return response()->success(['version' => app()->version()]);
 });
 
