@@ -1,11 +1,11 @@
 <template>
     <el-dialog title="审核" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
         <el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="right">
-            <el-form-item label="溯源码数量" prop="quantity">
-                <el-input-number v-model="form.quantity" :min="1" :max="99999"></el-input-number>
+            <el-form-item label="溯源码数量" prop="grant_quantity">
+                <el-input-number v-model="form.grant_quantity" :min="1" :max="99999"></el-input-number>
             </el-form-item>
-            <el-form-item label="开始编码" prop="remark">
-                <el-input v-model="form.remark" clearable></el-input>
+            <el-form-item label="开始编码" prop="start_number">
+                <el-input v-model="form.start_number" clearable></el-input>
             </el-form-item>
         </el-form>
         <template #footer>
@@ -43,6 +43,7 @@ export default {
             this.visible = true;
             console.log(data)
             this.form = data
+            this.form.grant_quantity = data.quantity;
             return this
         },
         //表单提交方法
