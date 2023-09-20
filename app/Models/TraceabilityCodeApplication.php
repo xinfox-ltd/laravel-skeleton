@@ -20,6 +20,10 @@ class TraceabilityCodeApplication extends Model
         'remark',
     ];
 
+    protected $casts = [
+        'audit_at' => 'datetime'
+    ];
+
     protected $appends = [
         'status_label'
     ];

@@ -14,15 +14,22 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProductionBaseItemService
 {
-    public function list(User $user, int $id, array $params): Collection
+    public function list(User $user, array $params): Collection
     {
-        return ProductionBase::where('enterprise_id', $user->enterprise_id)
-            ->where('id', $id)
-            ->firstOrFail()
-            ->items()
-            ->when($params['keyword'] ?? null, function ($query, $keyword) {
+        $baseId = $params['base_id'] ?? 0;
+        if ($baseId) {
+            $query = ProductionBase::where('enterprise_id', $user->enterprise_id)
+                ->where('id', $baseId)
+                ->firstOrFail()
+                ->items();
+        } else {
+            $query = ProductionBaseItem::where('enterprise_id', $user->enterprise_id);
+        }
+
+        return $query->when($params['keyword'] ?? null, function ($query, $keyword) {
                 $query->where('name', 'LIKE', "%$keyword%");
             })
+            ->with(['manager'])
             ->orderBy('id', 'DESC')
             ->get();
     }
@@ -30,6 +37,7 @@ class ProductionBaseItemService
     public function save(User $user, array $data)
     {
         $data['remark'] ??= '';
+        $data['regional_location'] ??= '';
 
         if (empty($data['id'])) {
             $data['enterprise_id'] = $user->enterprise_id;
@@ -41,7 +49,7 @@ class ProductionBaseItemService
         }
     }
 
-    public function delete(User $user, int $id): void
+    public function delete(User $user, int $baseId, int $id): void
     {
         $this->getProductionBaseItem($user, $id)->delete();
     }

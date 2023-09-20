@@ -15,10 +15,11 @@ class ProductionBaseItemRequest extends FormRequest
     {
         return [
             'id' => ['nullable', 'integer'],
-            'user_id' => ['required', 'integer'],
+            'enterprise_staff_id' => ['required', 'integer'],
             'name' => ['required'],
-            'regional_location' => ['required'],
+            'regional_location' => ['nullable', 'string'],
             'area' => ['required'],
+            'area_unit' => ['required'],
             'lng' => ['nullable', 'numeric'],
             'lat' => ['nullable', 'numeric'],
             'remark' => ['nullable'],

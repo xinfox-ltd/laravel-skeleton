@@ -19,13 +19,15 @@ class ProductionBaseItemResource extends JsonResource
         return [
             'id' => $this->id,
             'production_base_id' => $this->production_base_id,
-            'user_id' => $this->user_id,
+            'enterprise_staff_id' => $this->enterprise_staff_id,
             'name' => $this->name,
             'regional_location' => $this->regional_location,
             'area' => $this->area,
+            'area_unit' => $this->area_unit,
             'lng' => $this->lng,
             'lat' => $this->lat,
             'remark' => $this->remark,
+            'manager' => $this->whenLoaded('manager'),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at,
         ];

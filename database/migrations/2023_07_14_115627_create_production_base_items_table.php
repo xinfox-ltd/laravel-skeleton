@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('production_base_items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('production_base_id')->comment('基地ID');
-            $table->unsignedBigInteger('user_id')->default(0)->comment('负责人ID');
+            $table->unsignedBigInteger('enterprise_staff_id')->default(0)->comment('负责人ID');
             $table->string('name', 128)->comment('车间/地块名称');
             $table->string('regional_location')->default('')->comment('区域位置');
             $table->string('area', 128)->default('')->comment('面积');

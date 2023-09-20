@@ -19,13 +19,21 @@ class ProductionBaseItemController extends Controller
     {
     }
 
-    public function index(int $baseId, Request $request)
+    public function index(Request $request)
     {
-        return new ProductionBaseItemCollection($this->service->list($request->user(), $baseId, $request->all()));
+        return new ProductionBaseItemCollection($this->service->list($request->user(), $request->all()));
     }
 
-    public function save(ProductionBaseItemRequest $request)
+    public function save(int $baseId, ProductionBaseItemRequest $request)
     {
-        return new ProductionBaseItemResource($this->service->save($request->user(), $request->validated()));
+        $data = $request->validationData();
+        $data['production_base_id'] = $baseId;
+        return new ProductionBaseItemResource($this->service->save($request->user(), $data));
+    }
+
+    public function delete(int $baseId, int $id, Request $request)
+    {
+        $this->service->delete($request->user(), $baseId, $id);
+        return success();
     }
 }
