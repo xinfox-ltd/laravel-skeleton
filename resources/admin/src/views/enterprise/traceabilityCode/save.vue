@@ -1,25 +1,94 @@
 <template>
     <el-dialog :title="titleMap[mode]" v-model="visible" :width="600" destroy-on-close @closed="$emit('closed')">
-        <el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="right">
-            <el-form-item label="商标名称" prop="name">
-                <el-input v-model="form.name" clearable></el-input>
+        <el-form :model="form" :rules="rules" ref="dialogForm" label-width="120px" label-position="right">
+            <el-form-item label="有效期" prop="effective_day">
+                <el-input-number v-model="form.effective_day" :min="1" :max="999" />
             </el-form-item>
-            <el-form-item label="注册号" prop="registration_no">
-                <el-input v-model="form.registration_no" clearable></el-input>
+            <el-form-item label="采收计划" prop="harvest_plan_id">
+                <sc-table-select v-model="harvestPlan.value" :apiObj="harvestPlan.apiObj" :params="harvestPlan.params"
+                    :table-width="700" clearable collapse-tags collapse-tags-tooltip :props="harvestPlan.props"
+                    @change="onHarvestPlan">
+                    <template #header="{ form, submit }">
+                        <el-form :inline="true" :model="form">
+                            <el-form-item>
+                                <el-input v-model="form.keyword" placeholder="姓名" clearable></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="submit">查询</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </template>
+                    <el-table-column label="计划" prop="name" width="150"></el-table-column>
+                    <el-table-column prop="created_at" label="添加时间"></el-table-column>
+                </sc-table-select>
             </el-form-item>
-            <el-form-item label="国际分类" prop="icd">
+            <el-form-item label="种植地块" prop="base_piece_id">
+                <el-select v-model="form.base_piece_id" placeholder="选择种植地块">
+                    <el-option v-for="item in basePieces" :key="item.id" :label="item.name" :value="item.id" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="加工类型" prop="process_id">
+                <sc-table-select v-model="processingType.value" :apiObj="processingType.apiObj"
+                    :params="processingType.params" :table-width="700" clearable collapse-tags collapse-tags-tooltip
+                    :props="processingType.props" @change="onProcessingType">
+                    <template #header="{ form, submit }">
+                        <el-form :inline="true" :model="form">
+                            <el-form-item>
+                                <el-input v-model="form.keyword" placeholder="姓名" clearable></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="submit">查询</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </template>
+                    <el-table-column label="计划" prop="name" width="150"></el-table-column>
+                    <el-table-column prop="created_at" label="添加时间"></el-table-column>
+                </sc-table-select>
+            </el-form-item>
+            <el-form-item label="开始加工日期" prop="valid_date">
+                <el-date-picker v-model="form.valid_date" type="date" placeholder="结束日期" value-format="YYYY-MM-DD" />
+            </el-form-item>
+            <el-form-item label="结束加工日期" prop="process_end_date">
+                <el-date-picker v-model="form.process_end_date" type="date" placeholder="结束日期" value-format="YYYY-MM-DD" />
+            </el-form-item>
+            <!-- <el-form-item label="产品等级" prop="icd">
                 <el-input v-model="form.icd" clearable></el-input>
+            </el-form-item> -->
+            <el-form-item label="外包装规格" prop="package_id">
+                <sc-table-select v-model="productPackage.value" :apiObj="productPackage.apiObj"
+                    :params="productPackage.params" :table-width="700" clearable collapse-tags collapse-tags-tooltip
+                    :props="productPackage.props" @change="onPackageChange">
+                    <template #header="{ form, submit }">
+                        <el-form :inline="true" :model="form">
+                            <el-form-item>
+                                <el-input v-model="form.keyword" placeholder="姓名" clearable></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="submit">查询</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </template>
+                    <el-table-column label="计划" prop="name" width="150"></el-table-column>
+                    <el-table-column prop="created_at" label="添加时间"></el-table-column>
+                </sc-table-select>
             </el-form-item>
-            <el-form-item label="颁证机构" prop="awarding_bodies">
-                <el-input v-model="form.awarding_bodies" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="有效期" prop="valid_date">
-                <el-date-picker v-model="form.valid_date" type="daterange" range-separator="到" start-placeholder="开始日期"
-                    end-placeholder="结束日期" value-format="YYYY-MM-DD" />
-            </el-form-item>
-            <el-form-item label="扫描件" prop="scan_file">
-                <sc-upload-multiple v-model="form.scan_file" draggable :limit="5"
-                    tip="最多上传5个文件,单个文件不要超过10M,请上传图像格式文件"></sc-upload-multiple>
+            <el-form-item label="检测报告" prop="report_id">
+                <sc-table-select v-model="detectionReport.value" :apiObj="detectionReport.apiObj"
+                    :params="detectionReport.params" :table-width="700" clearable collapse-tags collapse-tags-tooltip
+                    :props="detectionReport.props" @change="onReportChange">
+                    <template #header="{ form, submit }">
+                        <el-form :inline="true" :model="form">
+                            <el-form-item>
+                                <el-input v-model="form.keyword" placeholder="姓名" clearable></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="submit">查询</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </template>
+                    <el-table-column label="计划" prop="name" width="150"></el-table-column>
+                    <el-table-column prop="created_at" label="添加时间"></el-table-column>
+                </sc-table-select>
             </el-form-item>
         </el-form>
         <template #footer>
@@ -36,25 +105,79 @@ export default {
         return {
             mode: "add",
             titleMap: {
-                add: '新增商标',
-                edit: '编辑商标',
+                add: '新增',
+                edit: '编辑',
             },
             visible: false,
             isSaveing: false,
+            harvestPlan: {
+                value: {},
+                apiObj: this.$API.app.harvestPlan.list,
+                params: {},
+                props: {
+                    label: 'name',
+                    value: 'id',
+                    keyword: "keyword"
+                }
+            },
+            processingType: {
+                value: {},
+                apiObj: this.$API.app.process.list,
+                params: {},
+                props: {
+                    label: 'name',
+                    value: 'id',
+                    keyword: "keyword"
+                }
+            },
+            detectionReport: {
+                value: {},
+                apiObj: this.$API.app.detectionReport.list,
+                params: {},
+                props: {
+                    label: 'name',
+                    value: 'id',
+                    keyword: "keyword"
+                }
+            },
+            productPackage: {
+                value: {},
+                apiObj: this.$API.app.package.list,
+                params: {},
+                props: {
+                    label: 'name',
+                    value: 'id',
+                    keyword: "keyword"
+                }
+            },
+            basePieces: [],
             //表单数据
             form: {
-                name: "",
+                effective_day: 0,
+                harvest_plan_id: 0,
+                report_id: 0,
+                package_id: 0,
+                process_id: 0,
             },
             //验证规则
             rules: {
-                name: [
+                effective_day: [
                     { required: true, message: '请输入证书名称', trigger: 'change' }
                 ],
+                harvest_plan_id: [
+                    { required: true, message: '请选择采收计划', trigger: 'change' }
+                ],
+                package_id: [
+                    { required: true, message: '请选择外包装规格', trigger: 'change' }
+                ],
+                process_id: [
+                    { required: true, message: '请选择加工类型', trigger: 'change' }
+                ]
             }
         }
     },
     mounted () {
-
+        this.getProductionBasePieceList();
     },
     methods: {
         //显示
@@ -63,16 +186,30 @@ export default {
             this.visible = true;
             return this
         },
-        onProductChange (val) {
-            console.log(val);
-            this.form.product_id = val.id
+        onHarvestPlan (val) {
+            this.form.harvest_plan_id = val.id
+        },
+        onReportChange (val) {
+            this.form.report_id = val.id
+        },
+        onPackageChange (val) {
+            this.form.package_id = val.id
+        },
+        onProcessingType (val) {
+            this.form.process_id = val.id
+        },
+        getProductionBasePieceList () {
+            this.$API.app.productionBase.piece.list.get()
+                .then(res => {
+                    this.basePieces = res.data
+                })
         },
         //表单提交方法
         submit () {
             this.$refs.dialogForm.validate(async (valid) => {
                 if (valid) {
                     this.isSaveing = true;
-                    await this.$API.app.trademark.save.post(this.form)
+                    await this.$API.app.traceabilityCode.save.post(this.form)
                         .then(res => {
                             this.isSaveing = false;
                             if (res.code == 200) {
@@ -93,6 +230,18 @@ export default {
         //表单注入数据
         setData (data) {
             Object.assign(this.form, data)
+            if (data.harvest_plan) {
+                this.harvestPlan.value = data.harvest_plan
+            }
+            if (data.report) {
+                this.detectionReport.value = data.report
+            }
+            if (data.package) {
+                this.productPackage.value = data.package
+            }
+            if (data.process) {
+                this.processingType.value = data.process
+            }
         }
     }
 }

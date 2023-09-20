@@ -22,7 +22,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="申请时间" prop="created_at" width="180"></el-table-column>
-                <el-table-column label="审核时间" prop="updated_at" width="180"></el-table-column>
+                <el-table-column label="审核时间" prop="audit_at" width="180"></el-table-column>
                 <el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
                 <el-table-column label="操作" fixed="right" align="right" width="170">
                     <template #default="scope">

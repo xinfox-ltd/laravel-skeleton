@@ -1,12 +1,12 @@
 <template>
     <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
-        <el-form :model="form" :rules="rules" ref="dialogForm" label-width="110px" label-position="right">
-            <el-form-item label="基地名称" prop="name">
+        <el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="right">
+            <el-form-item label="地块名称" prop="name">
                 <el-input v-model="form.name" clearable></el-input>
             </el-form-item>
-            <el-form-item label="基地单元" prop="user_id">
+            <el-form-item label="基地单元" prop="base_unit_id">
                 <sc-table-select v-model="staff.value" :apiObj="staff.apiObj" :params="staff.params" :table-width="700"
-                    clearable collapse-tags collapse-tags-tooltip :props="staff.props" @change="onStaffChange">
+                    clearable collapse-tags collapse-tags-tooltip :props="staff.props" @change="onBaseUnit">
                     <template #header="{ form, submit }">
                         <el-form :inline="true" :model="form">
                             <el-form-item>
@@ -22,15 +22,15 @@
                     <el-table-column prop="created_at" label="添加时间"></el-table-column>
                 </sc-table-select>
             </el-form-item>
-            <el-form-item label="地区" prop="region">
-                <el-input v-model="form.region" clearable></el-input>
+            <el-form-item label="地区" prop="regional_location">
+                <el-input v-model="form.regional_location" clearable></el-input>
             </el-form-item>
             <el-form-item label="面积" prop="area">
                 <el-input v-model="form.area" clearable>
                     <template #append>
-                        <el-select v-model="form.unit" placeholder="请选择" style="width: 95px">
-                            <el-option label="平方米" value="1" />
-                            <el-option label="亩" value="3" />
+                        <el-select v-model="form.area_unit" placeholder="请选择" style="width: 95px">
+                            <el-option label="亩" :value="1" />
+                            <el-option label="平方米" :value="2" />
                         </el-select>
                     </template>
                 </el-input>
@@ -45,7 +45,7 @@
                         <el-input v-model="form.lat" clearable></el-input>
                     </el-form-item></el-col>
             </el-row>
-            <el-form-item label="负责人" prop="user_id">
+            <el-form-item label="负责人" prop="enterprise_staff_id">
                 <sc-table-select v-model="staff.value" :apiObj="staff.apiObj" :params="staff.params" :table-width="700"
                     clearable collapse-tags collapse-tags-tooltip :props="staff.props" @change="onStaffChange">
                     <template #header="{ form, submit }">
@@ -78,9 +78,6 @@
 <script>
 export default {
     emits: ['success', 'closed'],
-    props: {
-        assignmentId: Number
-    },
     data () {
         return {
             mode: "add",
@@ -90,16 +87,7 @@ export default {
             },
             visible: false,
             isSaveing: false,
-            inputList: {
-                value: {},
-                apiObj: this.$API.app.input.list,
-                params: {},
-                props: {
-                    label: 'name',
-                    value: 'id',
-                    keyword: "keyword"
-                }
-            },
+            baseId: 0,
             staff: {
                 value: {},
                 apiObj: this.$API.app.enterprise.staff.list,
@@ -112,21 +100,18 @@ export default {
             },
             //表单数据
             form: {
-                assignment_content: "",
-                input_id: "",
-                method: "",
-                input_date: ""
+                id: 0,
             },
             //验证规则
             rules: {
-                input_id: [
-                    { required: true, message: '请选择投入品' }
+                name: [
+                    { required: true, message: '请填写地块名称' }
                 ],
-                quantity: [
-                    { required: true, message: '请填写使用量' }
+                area: [
+                    { required: true, message: '请填写面积' }
                 ],
-                method: [
-                    { required: true, message: '请填写使(施)用方法' }
+                area_unit: [
+                    { required: true, message: '请选择面积单位' }
                 ]
             }
         }
@@ -140,16 +125,28 @@ export default {
             this.visible = true;
             return this
         },
-        onInputListChange (val) {
+        setBaseId (baseId) {
+            this.baseId = baseId
+            return this
+        },
+        onBaseUnit (val) {
             console.log(val);
             this.form.input_id = val.id
+        },
+        onStaffChange (data) {
+            console.log(data)
+            this.form.enterprise_staff_id = data.id
         },
         //表单提交方法
         submit () {
             this.$refs.dialogForm.validate(async (valid) => {
                 if (valid) {
+                    if (!this.form.area_unit) {
+                        this.$alert('请选择地块面积单位', "提示", { type: 'error' })
+                        return;
+                    }
                     this.isSaveing = true;
-                    await this.$API.app.productionBase.piece.save.post(this.assignmentId, this.form)
+                    await this.$API.app.productionBase.piece.save.post(this.baseId, this.form)
                         .then(res => {
                             this.isSaveing = false;
                             if (res.code == 200) {
@@ -170,9 +167,9 @@ export default {
         //表单注入数据
         setData (data) {
             Object.assign(this.form, data)
-            this.inputList.value = {
-                id: data.input_id,
-                name: data.input_name,
+            this.staff.value = {
+                id: data.manager.id,
+                name: data.manager.name,
             }
         }
     }

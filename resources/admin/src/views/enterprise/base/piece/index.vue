@@ -14,15 +14,13 @@
         <el-main class="nopadding">
             <scTable ref="table" v-loading="loading" :data="data" row-key="id" hidePagination hideDo stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
-                <el-table-column label="名称" prop="input_name" width="200"></el-table-column>
-                <el-table-column label="面积" prop="quantity" width="120"></el-table-column>
-                <el-table-column label="负责人" prop="method" width="150"></el-table-column>
-                <el-table-column label="描述" prop="method" width="150"></el-table-column>
-                <el-table-column label="添加时间" prop="input_date" width="220">
-                    <template #default="scope">
-                        <el-tag>{{ scope.row.input_date[0] }}</el-tag> - <el-tag>{{ scope.row.input_date[1] }}</el-tag>
-                    </template>
+                <el-table-column label="名称" prop="name" width="200"></el-table-column>
+                <el-table-column label="面积" prop="area" width="120">
+                    <template #default="scope">{{ scope.row.area }}</template>
                 </el-table-column>
+                <el-table-column label="负责人" prop="manager.name" width="150"></el-table-column>
+                <el-table-column label="描述" prop="remark" width="150"></el-table-column>
+                <el-table-column label="添加时间" prop="created_at" width="150"></el-table-column>
                 <el-table-column label="操作" fixed="right" align="right" width="140">
                     <template #default="scope">
                         <el-button-group>
@@ -41,15 +39,14 @@
         </el-main>
     </el-container>
 
-    <save-dialog v-if="dialog.save" ref="saveDialog" @success="refresh" :assignmentId="assignmentId"
-        @closed="dialog.save = false"></save-dialog>
+    <save-dialog v-if="dialog.save" ref="saveDialog" @success="refresh" @closed="dialog.save = false"></save-dialog>
 </template>
 
 <script>
 import saveDialog from './save'
 
 export default {
-    name: 'role',
+    name: 'pieceList',
     components: {
         saveDialog,
     },
@@ -70,12 +67,13 @@ export default {
         }
     },
     mounted () {
-        this.getInputList();
+        this.getProductionBasePieceList();
     },
     methods: {
-        getInputList () {
+        getProductionBasePieceList () {
             this.loading = true
-            this.$API.app.productionBase.piece.list.get(this.base.id, this.search)
+            this.search.base_id = this.base.id;
+            this.$API.app.productionBase.piece.list.get(this.search)
                 .then(res => {
                     this.loading = false
                     console.log(res);
@@ -90,21 +88,21 @@ export default {
         add () {
             this.dialog.save = true
             this.$nextTick(() => {
-                this.$refs.saveDialog.open()
+                this.$refs.saveDialog.open().setBaseId(this.base.id)
             })
         },
         //编辑
         edit (row) {
             this.dialog.save = true
             this.$nextTick(() => {
-                this.$refs.saveDialog.open('edit').setData(row);
+                this.$refs.saveDialog.open('edit').setBaseId(this.base.id).setData(row);
             })
         },
 
         //删除
         del (row) {
             row.$loading = true;
-            this.$API.app.plantingAssignment.input.destroy.delete(this.assignmentId, row.id)
+            this.$API.app.productionBase.piece.clear.delete(this.base.id, row.id)
                 .then(res => {
                     row.$loading = false
                     if (res.code == 200) {
@@ -127,7 +125,7 @@ export default {
 
         //本地更新数据
         refresh () {
-            this.getInputList()
+            this.getProductionBasePieceList()
         }
     }
 }
