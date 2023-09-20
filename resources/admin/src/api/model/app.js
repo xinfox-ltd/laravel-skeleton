@@ -122,10 +122,10 @@ export default {
         },
         piece: {
             list: {
-                url: `${config.API_URL}/bases/:id/pieces`,
+                url: `${config.API_URL}/base/pieces`,
                 name: "获取列表",
-                get: async function (id, params = {}) {
-                    return await http.get(this.url.replace(':id', id), params);
+                get: async function (params = {}) {
+                    return await http.get(this.url, params);
                 }
             },
             save: {
@@ -133,6 +133,13 @@ export default {
                 name: "保存",
                 post: async function (id, data = {}) {
                     return await http.post(this.url.replace(':id', id), data);
+                }
+            },
+            clear: {
+                url: `${config.API_URL}/bases/:baseid/pieces/:id`,
+                name: "删除",
+                delete: async function (baseid, id) {
+                    return await http.delete(this.url.replace(':baseid', baseid).replace(':id', id));
                 }
             },
         }
@@ -548,6 +555,27 @@ export default {
                     return await http.post(this.url.replace(':id', id), data);
                 }
             }
-        }
+        },
+        list: {
+            url: `${config.API_URL}/traceability/codes`,
+            name: "获取列表",
+            get: async function (params = {}) {
+                return await http.get(this.url, params);
+            }
+        },
+        save: {
+            url: `${config.API_URL}/traceability/codes`,
+            name: "编辑",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        },
+        operate: {
+            url: `${config.API_URL}/traceability/codes/:id/operate`,
+            name: "操作",
+            post: async function (id, data = {}) {
+                return await http.post(this.url.replace(':id', id), data);
+            }
+        },
     }
 }
