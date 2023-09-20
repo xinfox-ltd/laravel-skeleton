@@ -61,7 +61,7 @@ Route::controller(App\Http\Controllers\ProductController::class)
 // 基地
 Route::prefix('/bases')
     ->middleware(['auth:sanctum'])
-    ->group(function() {
+    ->group(function () {
         Route::controller(App\Http\Controllers\ProductionBaseController::class)
             ->group(
                 function () {
@@ -73,7 +73,20 @@ Route::prefix('/bases')
             ->group(
                 function () {
                     Route::get('/{baseId}/pieces', 'index');
-                    Route::post('/{baseId}/pieces', 'save');
+                    Route::post('/{baseId}/pieces', 'save')->where(['baseId' => '\d+']);
+                    Route::delete('/{baseId}/pieces/{id}', 'delete')
+                        ->where(['baseId' => '\d+', 'id' => '\d+']);
+                }
+            );
+    });
+
+Route::prefix('/base/pieces')
+    ->middleware(['auth:sanctum'])
+    ->group(function () {
+        Route::controller(App\Http\Controllers\ProductionBaseItemController::class)
+            ->group(
+                function () {
+                    Route::get('/', 'index');
                 }
             );
     });
@@ -292,5 +305,16 @@ Route::controller(App\Http\Controllers\BaseUnitController::class)
             Route::post('/', 'save');
             Route::get('/{id}', 'show')->where(['id' => '\d+']);
             Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\TraceabilityCodeController::class)
+    ->prefix('/traceability/codes')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/{id}/operate', 'operate')->where(['id' => '\d+']);
+            Route::post('/', 'save');
         }
     );
