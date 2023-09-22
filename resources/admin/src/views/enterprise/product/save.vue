@@ -19,6 +19,16 @@
                     <el-table-column prop="created_at" label="添加时间"></el-table-column>
                 </sc-table-select>
             </el-form-item>
+            <el-form-item label="品牌" prop="trademark_id">
+                <el-select v-model="form.trademark_id" placeholder="选择商标/品牌" v-loading="trademarkLoading"
+                    style="width: 100%;">
+                    <el-option v-for="item in trademarks" :key="item.id"
+                        :label="item.name + '(' + item.registration_no + ')'" :value="item.id" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="质保期" prop="warranty_period">
+                <el-input v-model="form.warranty_period"></el-input>
+            </el-form-item>
             <el-form-item label="产品图片" prop="images">
                 <sc-upload-multiple v-model="form.images" draggable :limit="5"
                     tip="最多上传3个文件,单个文件不要超过10M,请上传图像格式文件"></sc-upload-multiple>
@@ -44,6 +54,8 @@ export default {
             },
             visible: false,
             isSaveing: false,
+            trademarkLoading: false,
+            trademarks: [],
             product: {
                 value: {},
                 apiObj: this.$API.app.product.list,
@@ -64,13 +76,30 @@ export default {
                 product_id: [
                     { required: true, message: '请选择产品', trigger: 'change' }
                 ],
+                trademark_id: [
+                    { required: true, message: '请选择品牌', trigger: 'change' }
+                ],
+                warranty_period: [
+                    { required: true, message: '请填写质保期', trigger: 'change' }
+                ]
             }
         }
     },
     mounted () {
-
+        this.getTrademarkList();
     },
     methods: {
+        getTrademarkList () {
+            this.trademarkLoading = true
+            this.$API.app.trademark.list.get({ simple: true })
+                .then(res => {
+                    this.trademarkLoading = false
+                    this.trademarks = res.data
+                })
+                .catch(() => {
+                    this.trademarkLoading = false
+                })
+        },
         //显示
         open (mode = 'add') {
             this.mode = mode;
@@ -107,6 +136,13 @@ export default {
         //表单注入数据
         setData (data) {
             Object.assign(this.form, data)
+            if (data.trademark_id == 0) {
+                this.form.trademark_id = ''
+            }
+            this.product.value = {
+                id: data.product_id,
+                name: data.product_name
+            }
         }
     }
 }

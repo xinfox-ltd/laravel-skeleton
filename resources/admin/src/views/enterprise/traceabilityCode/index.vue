@@ -16,16 +16,15 @@
                 <el-table-column label="序号" prop="serial_number" width="160"></el-table-column>
                 <el-table-column label="验证码" prop="code" width="160"></el-table-column>
                 <el-table-column label="有效期（天）" prop="effective_day" width="100"></el-table-column>
-                <el-table-column label="启用日期" prop="enable_date" width="200"></el-table-column>
+                <el-table-column label="启用日期" prop="enable_date" width="120"></el-table-column>
                 <el-table-column label="失效日期" prop="expire_date" width="120"></el-table-column>
-                <el-table-column label="产品" prop="valid_date[0]" width="120"></el-table-column>
-                <el-table-column label="种植地块" prop="valid_date[0]" width="120"></el-table-column>
-                <el-table-column label="采收计划" prop="valid_date[0]" width="120"></el-table-column>
-                <el-table-column label="加工类型" prop="valid_date[0]" width="120"></el-table-column>
+                <el-table-column label="产品" prop="product.name" width="120"></el-table-column>
+                <el-table-column label="种植地块" prop="production_base_item.name" width="120"></el-table-column>
+                <el-table-column label="采收计划" prop="harvest_plan.name" width="120"></el-table-column>
+                <el-table-column label="加工类型" prop="process.name" width="120"></el-table-column>
                 <el-table-column label="开始加工日期" prop="valid_date[0]" width="120"></el-table-column>
-                <el-table-column label="结束加工日期" prop="valid_date[0]" width="120"></el-table-column>
-                <el-table-column label="外包装规格" prop="valid_date[0]" width="120"></el-table-column>
-                <el-table-column label="等级" prop="valid_date[0]" width="120"></el-table-column>
+                <el-table-column label="结束加工日期" prop="process_end_date" width="120"></el-table-column>
+                <el-table-column label="外包装规格" prop="package.name" width="120"></el-table-column>
                 <el-table-column label="状态" prop="status" width="120">
                     <template #default="scope">
                         <el-tag type="info" v-if="scope.row.status == 1">{{ scope.row.status_label }}</el-tag>
@@ -113,6 +112,10 @@ export default {
 
         //操作
         operate (action, row) {
+            if (action == 'enable' && !row.is_can_enabled) {
+                this.$alert('该溯源码未设置完成，无法启用', "提示", { type: 'error' })
+                return;
+            }
             var reqData = { action }
             this.$API.app.traceabilityCode.operate.post(row.id, reqData).then(res => {
                 if (res.code == 200) {

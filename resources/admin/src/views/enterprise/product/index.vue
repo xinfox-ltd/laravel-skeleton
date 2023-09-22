@@ -15,8 +15,8 @@
             <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
                 <el-table-column label="产品名称" prop="product_name" width="200"></el-table-column>
-                <el-table-column label="品牌" prop="type_label" width="100"></el-table-column>
-                <el-table-column label="保质期" prop="region" width="120"></el-table-column>
+                <el-table-column label="品牌" prop="trademark.name" width="200"></el-table-column>
+                <el-table-column label="保质期" prop="warranty_period" width="120"></el-table-column>
                 <el-table-column label="添加时间" prop="created_at" width="180"></el-table-column>
                 <el-table-column label="操作" fixed="right" align="right" width="170">
                     <template #default="scope">
@@ -79,15 +79,20 @@ export default {
         },
 
         //删除
-        async table_del (row) {
-            var reqData = { id: row.id }
-            var res = await this.$API.demo.post.post(reqData);
-            if (res.code == 200) {
-                this.$refs.table.refresh()
-                this.$message.success("删除成功")
-            } else {
-                this.$alert(res.message, "提示", { type: 'error' })
-            }
+        del (row) {
+            this.$API.app.enterprise.product.destroy.delete(row.id)
+                .then(res => {
+                    if (res.code == 200) {
+                        this.$refs.table.refresh()
+                        this.$message.success("删除成功")
+                    } else {
+                        this.$alert(res.message, "提示", { type: 'error' })
+                    }
+                })
+                .catch(() => {
+
+                })
+
         },
 
         //搜索

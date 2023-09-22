@@ -11,19 +11,19 @@
                     <template #header="{ form, submit }">
                         <el-form :inline="true" :model="form">
                             <el-form-item>
-                                <el-input v-model="form.keyword" placeholder="姓名" clearable></el-input>
+                                <el-input v-model="form.keyword" placeholder="名称" clearable></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" @click="submit">查询</el-button>
                             </el-form-item>
                         </el-form>
                     </template>
-                    <el-table-column label="计划" prop="name" width="150"></el-table-column>
+                    <el-table-column label="计划名称" prop="name" width="150"></el-table-column>
                     <el-table-column prop="created_at" label="添加时间"></el-table-column>
                 </sc-table-select>
             </el-form-item>
-            <el-form-item label="种植地块" prop="base_piece_id">
-                <el-select v-model="form.base_piece_id" placeholder="选择种植地块">
+            <el-form-item label="种植地块" prop="production_base_item_id">
+                <el-select v-model="form.production_base_item_id" placeholder="选择种植地块">
                     <el-option v-for="item in basePieces" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
@@ -34,26 +34,48 @@
                     <template #header="{ form, submit }">
                         <el-form :inline="true" :model="form">
                             <el-form-item>
-                                <el-input v-model="form.keyword" placeholder="姓名" clearable></el-input>
+                                <el-input v-model="form.keyword" placeholder="名称" clearable></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" @click="submit">查询</el-button>
                             </el-form-item>
                         </el-form>
                     </template>
-                    <el-table-column label="计划" prop="name" width="150"></el-table-column>
+                    <el-table-column label="加工类型名称" prop="name" width="150"></el-table-column>
                     <el-table-column prop="created_at" label="添加时间"></el-table-column>
                 </sc-table-select>
             </el-form-item>
-            <el-form-item label="开始加工日期" prop="valid_date">
-                <el-date-picker v-model="form.valid_date" type="date" placeholder="结束日期" value-format="YYYY-MM-DD" />
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="开始加工日期" prop="valid_date">
+                        <el-date-picker v-model="form.valid_date" type="date" placeholder="结束日期"
+                            value-format="YYYY-MM-DD" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="结束加工日期" prop="process_end_date">
+                        <el-date-picker v-model="form.process_end_date" type="date" placeholder="结束日期"
+                            value-format="YYYY-MM-DD" />
+                    </el-form-item></el-col>
+            </el-row>
+            <el-form-item label="产品" prop="enterprise_product_id">
+                <sc-table-select v-model="product.value" :apiObj="product.apiObj" :params="product.params"
+                    :table-width="700" clearable collapse-tags collapse-tags-tooltip :props="product.props"
+                    @change="onProductChange">
+                    <template #header="{ form, submit }">
+                        <el-form :inline="true" :model="form">
+                            <el-form-item>
+                                <el-input v-model="form.keyword" placeholder="名称" clearable></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="submit">查询</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </template>
+                    <el-table-column label="产品名称" prop="product_name" width="150"></el-table-column>
+                    <el-table-column prop="created_at" label="添加时间"></el-table-column>
+                </sc-table-select>
             </el-form-item>
-            <el-form-item label="结束加工日期" prop="process_end_date">
-                <el-date-picker v-model="form.process_end_date" type="date" placeholder="结束日期" value-format="YYYY-MM-DD" />
-            </el-form-item>
-            <!-- <el-form-item label="产品等级" prop="icd">
-                <el-input v-model="form.icd" clearable></el-input>
-            </el-form-item> -->
             <el-form-item label="外包装规格" prop="package_id">
                 <sc-table-select v-model="productPackage.value" :apiObj="productPackage.apiObj"
                     :params="productPackage.params" :table-width="700" clearable collapse-tags collapse-tags-tooltip
@@ -61,14 +83,14 @@
                     <template #header="{ form, submit }">
                         <el-form :inline="true" :model="form">
                             <el-form-item>
-                                <el-input v-model="form.keyword" placeholder="姓名" clearable></el-input>
+                                <el-input v-model="form.keyword" placeholder="名称" clearable></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" @click="submit">查询</el-button>
                             </el-form-item>
                         </el-form>
                     </template>
-                    <el-table-column label="计划" prop="name" width="150"></el-table-column>
+                    <el-table-column label="外包装规格名称" prop="name" width="150"></el-table-column>
                     <el-table-column prop="created_at" label="添加时间"></el-table-column>
                 </sc-table-select>
             </el-form-item>
@@ -79,7 +101,7 @@
                     <template #header="{ form, submit }">
                         <el-form :inline="true" :model="form">
                             <el-form-item>
-                                <el-input v-model="form.keyword" placeholder="姓名" clearable></el-input>
+                                <el-input v-model="form.keyword" placeholder="名称" clearable></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" @click="submit">查询</el-button>
@@ -150,6 +172,16 @@ export default {
                     keyword: "keyword"
                 }
             },
+            product: {
+                value: {},
+                apiObj: this.$API.app.enterprise.product.list,
+                params: {},
+                props: {
+                    label: 'product_name',
+                    value: 'id',
+                    keyword: "keyword"
+                }
+            },
             basePieces: [],
             //表单数据
             form: {
@@ -172,6 +204,12 @@ export default {
                 ],
                 process_id: [
                     { required: true, message: '请选择加工类型', trigger: 'change' }
+                ],
+                enterprise_product_id: [
+                    { required: true, message: '请选择产品', trigger: 'change' }
+                ],
+                process_end_date: [
+                    { required: true, message: '请填写结束加工日期', trigger: 'change' }
                 ]
             }
         }
@@ -197,6 +235,9 @@ export default {
         },
         onProcessingType (val) {
             this.form.process_id = val.id
+        },
+        onProductChange (val) {
+            this.form.enterprise_product_id = val.id
         },
         getProductionBasePieceList () {
             this.$API.app.productionBase.piece.list.get()
@@ -230,6 +271,9 @@ export default {
         //表单注入数据
         setData (data) {
             Object.assign(this.form, data)
+            if (data.production_base_item_id == 0) {
+                this.form.production_base_item_id = '';
+            }
             if (data.harvest_plan) {
                 this.harvestPlan.value = data.harvest_plan
             }
@@ -241,6 +285,9 @@ export default {
             }
             if (data.process) {
                 this.processingType.value = data.process
+            }
+            if (data.product) {
+                this.product.value = data.product
             }
         }
     }
