@@ -22,6 +22,10 @@ class TraceabilityCode extends Model
         'status',
     ];
 
+    protected $casts = [
+        'is_can_enabled' => 'boolean'
+    ];
+
     protected $appends = [
         'status_label'
     ];
@@ -44,6 +48,16 @@ class TraceabilityCode extends Model
     public function process(): BelongsTo
     {
         return $this->belongsTo(Process::class);
+    }
+
+    public function productionBaseItem(): BelongsTo
+    {
+        return $this->belongsTo(ProductionBaseItem::class);
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(EnterpriseProduct::class, 'enterprise_product_id');
     }
 
     public function statusLabel(): Attribute

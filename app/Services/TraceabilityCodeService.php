@@ -18,7 +18,9 @@ class TraceabilityCodeService
 {
     public function list(User $user, array $params): LengthAwarePaginator
     {
-        return TraceabilityCode::with(['harvestPlan', 'report', 'package', 'process'])->paginate($params['page_size'] ?? 20);
+        return TraceabilityCode::with(['harvestPlan', 'report', 'package', 'process', 'productionBaseItem', 'product'])
+            ->where('enterprise_id', $user->enterprise_id)
+            ->paginate($params['page_size'] ?? 20);
     }
 
     public function save(User $user, array $data): TraceabilityCode
@@ -38,6 +40,9 @@ class TraceabilityCodeService
         $traceabilityCode->report_id = $data['report_id'];
         $traceabilityCode->package_id = $data['package_id'];
         $traceabilityCode->process_id = $data['process_id'];
+        $traceabilityCode->enterprise_product_id = $data['enterprise_product_id'];
+        $traceabilityCode->production_base_item_id = $data['production_base_item_id'] ?? 0;
+        $traceabilityCode->is_can_enabled = true;
         $traceabilityCode->save();
 
         return $traceabilityCode;
