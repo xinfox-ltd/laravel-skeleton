@@ -14,6 +14,9 @@ class ResourceCollection extends LaravelResourceCollection
 {
     public function toArray(Request $request): array
     {
+        if ($request->has('simple')) {
+            return $this->collection->toArray();
+        }
         return [
             'rows' => $this->collection->toArray()
         ];

@@ -16,6 +16,7 @@ class EnterpriseProductService
     {
         return EnterpriseProduct::join('products', 'products.id', '=', 'enterprise_products.product_id')
             ->select(['enterprise_products.*', 'products.name as product_name'])
+            ->with(['trademark'])
             ->when($params['keyword'] ?? null, function ($query, $keyword) {
                 $query->where('products.name', 'LIKE', "%$keyword%");
             })

@@ -19,10 +19,12 @@ class EnterpriseProductResource extends JsonResource
         return [
             'id' => $this->id,
             'enterprise_id' => $this->enterprise_id,
-//            'product_id' => $this->product_id,
+            'product_id' => $this->product_id,
             'product' => $this->whenLoaded('product'),
             'product_name' => $this->whenHas('product_name'),
             'trademark_id' => $this->trademark_id,
+            'trademark' => $this->whenLoaded('trademark'),
+            'warranty_period' => $this->warranty_period,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
 //            'updated_at' => $this->updated_at,
         ];

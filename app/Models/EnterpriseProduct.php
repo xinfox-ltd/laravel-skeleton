@@ -15,10 +15,16 @@ class EnterpriseProduct extends Model
         'enterprise_id',
         'product_id',
         'trademark_id',
+        'warranty_period',
     ];
 
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function trademark(): BelongsTo
+    {
+        return $this->belongsTo(Trademark::class);
     }
 }

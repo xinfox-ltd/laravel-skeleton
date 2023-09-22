@@ -12,13 +12,18 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class TrademarkService
 {
-    public function list($params = []): LengthAwarePaginator
+    public function list($params = [])
     {
-        return Trademark::when($params['enterprise_id'] ?? null, function ($query, $enterpriseId) {
+        $query = Trademark::when($params['enterprise_id'] ?? null, function ($query, $enterpriseId) {
             $query->where('enterprise_id', $enterpriseId);
         })
-            ->orderBy('id', 'DESC')
-            ->paginate($params['page_size'] ?? 10);
+            ->orderBy('id', 'DESC');
+
+        if (isset($params['simple'])) {
+            return $query->get();
+        }
+
+        return $query->paginate($params['page_size'] ?? 10);
     }
 
     /**

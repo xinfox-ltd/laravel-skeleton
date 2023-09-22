@@ -30,8 +30,10 @@ class StoreEnterpriseProductRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['integer'],
             'product_id' => ['required', 'integer'],
-//            'trademark_id' => ['required', 'integer'],
+            'trademark_id' => ['required', 'integer'],
+            'warranty_period' => ['required', 'string']
         ];
     }
 }
