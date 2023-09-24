@@ -4,7 +4,7 @@
             <el-form-item label="加工类型名称" prop="name">
                 <el-input v-model="form.name" clearable></el-input>
             </el-form-item>
-            <el-form-item label="架构基地" prop="production_base_id">
+            <el-form-item label="加工基地" prop="production_base_id">
                 <sc-table-select v-model="productionBase.value" :apiObj="productionBase.apiObj"
                     :params="productionBase.params" :table-width="700" clearable collapse-tags collapse-tags-tooltip
                     :props="productionBase.props" @change="onProductionBaseChange">
@@ -84,7 +84,9 @@ export default {
             productionBase: {
                 value: {},
                 apiObj: this.$API.app.productionBase.list,
-                params: {},
+                params: {
+                    type: 2
+                },
                 props: {
                     label: 'name',
                     value: 'id',

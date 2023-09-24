@@ -38,11 +38,11 @@
                         </el-form>
                     </template>
                     <el-table-column label="产品名称" prop="product_name" width="250"></el-table-column>
-                    <el-table-column label="品牌/商标" prop="trademark_name" width="100"></el-table-column>
+                    <el-table-column label="品牌/商标" prop="trademark.name" width="100"></el-table-column>
                     <el-table-column prop="created_at" label="添加时间"></el-table-column>
                 </sc-table-select>
             </el-form-item>
-            <el-form-item label="负责人" prop="user_id">
+            <el-form-item label="负责人" prop="staff_id">
                 <sc-table-select v-model="staff.value" :apiObj="staff.apiObj" :params="staff.params" :table-width="700"
                     clearable collapse-tags collapse-tags-tooltip :props="staff.props" @change="onStaffChange">
                     <template #header="{ form, submit }">
@@ -118,7 +118,7 @@ export default {
             form: {
                 name: "",
                 production_base_id: "",
-                user_id: "",
+                staff_id: 0,
                 product_id: "",
                 end_date: ""
             },
@@ -133,7 +133,7 @@ export default {
                 product_id: [
                     { required: true, message: '请选择产品' }
                 ],
-                user_id: [
+                staff_id: [
                     { required: true, message: '请选择负责人' }
                 ],
                 end_date: [

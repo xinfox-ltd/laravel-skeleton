@@ -162,7 +162,7 @@ export default {
         },
         onStaffChange (val) {
             console.log(val);
-            this.form.user_id = val.id
+            this.form.staff_id = val.id
         },
         onRawMaterialChange (val) {
             this.form.raw_material_id = val.id
