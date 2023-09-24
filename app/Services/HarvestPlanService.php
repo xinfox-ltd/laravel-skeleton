@@ -35,6 +35,7 @@ class HarvestPlanService
             ->when($params['keyword'] ?? null, function ($query, $keyword) {
                 $query->where('harvest_plans.name', 'LIKE', "%$keyword%");
             })
+            ->orderBy('planting_plans.id', 'DESC')
             ->paginate($params['page_size'] ?? 20);
     }
 

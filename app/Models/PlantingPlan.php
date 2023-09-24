@@ -10,7 +10,7 @@ class PlantingPlan extends Model
         'production_base_id',
         'product_id',
         'name',
-        'user_id',
+        'staff_id',
         'end_date',
         'status',
     ];

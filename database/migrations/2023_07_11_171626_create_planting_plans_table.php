@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('production_base_id')->default(0)->comment('基地ID');
             $table->unsignedBigInteger('product_id')->default(0)->comment('产出产品');
             $table->string('name', 128)->default('')->comment('计划名称');
-            $table->unsignedBigInteger('user_id')->default(0)->comment('负责人ID');
+            $table->unsignedBigInteger('staff_id')->default(0)->comment('负责人ID');
             $table->date('end_date')->nullable()->comment('计划结束时间');
             $table->unsignedTinyInteger('status')->default(0)->comment('状态：1进行中 10已结束');
             $table->timestamps();

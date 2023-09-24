@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name', 128)->default('')->comment('产品名称');
             $table->json('images')->nullable()->comment('产品图片');
             $table->string('origin', 128)->default('')->comment('产地');
+            $table->string('warranty_period', 128)->default('')->comment('保质期');
             $table->text('intro')->nullable()->comment('产品介绍');
             $table->timestamps();
             $table->comment('产品');

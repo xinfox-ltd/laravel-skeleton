@@ -23,6 +23,10 @@ class ProductService
      */
     public function save(array $data): Product
     {
+        if (!empty($data['images']) && is_string($data['images'])) {
+            $data['images'] = explode(',', $data['images']);
+        }
+
         if (empty($data['id'])) {
             return Product::create($data);
         } else {
