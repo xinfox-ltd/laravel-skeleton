@@ -19,6 +19,16 @@ Route::get('/', function (Request $request) {
     return response()->success(['version' => app()->version()]);
 });
 
+
+Route::controller(App\Http\Controllers\HomeController::class)
+    ->prefix('/web')
+    ->group(
+        function () {
+            Route::get('/traceability/code/{id}', 'index')->where(['id' => '\d+']);
+        }
+    );
+
+
 Route::post('/tokens', [App\Http\Controllers\AuthController::class, 'login']);
 
 Route::controller(App\Http\Controllers\SystemController::class)
