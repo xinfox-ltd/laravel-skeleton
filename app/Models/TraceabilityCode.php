@@ -27,7 +27,8 @@ class TraceabilityCode extends Model
     ];
 
     protected $appends = [
-        'status_label'
+        'status_label',
+        'url'
     ];
 
     public function harvestPlan(): BelongsTo
@@ -70,9 +71,18 @@ class TraceabilityCode extends Model
     public function status(): Attribute
     {
         return Attribute::make(
-            get: fn ($status) => TraceabilityCodeStatus::from(intval($status)),
+            get: fn($status) => TraceabilityCodeStatus::from(intval($status)),
             set: function ($status) {
                 return $status instanceof TraceabilityCodeStatus ? $status->value : intval($status);
+            }
+        );
+    }
+
+    public function url(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return 'http://luzhai.xinfox.net?id=' . $this->id;
             }
         );
     }
