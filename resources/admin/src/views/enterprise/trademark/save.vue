@@ -48,7 +48,10 @@ export default {
             //验证规则
             rules: {
                 name: [
-                    { required: true, message: '请输入证书名称', trigger: 'change' }
+                    { required: true, message: '请输入商标名称', trigger: 'change' },
+                ],
+                registration_no: [
+                    { required: true, message: '请输入商标注册号', trigger: 'change' },
                 ],
             }
         }

@@ -49,6 +49,13 @@ export default {
                 return await http.post(this.url, data);
             }
         },
+        clear: {
+            url: `${config.API_URL}/enterprises/:id`,
+            name: "删除",
+            delete: async function (id) {
+                return await http.delete(this.url.replace(':id', id));
+            }
+        },
         product: {
             list: {
                 url: `${config.API_URL}/enterprise/products`,
