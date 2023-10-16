@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('enterprise_id')->default(0)->comment('企业ID');
             $table->unsignedBigInteger('planting_plan_id')->default(0)->comment('种植计划');
             $table->unsignedBigInteger('raw_material_id')->default(0)->comment('原料/等级');
+            $table->unsignedBigInteger('staff_id')->default(0)->comment('负责人ID');
             $table->string('name', 128)->default('')->comment('计划名称');
             $table->date('start_date')->nullable()->comment('计划开始时间');
             $table->date('end_date')->nullable()->comment('计划结束时间');

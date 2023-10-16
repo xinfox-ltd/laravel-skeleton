@@ -15,7 +15,11 @@
             <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
                 <el-table-column label="产品名称" prop="name" width="150"></el-table-column>
-                <el-table-column label="图片" prop="type_label" width="150"></el-table-column>
+                <el-table-column label="图片" prop="images[0]" width="150">
+                    <template #default="scope">
+                        <el-image :src="scope.row.images[0]" v-if="scope.row.images" style="width: 100px;"></el-image>
+                    </template>
+                </el-table-column>
                 <el-table-column label="产地" prop="origin" width="120"></el-table-column>
                 <el-table-column label="添加时间" prop="created_at" width="180"></el-table-column>
                 <el-table-column label="操作" fixed="right" align="right" width="170">

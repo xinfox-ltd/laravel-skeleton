@@ -7,13 +7,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Services\SiteService;
+
 /**
  * 前端展示控制器
  */
 class HomeController extends Controller
 {
-    public function index()
+    public function index(int $id, SiteService $service)
     {
-
+        return success($service->getTraceabilityCode($id));
     }
 }

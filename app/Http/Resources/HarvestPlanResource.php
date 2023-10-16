@@ -33,7 +33,7 @@ class HarvestPlanResource extends JsonResource
                 $this->end_date,
             ],
             'remark' => $this->remark,
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at,
         ];
     }

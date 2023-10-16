@@ -86,15 +86,16 @@ export default {
         },
 
         //删除
-        async del (row) {
-            var reqData = { id: row.id }
-            var res = await this.$API.demo.post.post(reqData);
-            if (res.code == 200) {
-                this.$refs.table.refresh()
-                this.$message.success("删除成功")
-            } else {
-                this.$alert(res.message, "提示", { type: 'error' })
-            }
+        del (row) {
+            this.$API.app.harvestPlan.destroy.delete(row.id)
+                .then(res => {
+                    if (res.code == 200) {
+                        this.$refs.table.refresh()
+                        this.$message.success("删除成功")
+                    } else {
+                        this.$alert(res.message, "提示", { type: 'error' })
+                    }
+                })
         },
 
         //搜索
