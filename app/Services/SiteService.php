@@ -9,6 +9,8 @@ use App\Models\Enterprise;
 use App\Models\EnterpriseProduct;
 use App\Models\Product;
 use App\Models\TraceabilityCode;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class SiteService
 {
@@ -20,12 +22,12 @@ class SiteService
     {
         $traceabilityCode = TraceabilityCode::where('id', $id)->firstOrFail();
 
-        $enterpriseProduct = EnterpriseProduct::with(['trademark'])
+        $enterpriseProduct = EnterpriseProduct::with(['trademark', 'product'])
             ->findOrFail($traceabilityCode->enterprise_product_id);
 
         $trademark = $enterpriseProduct->trademark;
 
-        $product = Product::findOrFail($enterpriseProduct->product_id);
+        $product = $enterpriseProduct->product;
         $enterprise = Enterprise::findOrFail($enterpriseProduct->enterprise_id);
 
         $certificate = Certificate::where('enterprise_id', $enterpriseProduct->enterprise_id)->select();
@@ -34,7 +36,7 @@ class SiteService
             'product' => [
                 'name' => $product->name,
                 'trademark' => $trademark?->name ?? '未注册',
-                'producer' => '',
+                'origin' => $product->origin,
                 'enterprise' => $enterprise->name
             ],
             'batch' => [
@@ -43,5 +45,20 @@ class SiteService
             ],
             'certificate' => $certificate
         ];
+    }
+
+    public function traceabilityCodeQuery(int $traceabilityCodeId, $endNumber): TraceabilityCode|array|null
+    {
+        $traceabilityCode = TraceabilityCode::find($traceabilityCodeId);
+        if ($traceabilityCode && str_ends_with($traceabilityCode->serial_number, $endNumber)) {
+            $traceabilityCode->scan_num = DB::raw('scan_num+1');
+            if (empty($traceabilityCode->first_query_time)) {
+                $traceabilityCode->first_query_time = Carbon::now();
+            }
+            $traceabilityCode->update();
+            return $traceabilityCode;
+        }
+
+        return null;
     }
 }
