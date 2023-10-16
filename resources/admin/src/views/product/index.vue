@@ -17,7 +17,7 @@
                 <el-table-column label="产品名称" prop="name" width="150"></el-table-column>
                 <el-table-column label="图片" prop="images[0]" width="150">
                     <template #default="scope">
-                        <el-image :src="scope.row.images[0]" v-if="scope.row.images" style="width: 100px;"></el-image>
+                        <el-image :src="scope.row.images[0].url" v-if="scope.row.images" style="width: 100px;"></el-image>
                     </template>
                 </el-table-column>
                 <el-table-column label="产地" prop="origin" width="120"></el-table-column>
