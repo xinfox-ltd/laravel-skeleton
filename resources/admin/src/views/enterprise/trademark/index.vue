@@ -82,7 +82,7 @@ export default {
         },
 
         //删除
-        async table_del (row) {
+        async del (row) {
             var reqData = { id: row.id }
             var res = await this.$API.demo.post.post(reqData);
             if (res.code == 200) {

@@ -14,7 +14,7 @@
         <el-main class="nopadding">
             <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
-                <el-table-column label="企业名称" prop="name" width="150"></el-table-column>
+                <el-table-column label="企业名称" prop="name" width="250"></el-table-column>
                 <el-table-column label="企业类型" prop="type_label" width="150"></el-table-column>
                 <el-table-column label="联系电话" prop="phone" width="120"></el-table-column>
                 <el-table-column label="企业法人" prop="legal_person" width="80"></el-table-column>
@@ -88,6 +88,13 @@ export default {
             this.$nextTick(() => {
                 this.$refs.saveDialog.open('edit').setData(row)
             })
+        },
+
+        del (row) {
+            this.$API.app.enterprise.clear.delete(row.id)
+                .then(res => {
+                    this.$message.success(res.message)
+                })
         },
 
         account (row) {
