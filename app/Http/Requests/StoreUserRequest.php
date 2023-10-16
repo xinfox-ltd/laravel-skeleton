@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
             'enterprise_id' => 'required',
             'name' => 'required',
             'username' => 'required',
-            'phone' => ['required', Rule::unique('users')],
+            'phone' => ['required', Rule::unique('users')->ignore($this->request->get('id'))],
             'password' => 'required',
         ];
     }
