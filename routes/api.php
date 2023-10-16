@@ -25,6 +25,7 @@ Route::controller(App\Http\Controllers\HomeController::class)
     ->group(
         function () {
             Route::get('/traceability/code/{id}', 'index')->where(['id' => '\d+']);
+            Route::post('/traceability/code/query', 'traceabilityCodeQuery');
         }
     );
 
