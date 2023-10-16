@@ -27,7 +27,18 @@ class EnterpriseService
      */
     public function save(array $data): Enterprise
     {
-        $data['status'] = 1;
-        return Enterprise::create($data);
+        if (empty($data['id'])) {
+            $data['status'] = 1;
+            return Enterprise::create($data);
+        } else {
+            $enterprise = Enterprise::findOrFail($data['id']);
+            $enterprise->update($data);
+            return $enterprise;
+        }
+    }
+
+    public function delete($id): void
+    {
+        Enterprise::findOrFail($id)->delete();
     }
 }
