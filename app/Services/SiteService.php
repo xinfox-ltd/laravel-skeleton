@@ -37,7 +37,7 @@ class SiteService
                 'name' => $product->name,
                 'trademark' => $trademark?->name ?? '未注册',
                 'origin' => $product->origin,
-                'enterprise' => $enterprise->name
+                'enterprise' => $enterprise
             ],
             'batch' => [
                 'pick_date' => '',
