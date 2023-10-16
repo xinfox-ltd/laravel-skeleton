@@ -112,7 +112,10 @@ export default {
                 ],
                 area_unit: [
                     { required: true, message: '请选择面积单位' }
-                ]
+                ],
+                enterprise_staff_id: [
+                    { required: true, message: '请选择负责人' }
+                ],
             }
         }
     },
