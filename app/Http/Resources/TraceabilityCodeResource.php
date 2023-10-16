@@ -35,7 +35,7 @@ class TraceabilityCodeResource extends JsonResource
             'created_at' => $this->created_at?->format('Y-m-d H:i:s') ?? '-',
             'updated_at' => $this->updated_at,
             'serial_number' => $this->serial_number,
-            'url' => $this->whenHas('url'),
+            'url' => $this->url,
             'harvest_plan' => $this->whenLoaded('harvestPlan'),
             'report' => $this->whenLoaded('report'),
             'package' => $this->whenLoaded('package'),
