@@ -92,8 +92,9 @@ export default {
 
         del (row) {
             this.$API.app.enterprise.clear.delete(row.id)
-                .then(res => {
-                    this.$message.success(res.message)
+                .then(() => {
+                    this.$message.success('操作成功')
+                    this.refresh();
                 })
         },
 
