@@ -35,6 +35,7 @@ class EnterpriseController extends Controller
 
     public function delete(int $id)
     {
-
+        $this->service->delete($id);
+        return success();
     }
 }
