@@ -24,6 +24,7 @@ class Enterprise extends Model
         'products',
         'status',
         'audited_at',
+        'intro'
     ];
 
     protected $appends = [

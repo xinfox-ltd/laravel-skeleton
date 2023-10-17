@@ -32,6 +32,7 @@ class EnterpriseResource extends JsonResource
             'phone' => $this->phone,
             'address' => $this->address,
             'products' => $this->products,
+            'intro' => $this->intro,
             'status' => $this->status,
             'status_label' => $this->status_label,
             'audited_at' => $this->audited_at,
