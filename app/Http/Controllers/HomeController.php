@@ -28,6 +28,6 @@ class HomeController extends Controller
             ['id' => 'required', 'end_number' => 'required'],
             ['id.required' => '缺少ID', 'end_number.required' => '缺少验证码后四位']
         );
-        return success($service->traceabilityCodeQuery($data['id'], $data['end_number']));
+        return success($service->traceabilityCodeQuery(intval($data['id']), $data['end_number']));
     }
 }
