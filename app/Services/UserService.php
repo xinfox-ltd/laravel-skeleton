@@ -26,6 +26,9 @@ class UserService
             return User::create($data);
         } else {
             $user = User::findOrFail($data['id']);
+
+            unset($data['password']);
+
             $user->update($data);
             return $user;
         }
