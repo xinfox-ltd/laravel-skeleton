@@ -35,6 +35,7 @@ class SiteService
         return [
             'product' => [
                 'name' => $product->name,
+                'image' => $product->images[0],
                 'trademark' => $trademark?->name ?? '未注册',
                 'origin' => $product->origin,
                 'enterprise' => $enterprise
