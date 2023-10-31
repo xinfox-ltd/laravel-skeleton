@@ -218,44 +218,44 @@ return [
             ],
         ]
     ],
-    [
-        "name" => "system",
-        "path" => "/system",
-        "meta" => [
-            "title" => "系统设置",
-            "icon" => "el-icon-setting",
-            "type" => "menu"
-        ],
-        "children" => [
-            [
-                "name" => "setting",
-                "path" => "/setting",
-                "meta" => [
-                    "title" => "系统设置",
-                    "affix" => false
-                ],
-                "component" => "setting/system"
-            ],
-            [
-                "name" => "staffList",
-                "path" => "/staff/list",
-                "meta" => [
-                    "title" => "员工管理",
-//                    "icon" => "el-icon-menu",
-                    "affix" => false
-                ],
-                "component" => "setting/staff"
-            ],
-            [
-                "name" => "departmentList",
-                "path" => "/department/list",
-                "meta" => [
-                    "title" => "部门管理",
-//                    "icon" => "el-icon-menu",
-                    "affix" => false
-                ],
-                "component" => "setting/dept"
-            ],
-        ]
-    ]
+//    [
+//        "name" => "system",
+//        "path" => "/system",
+//        "meta" => [
+//            "title" => "系统设置",
+//            "icon" => "el-icon-setting",
+//            "type" => "menu"
+//        ],
+//        "children" => [
+//            [
+//                "name" => "setting",
+//                "path" => "/setting",
+//                "meta" => [
+//                    "title" => "系统设置",
+//                    "affix" => false
+//                ],
+//                "component" => "setting/system"
+//            ],
+//            [
+//                "name" => "staffList",
+//                "path" => "/staff/list",
+//                "meta" => [
+//                    "title" => "员工管理",
+////                    "icon" => "el-icon-menu",
+//                    "affix" => false
+//                ],
+//                "component" => "setting/staff"
+//            ],
+//            [
+//                "name" => "departmentList",
+//                "path" => "/department/list",
+//                "meta" => [
+//                    "title" => "部门管理",
+////                    "icon" => "el-icon-menu",
+//                    "affix" => false
+//                ],
+//                "component" => "setting/dept"
+//            ],
+//        ]
+//    ]
 ];
