@@ -17,7 +17,7 @@
                 <el-table-column label="产品名称" prop="name" width="150"></el-table-column>
                 <el-table-column label="图片" prop="images[0]" width="150">
                     <template #default="scope">
-                        <el-image :src="scope.row.images[0].url" v-if="scope.row.images" style="width: 100px;"></el-image>
+                        <el-image :src="scope.row.images[0]" v-if="scope.row.images" style="width: 100px;"></el-image>
                     </template>
                 </el-table-column>
                 <el-table-column label="产地" prop="origin" width="120"></el-table-column>
@@ -39,8 +39,9 @@
             </scTable>
         </el-main>
     </el-container>
-
-    <save-drawer v-if="dialog.save" ref="saveDrawer" @success="onSaveSuccess" @closed="dialog.save = false"></save-drawer>
+    <el-drawer v-model="dialog.save" size="50%" title="新增产品" direction="rtl" destroy-on-close>
+        <save-drawer ref="saveDrawer" @success="onSaveSuccess" @closed="dialog.save = false"></save-drawer>
+    </el-drawer>
 </template>
 
 <script>
@@ -70,15 +71,12 @@ export default {
         //添加
         add () {
             this.dialog.save = true
-            this.$nextTick(() => {
-                this.$refs.saveDrawer.open()
-            })
         },
         //编辑
         edit (row) {
             this.dialog.save = true
             this.$nextTick(() => {
-                this.$refs.saveDrawer.open('edit').setData(row)
+                this.$refs.saveDrawer.setData(row)
             })
         },
 
@@ -88,6 +86,7 @@ export default {
         },
 
         onSaveSuccess () {
+            this.dialog.save = false
             this.refresh();
         },
         //本地更新数据
