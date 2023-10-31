@@ -61,6 +61,11 @@ class TraceabilityCode extends Model
         return $this->belongsTo(EnterpriseProduct::class, 'enterprise_product_id');
     }
 
+    public function enterprise(): BelongsTo
+    {
+        return $this->belongsTo(Enterprise::class, 'enterprise_id');
+    }
+
     public function statusLabel(): Attribute
     {
         return Attribute::make(

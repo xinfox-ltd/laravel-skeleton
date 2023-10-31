@@ -155,6 +155,7 @@ Route::controller(App\Http\Controllers\UserController::class)
         function () {
             Route::get('/', 'index');
             Route::post('/', 'save');
+            Route::post('/me/info', 'updateSelfInfo');
         }
     );
 

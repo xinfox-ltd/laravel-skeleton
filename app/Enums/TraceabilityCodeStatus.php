@@ -17,7 +17,7 @@ enum TraceabilityCodeStatus: int
         return match ($this->value) {
             1 => '未启用',
             2 => '已禁用',
-            10 => '启用',
+            10 => '已启用',
         };
     }
 }

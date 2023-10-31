@@ -42,6 +42,7 @@ class TraceabilityCodeResource extends JsonResource
             'process' => $this->whenLoaded('process'),
             'product' => $this->whenLoaded('product'),
             'production_base_item' => $this->whenLoaded('productionBaseItem'),
+            'enterprise' => $this->whenLoaded('enterprise'),
         ];
     }
 }

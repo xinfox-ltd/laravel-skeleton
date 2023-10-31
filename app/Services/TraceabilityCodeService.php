@@ -18,8 +18,15 @@ class TraceabilityCodeService
 {
     public function list(User $user, array $params): LengthAwarePaginator
     {
-        return TraceabilityCode::with(['harvestPlan', 'report', 'package', 'process', 'productionBaseItem', 'product'])
-            ->where('enterprise_id', $user->enterprise_id)
+        return TraceabilityCode::with(
+            ['harvestPlan', 'report', 'package', 'process', 'productionBaseItem', 'product', 'enterprise']
+        )
+            ->when($user->enterprise_id > 0 ? $user->enterprise_id : null, function ($query, $enterpriseId) {
+                $query->where('enterprise_id', $enterpriseId);
+            })
+            ->when($params['keyword'] ?? null, function ($query, $keyword) {
+                $query->where('serial_number', $keyword);
+            })
             ->paginate($params['page_size'] ?? 20);
     }
 
@@ -50,7 +57,12 @@ class TraceabilityCodeService
 
     public function operate(User $user, int $id, string $action, $data = []): TraceabilityCode
     {
-        $traceabilityCode = TraceabilityCode::where('enterprise_id', $user->enterprise_id)
+        $traceabilityCode = TraceabilityCode::when(
+            $user->enterprise_id > 0 ? $user->enterprise_id : null,
+            function ($query, $enterpriseId) {
+                $query->where('enterprise_id', $enterpriseId);
+            }
+        )
             ->where('id', $id)
             ->firstOrFail();
         if ($action == 'enable') {
