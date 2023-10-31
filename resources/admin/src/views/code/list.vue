@@ -2,11 +2,8 @@
     <el-container>
         <el-header>
             <div class="left-panel">
-                <el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
-            </div>
-            <div class="right-panel">
                 <div class="right-panel-search">
-                    <el-input v-model="search.keyword" placeholder="角色名称" clearable></el-input>
+                    <el-input v-model="search.keyword" placeholder="序号" clearable></el-input>
                     <el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
                 </div>
             </div>
@@ -14,31 +11,27 @@
         <el-main class="nopadding">
             <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
-                <el-table-column label="企业名称" prop="label" width="150"></el-table-column>
-                <el-table-column label="企业类型" prop="alias" width="200"></el-table-column>
-                <el-table-column label="联系电话" prop="sort" width="80"></el-table-column>
-                <el-table-column label="企业法人" prop="sort" width="80"></el-table-column>
-                <el-table-column label="企业地址" prop="sort" width="80"></el-table-column>
-                <el-table-column label="产品" prop="sort" width="80"></el-table-column>
+                <el-table-column label="序号" prop="serial_number" width="150"></el-table-column>
+                <el-table-column label="验证码" prop="code" width="200"></el-table-column>
+                <el-table-column label="溯源码有效期（天）" prop="effective_day" width="150"></el-table-column>
+                <el-table-column label="启用日期" prop="enable_date" width="100"></el-table-column>
+                <el-table-column label="失效日期" prop="expire_date" width="100"></el-table-column>
+                <el-table-column label="企业名称" prop="enterprise.name" width="280"></el-table-column>
                 <el-table-column label="状态" prop="status" width="80">
                     <template #default="scope">
-                        <el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)"
-                            :loading="scope.row.$switch_status" active-value="1" inactive-value="0"></el-switch>
+                        <el-tag type="success" v-if="scope.row.status == 10">{{ scope.row.status_label }}</el-tag>
+                        <el-tag type="danger" v-else-if="scope.row.status == 2">{{ scope.row.status_label }}</el-tag>
+                        <el-tag v-else>{{ scope.row.status_label }}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="申请时间" prop="date" width="180"></el-table-column>
-                <el-table-column label="审核时间" prop="date" width="180"></el-table-column>
-                <el-table-column label="备注" prop="remark" min-width="150"></el-table-column>
-                <el-table-column label="操作" fixed="right" align="right" width="170">
+                <el-table-column label="操作" fixed="right" align="right" width="130">
                     <template #default="scope">
                         <el-button-group>
                             <el-button text type="primary" size="small"
-                                @click="table_show(scope.row, scope.$index)">查看</el-button>
-                            <el-button text type="primary" size="small"
-                                @click="table_edit(scope.row, scope.$index)">编辑</el-button>
-                            <el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
+                                @click="qrcode(scope.row, scope.$index)">查看</el-button>
+                            <el-popconfirm title="确定作废吗？" @confirm="cancel(scope.row, scope.$index)">
                                 <template #reference>
-                                    <el-button text type="primary" size="small">删除</el-button>
+                                    <el-button text type="primary" size="small">作废</el-button>
                                 </template>
                             </el-popconfirm>
                         </el-button-group>
@@ -49,19 +42,19 @@
         </el-main>
     </el-container>
 
-    <!-- <save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>
+    <qrcode-dialog v-if="dialog.qrcode" ref="qrcodeDialog" @closed="dialog.qrcode = false"></qrcode-dialog>
 
-	<permission-dialog v-if="dialog.permission" ref="permissionDialog" @closed="dialog.permission=false"></permission-dialog> -->
+    <!-- <permission-dialog v-if="dialog.permission" ref="permissionDialog" @closed="dialog.permission=false"></permission-dialog> -->
 </template>
 
 <script>
-// import saveDialog from './save'
+import qrcodeDialog from './qrcode'
 // import permissionDialog from './permission'
 
 export default {
     name: 'role',
     components: {
-        // saveDialog,
+        qrcodeDialog,
         // permissionDialog
     },
     data () {
@@ -71,7 +64,7 @@ export default {
                 permission: false
             },
             list: {
-                apiObj: this.$API.app.product.list,
+                apiObj: this.$API.app.traceabilityCode.list,
             },
             search: {
                 keyword: null
@@ -79,43 +72,25 @@ export default {
         }
     },
     methods: {
-        //添加
-        add () {
-            this.dialog.save = true
+        qrcode (row) {
+            this.dialog.qrcode = true
             this.$nextTick(() => {
-                this.$refs.saveDialog.open()
-            })
-        },
-        //编辑
-        table_edit (row) {
-            this.dialog.save = true
-            this.$nextTick(() => {
-                this.$refs.saveDialog.open('edit').setData(row)
-            })
-        },
-        //查看
-        table_show (row) {
-            this.dialog.save = true
-            this.$nextTick(() => {
-                this.$refs.saveDialog.open('show').setData(row)
+                this.$refs.qrcodeDialog.open().setData(row)
             })
         },
 
-        //删除
-        async table_del (row) {
-            var reqData = { id: row.id }
-            var res = await this.$API.demo.post.post(reqData);
-            if (res.code == 200) {
-                this.$refs.table.refresh()
-                this.$message.success("删除成功")
-            } else {
-                this.$alert(res.message, "提示", { type: 'error' })
-            }
+        //废弃
+        async cancel (row) {
+            this.$API.app.traceabilityCode.operate.post(row.id, { action: 'disable' })
+                .then(() => {
+                    this.$refs.table.refresh()
+                    this.$message.success("操作成功")
+                })
         },
 
         //搜索
         upsearch () {
-
+            this.$refs.table.upData(this.search);
         },
 
         //本地更新数据

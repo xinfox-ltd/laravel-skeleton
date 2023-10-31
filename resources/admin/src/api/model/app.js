@@ -17,6 +17,13 @@ export default {
                 return await http.post(this.url, data);
             }
         },
+        updateSelfInfo: {
+            url: `${config.API_URL}/users/me/info`,
+            name: "更新个人信息",
+            post: async function (data = {}) {
+                return await http.post(this.url, data);
+            }
+        }
     },
     baseUnit: {
         list: {
