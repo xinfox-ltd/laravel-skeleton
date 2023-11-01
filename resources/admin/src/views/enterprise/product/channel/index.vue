@@ -1,24 +1,32 @@
 <template>
     <el-container>
+        <el-header class="header-tabs">
+            <el-tabs type="card" v-model="list.params.type" @tab-change="tabChange">
+                <el-tab-pane label="网店" :name="1"></el-tab-pane>
+                <el-tab-pane label="实体店" :name="2"></el-tab-pane>
+                <el-tab-pane label="联系方式" :name="3"></el-tab-pane>
+            </el-tabs>
+        </el-header>
         <el-header>
             <div class="left-panel">
                 <el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
             </div>
-            <div class="right-panel">
-                <div class="right-panel-search">
-                    <el-input v-model="search.keyword" placeholder="基地名称" clearable></el-input>
-                    <el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
-                </div>
-            </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
+            <scTable ref="table" :apiObj="list.apiObj" :params="list.params" row-key="id" stripe>
                 <el-table-column label="#" type="index" width="50"></el-table-column>
-                <el-table-column label="基地名称" prop="name" width="200"></el-table-column>
-                <el-table-column label="类型" prop="type_label" width="100"></el-table-column>
-                <el-table-column label="地区" prop="region" width="120"></el-table-column>
-                <el-table-column label="面积" prop="area" width="120"></el-table-column>
-                <el-table-column label="添加时间" prop="created_at" width="180"></el-table-column>
+                <el-table-column label="网店名称" prop="name" width="200" v-if="list.params.type == 1"></el-table-column>
+                <el-table-column label="电话" prop="data.phone" width="120" v-if="list.params.type == 1"></el-table-column>
+                <el-table-column label="备注" prop="data.remark" width="220" v-if="list.params.type == 1"></el-table-column>
+
+                <el-table-column label="实体店名称" prop="name" width="200" v-if="list.params.type == 2"></el-table-column>
+                <el-table-column label="经度" prop="data.lng" width="200" v-if="list.params.type == 2"></el-table-column>
+                <el-table-column label="纬度" prop="data.lat" width="200" v-if="list.params.type == 2"></el-table-column>
+
+                <el-table-column label="联系人" prop="name" width="200" v-if="list.params.type == 3"></el-table-column>
+                <el-table-column label="电话" prop="data.phone" width="100" v-if="list.params.type == 3"></el-table-column>
+                <el-table-column label="备注" prop="data.remark" width="220" v-if="list.params.type == 3"></el-table-column>
+
                 <el-table-column label="操作" fixed="right" align="right" width="170">
                     <template #default="scope">
                         <el-button-group>
@@ -56,7 +64,10 @@ export default {
                 permission: false
             },
             list: {
-                apiObj: this.$API.app.productionBase.list,
+                apiObj: this.$API.app.enterprise.channel.list,
+                params: {
+                    type: 1,
+                }
             },
             search: {
                 keyword: null
@@ -68,7 +79,7 @@ export default {
         add () {
             this.dialog.save = true
             this.$nextTick(() => {
-                this.$refs.saveDialog.open()
+                this.$refs.saveDialog.open().setData({ type: this.list.params.type })
             })
         },
         //编辑
@@ -80,15 +91,16 @@ export default {
         },
 
         //删除
-        async table_del (row) {
-            var reqData = { id: row.id }
-            var res = await this.$API.demo.post.post(reqData);
-            if (res.code == 200) {
-                this.$refs.table.refresh()
-                this.$message.success("删除成功")
-            } else {
-                this.$alert(res.message, "提示", { type: 'error' })
-            }
+        del (row) {
+            this.$API.app.enterprise.channel.destroy.delete(row.id)
+                .then(() => {
+                    this.$refs.table.refresh()
+                    this.$message.success("删除成功")
+                });
+        },
+
+        tabChange () {
+            this.$refs.table.refresh()
         },
 
         //搜索

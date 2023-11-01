@@ -93,6 +93,29 @@ export default {
                 }
             }
         },
+        channel: {
+            list: {
+                url: `${config.API_URL}/enterprise/channels`,
+                name: "获取列表",
+                get: async function (params = {}) {
+                    return await http.get(this.url, params);
+                }
+            },
+            save: {
+                url: `${config.API_URL}/enterprise/channels`,
+                name: "保存",
+                post: async function (data = {}) {
+                    return await http.post(this.url, data);
+                }
+            },
+            destroy: {
+                url: `${config.API_URL}/enterprise/channels/:id`,
+                name: "保存",
+                delete: async function (id) {
+                    return await http.delete(this.url.replace(':id', id));
+                }
+            },
+        },
         staff: {
             list: {
                 url: `${config.API_URL}/enterprise/staffs`,
