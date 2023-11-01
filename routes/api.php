@@ -333,3 +333,25 @@ Route::controller(App\Http\Controllers\TraceabilityCodeController::class)
             Route::post('/', 'save');
         }
     );
+
+Route::controller(App\Http\Controllers\ChannelController::class)
+    ->prefix('/enterprise/channels')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'store');
+            Route::delete('/{id}', 'destroy')->where(['id' => '\d+']);
+        }
+    );
+
+Route::controller(App\Http\Controllers\ChannelController::class)
+    ->prefix('/enterprise/channels')
+    ->middleware(['auth:sanctum'])
+    ->group(
+        function () {
+            Route::get('/', 'index');
+            Route::post('/', 'store');
+            Route::delete('/{id}', 'destroy')->where(['id' => '\d+']);
+        }
+    );
