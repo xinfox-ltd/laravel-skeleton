@@ -87,7 +87,7 @@ class TraceabilityCode extends Model
     {
         return Attribute::make(
             get: function () {
-                return 'http://luzhai.xinfox.net?id=' . $this->id;
+                return config('app.h5_url') . '?id=' . $this->id;
             }
         );
     }
