@@ -8,6 +8,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Exceptions\PasswordErrorException;
+use App\Http\Resources\EnterpriseResource;
+use App\Models\Enterprise;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use JetBrains\PhpStorm\ArrayShape;
@@ -18,12 +20,10 @@ class LoginService
      * @param string $username
      * @param string $password
      * @return array
-     * @throws PasswordErrorException
      * @throws ValidationException
      */
     public function accountPasswordLogin(string $username, string $password): array
     {
-        /** @var User $user */
         $user = User::where('username', $username)->first();
         if (!$user) {
             throw ValidationException::withMessages(['username' => '用户不存在']);
@@ -33,8 +33,14 @@ class LoginService
             throw ValidationException::withMessages(['username' => '密码错误']);
         }
 
+        $enterprise = null;
+        if ($user->enterprise_id > 0) {
+            $enterprise = new EnterpriseResource(Enterprise::find($user->enterprise_id));
+        }
+
         return [
             'user' => [...$user->toArray(), 'dashboard' => 1],
+            'enterprise' => $enterprise,
             'token' => $this->respondWithToken($user->createToken('admin')->plainTextToken)
         ];
     }

@@ -47,6 +47,16 @@ return [
         ],
         "children" => [
             [
+                "name" => "enterpriseInfo",
+                "path" => "/enterprise/info",
+                "meta" => [
+                    "title" => "企业信息",
+//                    "icon" => "el-icon-office-building",
+                    "affix" => false
+                ],
+                "component" => "enterprise/info"
+            ],
+            [
                 "name" => "enterpriseTrademarkList",
                 "path" => "/enterprise/trademark/list",
                 "meta" => [

@@ -41,4 +41,9 @@ class EnterpriseService
     {
         Enterprise::findOrFail($id)->delete();
     }
+
+    public function getEnterpriseInfo(int $id): Enterprise
+    {
+        return Enterprise::findOrFail($id);
+    }
 }

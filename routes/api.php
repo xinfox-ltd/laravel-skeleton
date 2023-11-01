@@ -57,6 +57,7 @@ Route::controller(App\Http\Controllers\EnterpriseController::class)
             Route::get('/', 'index');
             Route::post('/', 'save');
             Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
+            Route::get('/{id}', 'show')->where(['id' => 'me|\d+']);
         }
     );
 
