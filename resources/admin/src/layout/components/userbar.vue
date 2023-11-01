@@ -1,8 +1,8 @@
 <template>
 	<div class="user-bar">
-		<!-- <div class="panel-item hidden-sm-and-down" @click="search">
-			<el-icon><el-icon-search /></el-icon>
-		</div> -->
+		<div class="panel-item hidden-sm-and-down" v-if="enterprise">
+			{{ enterprise.name || "总后台" }}
+		</div>
 		<div class="screen panel-item hidden-sm-and-down" @click="screen">
 			<el-icon><el-icon-full-screen /></el-icon>
 		</div>
@@ -86,6 +86,7 @@ export default {
 			searchVisible: false,
 			tasksVisible: false,
 			msg: false,
+			enterprise: null,
 			msgList: [
 				{
 					id: 1,
@@ -121,6 +122,8 @@ export default {
 		var userInfo = this.$TOOL.data.get("USER_INFO");
 		this.userName = userInfo.name;
 		this.userNameF = this.userName.substring(0, 1);
+
+		this.enterprise = this.$TOOL.data.get("ENTERPRISE_INFO");
 	},
 	methods: {
 		//个人信息

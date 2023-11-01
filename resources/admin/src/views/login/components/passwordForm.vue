@@ -73,6 +73,7 @@ export default {
 							expires: token.expires_in
 						})
 						this.$TOOL.data.set("USER_INFO", user.data.user)
+						this.$TOOL.data.set("ENTERPRISE_INFO", user.data.enterprise)
 
 						//获取菜单
 						var menu = await this.$API.system.menu.list.get().catch(() => { this.islogin = false })

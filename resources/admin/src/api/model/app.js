@@ -56,6 +56,13 @@ export default {
                 return await http.post(this.url, data);
             }
         },
+        info: {
+            url: `${config.API_URL}/enterprises/:id`,
+            name: "获取企业信息",
+            get: async function (id, params = {}) {
+                return await http.get(this.url.replace(':id', id), params);
+            }
+        },
         clear: {
             url: `${config.API_URL}/enterprises/:id`,
             name: "删除",
