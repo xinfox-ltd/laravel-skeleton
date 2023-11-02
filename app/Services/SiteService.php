@@ -81,4 +81,9 @@ class SiteService
 
         return null;
     }
+
+    public function showCertificate(int $id): array|Certificate
+    {
+        return Certificate::findOrFail($id);
+    }
 }

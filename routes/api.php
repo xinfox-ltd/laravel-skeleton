@@ -26,6 +26,7 @@ Route::controller(App\Http\Controllers\HomeController::class)
         function () {
             Route::get('/traceability/code/{id}', 'index')->where(['id' => '\d+']);
             Route::post('/traceability/code/query', 'traceabilityCodeQuery');
+            Route::get('/certificates/{id}', 'showCertificate');
         }
     );
 
