@@ -38,7 +38,8 @@ class SiteService
                 'image' => $product->images[0],
                 'trademark' => $trademark?->name ?? '未注册',
                 'origin' => $product->origin,
-                'enterprise' => $enterprise
+                'enterprise' => $enterprise,
+                'certificates' => [],
             ],
             'batch' => [
                 'pick_date' => '',
