@@ -258,6 +258,13 @@ export default {
                 return await http.post(this.url, data);
             }
         },
+        destroy: {
+            url: `${config.API_URL}/certificates/:id`,
+            name: "删除",
+            delete: async function (id) {
+                return await http.delete(this.url.replace(':id', id));
+            }
+        }
     },
     supplier: {
         list: {

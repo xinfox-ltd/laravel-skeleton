@@ -1,5 +1,8 @@
 <template>
 	<div class="user-bar">
+		<div class="panel-item hidden-sm-and-down">
+			<el-link type="primary" href="http://47.92.208.0/#/" target="_blank">可视化平台</el-link>
+		</div>
 		<div class="panel-item hidden-sm-and-down" v-if="enterprise">
 			{{ enterprise.name || "总后台" }}
 		</div>

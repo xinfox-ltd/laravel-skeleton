@@ -24,6 +24,19 @@
                 <el-form-item label="产品" prop="products">
                     <el-input v-model="form.products" clearable></el-input>
                 </el-form-item>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="经度" prop="lng">
+                            <el-input v-model="form.lng" clearable></el-input>
+                        </el-form-item></el-col>
+                    <el-col :span="12">
+                        <el-form-item label="维度" prop="lat">
+                            <el-input v-model="form.lat" clearable></el-input>
+                        </el-form-item></el-col>
+                </el-row>
+                <el-form-item label="营业执照" prop="business_license">
+                    <sc-upload v-model="form.business_license" title="营业执照" icon="el-icon-picture"></sc-upload>
+                </el-form-item>
                 <el-form-item label="企业介绍" prop="intro">
                     <sc-editor v-model="form.intro" placeholder="请输入" :height="400"></sc-editor>
                 </el-form-item>
