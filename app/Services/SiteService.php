@@ -30,7 +30,7 @@ class SiteService
         $product = $enterpriseProduct->product;
         $enterprise = Enterprise::findOrFail($enterpriseProduct->enterprise_id);
 
-        $certificate = Certificate::where('enterprise_id', $enterpriseProduct->enterprise_id)->select();
+        $certificates = Certificate::where('enterprise_id', $enterpriseProduct->enterprise_id)->select();
 
         return [
             'product' => [
@@ -39,13 +39,12 @@ class SiteService
                 'trademark' => $trademark?->name ?? '未注册',
                 'origin' => $product->origin,
                 'enterprise' => $enterprise,
-                'certificates' => [],
             ],
             'batch' => [
                 'pick_date' => '',
                 'serial_number' => $traceabilityCode->serial_number,
             ],
-            'certificate' => $certificate
+            'certificates' => $certificates
         ];
     }
 
