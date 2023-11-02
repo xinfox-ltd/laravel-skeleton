@@ -31,9 +31,9 @@ class SiteService
         $product = $enterpriseProduct->product;
         $enterprise = Enterprise::findOrFail($enterpriseProduct->enterprise_id);
 
-        $certificates = Certificate::where('enterprise_id', $enterpriseProduct->enterprise_id)->select();
+        $certificates = Certificate::where('enterprise_id', $enterpriseProduct->enterprise_id)->get();
 
-        $saleChannels = Channel::where('enterprise_id', $enterprise->id)->select();
+        $saleChannels = Channel::where('enterprise_id', $enterprise->id)->get();
 
         return [
             'product' => [
