@@ -35,6 +35,17 @@ class SiteService
 
         $saleChannels = Channel::where('enterprise_id', $enterprise->id)->get();
 
+        $saleChannelData = [];
+        foreach ($saleChannels as $channel) {
+            if ($channel->type == 1) {
+                $saleChannelData[0][] = $channel;
+            } elseif ($channel->type == 2) {
+                $saleChannelData[1][] = $channel;
+            } else {
+                $saleChannelData[2][] = $channel;
+            }
+        }
+
         return [
             'product' => [
                 'name' => $product->name,
@@ -48,7 +59,7 @@ class SiteService
                 'serial_number' => $traceabilityCode->serial_number,
             ],
             'certificates' => $certificates,
-            'sale_channels' => $saleChannels
+            'sale_channels' => $saleChannelData
         ];
     }
 
