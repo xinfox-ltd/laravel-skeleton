@@ -35,14 +35,18 @@ class SiteService
 
         $saleChannels = Channel::where('enterprise_id', $enterprise->id)->get();
 
-        $saleChannelData = [];
+        $saleChannelData = [
+            'network' => [],
+            'physical_stores' => [],
+            'phone' => [],
+        ];
         foreach ($saleChannels as $channel) {
             if ($channel->type == 1) {
-                $saleChannelData[0][] = $channel;
+                $saleChannelData['network'][] = $channel;
             } elseif ($channel->type == 2) {
-                $saleChannelData[1][] = $channel;
+                $saleChannelData['physical_stores'][] = $channel;
             } else {
-                $saleChannelData[2][] = $channel;
+                $saleChannelData['phone'][] = $channel;
             }
         }
 
