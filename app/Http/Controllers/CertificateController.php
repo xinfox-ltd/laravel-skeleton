@@ -15,7 +15,7 @@ class CertificateController extends Controller
 
     public function index(Request $request)
     {
-        return new CertificateCollection($this->service->list($request->input()));
+        return new CertificateCollection($this->service->list($request->user(), $request->input()));
     }
 
     /**
@@ -30,11 +30,17 @@ class CertificateController extends Controller
                 'id' => 'integer',
                 'name' => 'required',
                 'type' => 'required',
+                'subtype' => 'integer',
                 'certificate_no' => 'required',
-                'authority' => 'required',
+                'authority' => '',
+                'valid_date' => 'array',
                 'scan_file' => 'required'
             ]
         );
+
+        $data['enterprise_id'] = $request->user()->enterprise_id;
+        $data['authority'] ??= '';
+
         return $this->service->save($data);
     }
 
@@ -42,7 +48,9 @@ class CertificateController extends Controller
     {
     }
 
-    public function delete(int $id)
+    public function delete(int $id, Request $request)
     {
+        $this->service->delete($request->user(), $id);
+        return success();
     }
 }

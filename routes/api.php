@@ -146,6 +146,7 @@ Route::controller(App\Http\Controllers\CertificateController::class)
         function () {
             Route::get('/', 'index');
             Route::post('/', 'save');
+            Route::delete('/{id}', 'delete')->where(['id' => '\d+']);
         }
     );
 

@@ -23,12 +23,15 @@ class StoreEnterpriseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => '',
+            'name' => 'required',
             'type' => '',
             'phone' => '',
             'legal_person' => '',
             'address' => '',
             'products' => '',
+            'lng' => '',
+            'lat' => '',
+            'business_license' => '',
         ];
     }
 }

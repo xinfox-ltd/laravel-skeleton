@@ -16,6 +16,9 @@ class Enterprise extends Model
     ];
 
     protected $fillable = [
+        'lng',
+        'lat',
+        'business_license',
         'name',
         'type',
         'legal_person',

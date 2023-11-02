@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Certificate extends Model
 {
     protected $casts = [
-        'scan_file' => 'json'
+        'scan_file' => 'json',
+        'valid_date' => 'json',
     ];
 
     protected $fillable = [

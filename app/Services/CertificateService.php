@@ -8,13 +8,20 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Certificate;
+use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CertificateService
 {
-    public function list(array $params): LengthAwarePaginator
+    public function list(User $user, array $params): LengthAwarePaginator
     {
-        return Certificate::when($params['keyword'] ?? null, function($query, $keyword) {
+        return Certificate::when(
+            $user->enterprise_id > 0 ? $user->enterprise_id : null,
+            function ($query, $enterpriseId) {
+                $query->where('enterprise_id', $enterpriseId);
+            }
+        )
+            ->when($params['keyword'] ?? null, function ($query, $keyword) {
                 $query->where('name', 'LIKE', "%$keyword%");
             })
             ->paginate($params['page_size'] ?? 20);
@@ -33,5 +40,10 @@ class CertificateService
         }
 
         return $certificate;
+    }
+
+    public function delete(User $user, int $id): void
+    {
+        Certificate::where('enterprise_id', $user->enterprise_id)->findOrFail($id)->delete();
     }
 }

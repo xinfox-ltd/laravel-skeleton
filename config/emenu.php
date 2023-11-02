@@ -67,6 +67,15 @@ return [
                 "component" => "enterprise/trademark"
             ],
             [
+                "name" => "certificateList",
+                "path" => "/certificate/list",
+                "meta" => [
+                    "title" => "资质认证",
+                    "affix" => false
+                ],
+                "component" => "enterprise/certificate"
+            ],
+            [
                 "name" => "enterpriseStaffList",
                 "path" => "/enterprise/staff/list",
                 "meta" => [
