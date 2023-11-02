@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Certificate;
+use App\Models\Channel;
 use App\Models\Enterprise;
 use App\Models\EnterpriseProduct;
 use App\Models\Product;
@@ -32,6 +33,8 @@ class SiteService
 
         $certificates = Certificate::where('enterprise_id', $enterpriseProduct->enterprise_id)->select();
 
+        $saleChannels = Channel::where('enterprise_id', $enterprise->id)->select();
+
         return [
             'product' => [
                 'name' => $product->name,
@@ -44,7 +47,8 @@ class SiteService
                 'pick_date' => '',
                 'serial_number' => $traceabilityCode->serial_number,
             ],
-            'certificates' => $certificates
+            'certificates' => $certificates,
+            'sale_channels' => $saleChannels
         ];
     }
 
