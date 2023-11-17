@@ -30,4 +30,9 @@ class HomeController extends Controller
         );
         return success($service->traceabilityCodeQuery(intval($data['id']), $data['end_number']));
     }
+
+    public function showCertificate(int $id, SiteService $service)
+    {
+        return success($service->showCertificate($id));
+    }
 }
