@@ -31,7 +31,7 @@ class InputResource extends JsonResource
             'registration_no' => $this->registration_no,
             'component' => $this->component,
             'executive_standard' => $this->executive_standard,
-            'annex' => $this->annex ?? '',
+            'annex' => $this->annex && is_string($this->annex) ? json_decode($this->annex,  true) : [],
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at,
         ];

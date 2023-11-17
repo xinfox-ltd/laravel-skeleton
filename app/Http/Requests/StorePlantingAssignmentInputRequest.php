@@ -26,8 +26,8 @@ class StorePlantingAssignmentInputRequest extends FormRequest
             'id' => ['nullable', 'integer'],
             'input_id' => ['required', 'integer'],
             'quantity' => ['required'],
-//            'unit_type' => ['required'],
-//            'unit_id' => ['required', 'integer'],
+            'unit_type' => ['required'],
+            'unit_id' => ['required', 'integer'],
             'method' => ['required'],
             'remark' => ['nullable'],
         ];

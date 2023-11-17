@@ -47,6 +47,7 @@ Route::controller(App\Http\Controllers\FileController::class)
     ->group(
         function () {
             Route::post('/upload', 'upload');
+            Route::post('/upload/file', 'uploadFile');
         }
     );
 

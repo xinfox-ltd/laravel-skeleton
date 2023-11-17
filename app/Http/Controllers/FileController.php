@@ -16,7 +16,25 @@ class FileController extends Controller
     {
         if ($request->file('file')->isValid()) {
             $file = $request->file('file');
-            $fileName = $service->upload($request->file('file'));
+            $fileName = $service->uploadImage($request->file('file'));
+            return success(
+                [
+                    'file_name' => $fileName,
+                    'original_name' => $file->getClientOriginalName(),
+                    'size' => $file->getSize(),
+                    'src' => url('storage/' . $fileName)
+                ]
+            );
+        }
+
+        return success();
+    }
+
+    public function uploadFile(Request $request, FileService $service)
+    {
+        if ($request->file('file')->isValid()) {
+            $file = $request->file('file');
+            $fileName = $service->uploadFile($request->file('file'));
             return success(
                 [
                     'file_name' => $fileName,
