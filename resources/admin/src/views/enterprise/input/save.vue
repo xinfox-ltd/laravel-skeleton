@@ -195,6 +195,8 @@ export default {
             if (data.supplier) {
                 this.supplier.value = data.supplier
             }
+
+            this.form.annex = data.annex.toString()
         }
     }
 }

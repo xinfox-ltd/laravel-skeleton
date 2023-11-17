@@ -1,5 +1,5 @@
 <template>
-    <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
+    <el-dialog :title="titleMap[mode]" v-model="visible" :width="550" destroy-on-close @closed="$emit('closed')">
         <el-form :model="form" :rules="rules" ref="dialogForm" label-width="110px" label-position="right">
             <el-form-item label="投入品" prop="input_id">
                 <sc-table-select v-model="inputList.value" :apiObj="inputList.apiObj" :params="inputList.params"
@@ -23,13 +23,20 @@
                     <el-table-column label="剂型" prop="dosage_form_name" width="120"></el-table-column>
                 </sc-table-select>
             </el-form-item>
+            <el-form-item label="计量单位类型" prop="unit_type">
+                <el-radio-group v-model="form.unit_type" @change="onUnitTypeChange">
+                    <el-radio :label="1">每亩</el-radio>
+                    <el-radio :label="2">每平方</el-radio>
+                    <el-radio :label="3">每立方米</el-radio>
+                    <el-radio :label="4">稀释倍数</el-radio>
+                </el-radio-group>
+            </el-form-item>
             <el-form-item label="使用量" prop="quantity">
                 <el-input v-model="form.quantity" clearable>
                     <template #append>
                         <el-select v-model="form.unit_id" placeholder="计量单位" style="width: 105px">
-                            <el-option label="Restaurant" value="1" />
-                            <el-option label="Order No." value="2" />
-                            <el-option label="Tel" value="3" />
+                            <el-option :label="item.label" :value="item.value" v-for="(item, index) in measurementUnits"
+                                :key="index" />
                         </el-select>
                     </template>
                 </el-input>
@@ -78,17 +85,27 @@ export default {
                     keyword: "keyword"
                 }
             },
+            measurementUnits: [
+                { label: "克", value: 1 },
+                { label: "毫升", value: 2 },
+                { label: "公斤", value: 3 },
+                { label: "吨", value: 4 },
+            ],
             //表单数据
             form: {
                 assignment_content: "",
                 input_id: "",
                 method: "",
-                input_date: ""
+                input_date: "",
+                unit_type: 1
             },
             //验证规则
             rules: {
                 input_id: [
                     { required: true, message: '请选择投入品' }
+                ],
+                unit_type: [
+                    { required: true, message: '请选择使用计量单位类型' }
                 ],
                 quantity: [
                     { required: true, message: '请填写使用量' }
@@ -111,6 +128,22 @@ export default {
         onInputListChange (val) {
             console.log(val);
             this.form.input_id = val.id
+        },
+        onUnitTypeChange (val) {
+            this.form.unit_id = '';
+            if (val == 4) {
+                this.measurementUnits = [
+                    { label: "倍", value: 4 },
+                ];
+            } else {
+
+                this.measurementUnits = [
+                    { label: "克", value: 1 },
+                    { label: "毫升", value: 2 },
+                    { label: "公斤", value: 3 },
+                    { label: "吨", value: 4 },
+                ];
+            }
         },
         //表单提交方法
         submit () {
@@ -141,6 +174,9 @@ export default {
             this.inputList.value = {
                 id: data.input_id,
                 name: data.input_name,
+            }
+            if (data.unit_id == 0) {
+                this.form.unit_id = '';
             }
         }
     }
